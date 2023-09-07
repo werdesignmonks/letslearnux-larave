@@ -1,0 +1,102 @@
+@import url("../fonts/stylesheet.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+    body {
+        color: #566474;
+        font-family: "Cera Pro", sans-serif;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: #000913;
+    }
+
+    .dm-btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 30px;
+        font-weight: 500;
+        font-size: 16px;
+        background: #643EF3;
+        color: #fff;
+        line-height: 1.5;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .dm-radio-field {
+        position: relative;
+        height: 66px;
+        width: 100%;
+    }
+
+    .dm-radio-field label {
+
+    }
+
+    .dm-radio-field input[type="radio"] {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        border-radius: 24px;
+        border: 1px solid #E5E6E7;
+        background: #F7F8F8;
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        outline: none;
+        transition: transform 0.3s ease-in-out;
+    }
+    .dm-radio-field input[type="radio"]:focus {
+        box-shadow: none;
+        background: transparent;
+
+    }
+
+    .dm-radio-field input[type="radio"]:before {
+        content: "";
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        background-color: #f9fafd;
+        border: 1px solid #e2e6f3;
+        border-radius: 50%;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .dm-radio-field input[type="radio"]:after {
+        content: "";
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        background: #643EF3;
+        transition: all 0.3s ease-in-out;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%) scale(0);
+        left: 20px;
+    }
+
+    .dm-radio-field input[type="radio"]:checked {
+        border: 1px solid #C1B2FA;
+        background: #F7F5FE;
+    }
+
+    .dm-radio-field input[type="radio"]:checked:after {
+        transform: translateY(-50%) scale(1);
+    }
+
+    .dm-radio-field input[type="radio"]:checked:before {
+        border-color: #643EF3;
+    }
+}
+
+
