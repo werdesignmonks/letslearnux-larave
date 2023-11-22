@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->string('provider')->nullable();
             $table->string('provider_id')->nullable();
             $table->string('provider_token')->nullable();
+            $table->boolean('user_status')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

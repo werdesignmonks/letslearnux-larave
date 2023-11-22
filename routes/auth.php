@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/auth/{provider}/redirect', [ProviderController::class, 'redirect']);
-
 Route::get('/auth/{provider}/callback', [ProviderController::class, 'callback']);
 
 
@@ -41,6 +40,9 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
 });
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)

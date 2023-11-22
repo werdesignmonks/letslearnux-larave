@@ -18,16 +18,18 @@ class ProviderController extends Controller
 
     public function callback($provider)
     {
-        Log::info('abc');
+
         try {
             $socialUser = Socialite::driver($provider)->user();
 
+//            dd($socialUser);
 
-            if (!User::query()->where('email', $socialUser->getEmail())->exists()) {
-                return redirect('/login')->withErrors([
-                    'email' => 'This email uses another provider. Please login with '.$socialUser->getNickname().' instead.',
-                ]);
-            }
+
+//            if (!User::query()->where('email', $socialUser->getEmail())->exists()) {
+//                return redirect('/login')->withErrors([
+//                    'email' => 'This email uses another provider. Please login with '.$socialUser->getNickname().' instead.',
+//                ]);
+//            }
 
             $user = User::where(
                 [
@@ -36,7 +38,7 @@ class ProviderController extends Controller
                 ]
             )->first();
 
-//            dd($user);
+
 
             // Avatar stored in public folder
             $avatar = $socialUser->getAvatar();

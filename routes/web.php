@@ -46,6 +46,14 @@ Route::get('/my-contribution', function () {
     return Inertia::render('MyContribution');
 })->middleware(['auth', 'verified'])->name('my-contribution');
 
+// Admin login
+Route::get('/admin/login', function () {
+    return Inertia::render('Admin/Login');
+})->name('admin.login');
+
+
+
+
 // Route Page Not Found
 //Route::get('/', function () {
 //    return Inertia::render('404');
@@ -62,6 +70,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Auth Admin
+Route::middleware('auth')->group(function () {
+    Route::get('/admin', function () {
+        return Inertia::render('Admin');
+    })->name('admin');
 });
 
 require __DIR__.'/auth.php';

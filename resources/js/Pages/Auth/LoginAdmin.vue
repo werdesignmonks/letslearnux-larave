@@ -38,32 +38,6 @@ const submit = () => {
         </div>
 
 
-        <div class="flex items-center justify-end mt-4">
-            <Link
-                v-if="canResetPassword"
-                :href="route('password.request')"
-                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-                Forgot your password?
-            </Link>
-
-            <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Log in
-            </PrimaryButton>
-        </div>
-
-        <div class="w-full mt-5">
-
-            <a href="/auth/google/redirect" class="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                Login with Google
-            </a>
-
-
-            <a href="/auth/github/redirect" class="w-full bg-blue-500 mt-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Login with Facebook
-            </a>
-        </div>
-
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="email" value="Email" />
@@ -101,6 +75,20 @@ const submit = () => {
                     <Checkbox name="remember" v-model:checked="form.remember" />
                     <span class="ml-2 text-sm text-gray-600">Remember me</span>
                 </label>
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <Link
+                    :href="route('password.request')"
+                    class="underline text-sm text-gray-600 hover:text-gray-900"
+                    v-if="canResetPassword"
+                >
+                    Forgot your password?
+                </Link>
+
+                <PrimaryButton class="ml-4">
+                    Log in
+                </PrimaryButton>
             </div>
         </form>
     </GuestLayout>
