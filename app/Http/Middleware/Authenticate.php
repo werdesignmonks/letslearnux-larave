@@ -15,11 +15,10 @@ class Authenticate extends Middleware
     {
         $user = $request->user();
 
-//       Log::info($user);
-
-        if( $user->user_status == 1) {
-            return $request->expectsJson() ? null : route('admin.login');
-        }
-        return $request->expectsJson() ? null : route('login');
+//        if( $user->user_status == 1) {
+//            return $request->expectsJson() ? null : route('admin.login');
+//        }
+//        return $request->expectsJson() ? null : route('login');
+        return $request->expectsJson() ? null : route('admin.login');
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResourcesController;
 use Illuminate\Foundation\Application;
@@ -73,13 +74,26 @@ Route::middleware('auth')->group(function () {
 });
 
 // Auth Admin
-Route::middleware('auth')->group(function () {
-    Route::get('/admin', function () {
-        return Inertia::render('Admin');
-    })->name('admin');
-});
+//Route::middleware('auth')->group(function () {
+//    Route::get('/admin', function () {
+//        return Inertia::render('Admin');
+//    })->name('admin');
+//});
 
 require __DIR__.'/auth.php';
+require __DIR__.'/AdminAuth.php';
 
-// Resources
-//Route::resource('/resources', [ResourcesController::class, 'index']);
+// Admin Dashboard
+Route::middleware('auth:admin')->group(function () {
+
+    Route::get('/admin/dashboard', function () {
+        return Inertia::render('Admin/Dashboard');
+    })->name('admin.dashboard');
+
+    Route::get('/admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
+
+    // Onboarding Questions Resource
+    Route::resource('admin/onboarding', OnboardingController::class);
+});
+
+
