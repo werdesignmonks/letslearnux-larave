@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Onboarding;
+use App\Models\Lesson;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class OnboardingController extends Controller
+class LessonController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('Admin/Onboarding/Index');
+        return Inertia::render('Admin/Lesson/Index');
     }
 
     /**
@@ -21,7 +21,7 @@ class OnboardingController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Onboarding/Create');
+        return Inertia::render('Admin/Lesson/Create');
     }
 
     /**
@@ -35,7 +35,7 @@ class OnboardingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Onboarding $onboarding)
+    public function show(Lesson $lesson)
     {
         //
     }
@@ -43,7 +43,7 @@ class OnboardingController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Onboarding $onboarding)
+    public function edit(Lesson $lesson)
     {
         //
     }
@@ -51,7 +51,7 @@ class OnboardingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Onboarding $onboarding)
+    public function update(Request $request, Lesson $lesson)
     {
         //
     }
@@ -59,7 +59,7 @@ class OnboardingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Onboarding $onboarding)
+    public function destroy(Lesson $lesson)
     {
         //
     }

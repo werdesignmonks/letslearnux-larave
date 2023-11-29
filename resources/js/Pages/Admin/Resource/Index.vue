@@ -11,17 +11,17 @@ import Button from "@/Components/Button.vue";
 
     <AdminAuthenticatedLayout>
         <template #header>
-            <h1 class="font-bold text-dm-heading-color text-4xl">Onboarding Questions</h1>
+            <h1 class="font-bold text-dm-heading-color text-4xl">Resource</h1>
         </template>
 
         <div class="py-8">
             <div class="">
                 <div class="flex gap-2 mb-6">
-                    <Button :href="route('onboarding.index')" :active="route().current('onboarding.index')">
-                        Question List
+                    <Button :href="route('resource.index')" :active="route().current('resource.index')">
+                        Resource List
                     </Button>
-                    <Button :href="route('onboarding.create')" :active="route().current('onboarding.create')">
-                        Add a Questions
+                    <Button :href="route('resource.create')" :active="route().current('resource.create')">
+                        Add New Resource
                     </Button>
                 </div>
                 <div class="flex flex-col">
@@ -32,7 +32,7 @@ import Button from "@/Components/Button.vue";
                                     <thead class="text-left bg-dm-color-primary-light">
                                         <tr>
                                             <th scope="col" class="px-3 py-4 w-[80px] text-center">#</th>
-                                            <th scope="col" class="py-4">Question Title</th>
+                                            <th scope="col" class="py-4">Resource Title</th>
                                             <th scope="col" class="px-4 py-4 text-left w-[160px]">Actions</th>
                                         </tr>
                                     </thead>

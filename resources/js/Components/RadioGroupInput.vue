@@ -15,7 +15,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class=" dm-radio-field mb-3">
+  <div class="dm-radio-field mb-3">
     <input
         type="radio"
         :name="name"

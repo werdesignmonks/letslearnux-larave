@@ -17,7 +17,7 @@
 
     .dm-btn {
         display: inline-block;
-        padding: 12px 24px;
+        padding: 10px 29px;
         border-radius: 30px;
         font-weight: 500;
         font-size: 16px;
@@ -28,6 +28,33 @@
         text-decoration: none;
         cursor: pointer;
         transition: all 0.3s ease-in-out;
+        border: 1px solid transparent;
+        letter-spacing: -0.5px;
+    }
+
+    .dm-btn:hover {
+        background: #fff;
+        border-color: #643EF3;
+        color: #643EF3;
+    }
+
+    .dm-btn-light {
+        border-radius: 12px;
+        border: 1px solid #E5E6E7;
+        background: #F7F8F8;
+        color: #666B71;
+        letter-spacing: -0.5px;
+        padding: 10px 29px;
+        transition: all 0.3s ease-in-out;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .dm-btn-light:hover {
+        background: #643EF3;
+        border-color: #643EF3;
+        color: #fff;
     }
 
     .dm-radio-field {
@@ -36,8 +63,37 @@
         width: 100%;
     }
 
-    .dm-radio-field label {
+    .dm-input-field label, .dm-input-field__label {
+        font-weight: 500;
+        color: #566474;
+        letter-spacing: -0.5px;
+        margin-bottom: 5px;
+    }
 
+    .dm-input-field {
+        margin-bottom: 20px;
+    }
+
+    .dm-input-field input[type="text"], .dm-input-field input[type="number"], textarea {
+        border-radius: 8px;
+        border: 1px solid #E5E6E7;
+        padding: 11px 12px;
+        display: block;
+        width: 100%;
+        transition: all 0.3s ease-in-out;
+        outline: none;
+        box-shadow: none;
+    }
+
+    textarea {
+        min-height: 120px;
+        outline: none;
+    }
+
+    textarea:focus, .dm-input-field input[type="text"]:focus {
+        border-color: #643EF3;
+        box-shadow: none;
+        outline: none;
     }
 
     .dm-radio-field input[type="radio"] {

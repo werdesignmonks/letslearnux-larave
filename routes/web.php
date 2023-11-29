@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\ResourcesController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -94,6 +98,17 @@ Route::middleware('auth:admin')->group(function () {
 
     // Onboarding Questions Resource
     Route::resource('admin/onboarding', OnboardingController::class);
+    // Chapter Resource with api
+//    Route::apiResource('admin/chapter', ChapterController::class);
+    Route::resource('admin/chapter', ChapterController::class);
+
+    // Lesson Resource
+    Route::resource('admin/lesson', LessonController::class);
+    // Resource Resource
+    Route::resource('admin/resource', ResourceController::class);
+
+    // User Route
+    Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.index');
 });
 
 
