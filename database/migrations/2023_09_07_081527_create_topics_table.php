@@ -16,9 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('chapter_id');
             $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
             $table->string('topic_name');
-            $table->text('short_description');
-            $table->integer('like');
-            $table->integer('dislike');
+            $table->longText('short_description');
+            $table->integer('like')->default(0);
+            $table->integer('dislike')->default(0);
             $table->timestamps();
         });
     }

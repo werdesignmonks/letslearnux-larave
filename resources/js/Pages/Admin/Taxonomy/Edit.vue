@@ -1,35 +1,31 @@
 <script setup>
-import { Head, router, useForm } from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
+import {Link, router, useForm} from '@inertiajs/vue3';
 import Button from "@/Components/Button.vue";
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps({
     errors: Object,
-    chapters: Array,
-    chapter_id: Number,
-    chapter_name: String,
-    title: String,
-    sub_title: String,
-    estimate_time: String,
-    custom_sl: String,
+    chapter: Object,
 });
 
 const form = useForm({
-    chapter_name: '',
-    title: '',
-    sub_title: '',
-    estimate_time: '',
-    custom_sl: '',
+    chapter_name: props.chapter.chapter_name,
+    title: props.chapter.title,
+    sub_title: props.chapter.sub_title,
+    estimate_time: props.chapter.estimate_time,
+    custom_sl: props.chapter.custom_sl,
 });
 
-function submit() {
-    router.post(route('chapter.store'), form);
+function submit(id) {
+    router.put(route('chapter.update', id), form);
 }
+
 
 </script>
 
 <template>
-    <Head title="Create Chapter"/>
+    <Head title="Edit Chapter"/>
 
     <AdminAuthenticatedLayout>
         <template #header>
@@ -51,10 +47,11 @@ function submit() {
             </div>
 
             <div class="flex flex-col">
-                <form @submit.prevent="submit" class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]">
+                <form @submit.prevent="submit(chapter.id)" class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]">
                     <div class="dm-input-field">
                         <label for="radio-1" class="dm-input-field__label block">Chapter Name</label>
-                        <input type="text" id="chapter_name" v-model="form.chapter_name" class="dm-input-field__input w-full">
+                        <input type="text" id="chapter_name" v-model="form.chapter_name"
+                               class="dm-input-field__input w-full">
                         <div class="text-red-500" v-if="errors.chapter_name">{{ errors.chapter_name }}</div>
                     </div>
 

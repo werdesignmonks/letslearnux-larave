@@ -1,21 +1,17 @@
 <script setup>
-import { Head, router, useForm } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
+import {router, useForm} from '@inertiajs/vue3';
 import Button from "@/Components/Button.vue";
 
-const props = defineProps({
+defineProps({
     errors: Object,
     chapters: Array,
-    chapter_id: Number,
-    chapter_name: String,
-    title: String,
-    sub_title: String,
-    estimate_time: String,
-    custom_sl: String,
 });
 
 const form = useForm({
-    chapter_name: '',
+    taxonomy_name: '',
+    content_type: '',
     title: '',
     sub_title: '',
     estimate_time: '',
@@ -25,6 +21,7 @@ const form = useForm({
 function submit() {
     router.post(route('chapter.store'), form);
 }
+
 
 </script>
 
@@ -40,10 +37,10 @@ function submit() {
             <div class="">
                 <div class="flex gap-2 mb-6">
                     <Button :href="route('chapter.index')" :active="route().current('chapter.index')">
-                        Chapter List
+                        All Taxonomy
                     </Button>
                     <Button :href="route('chapter.create')" :active="route().current('chapter.create')">
-                        Add New Chapter
+                        Add New
                     </Button>
 
                 </div>
@@ -52,10 +49,13 @@ function submit() {
 
             <div class="flex flex-col">
                 <form @submit.prevent="submit" class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]">
+
+
                     <div class="dm-input-field">
-                        <label for="radio-1" class="dm-input-field__label block">Chapter Name</label>
-                        <input type="text" id="chapter_name" v-model="form.chapter_name" class="dm-input-field__input w-full">
-                        <div class="text-red-500" v-if="errors.chapter_name">{{ errors.chapter_name }}</div>
+                        <label for="radio-1" class="dm-input-field__label block">Taxonomy Name</label>
+                        <input type="text" id="chapter_name" v-model="form.taxonomy_name"
+                               class="dm-input-field__input w-full">
+                        <div class="text-red-500" v-if="errors.taxonomy_name">{{ errors.chapter_name }}</div>
                     </div>
 
                     <div class="dm-input-field">

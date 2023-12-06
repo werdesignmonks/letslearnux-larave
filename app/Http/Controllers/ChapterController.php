@@ -25,6 +25,7 @@ class ChapterController extends Controller
      */
     public function create()
     {
+
         return Inertia::render('Admin/Chapter/Create');
     }
 
@@ -53,7 +54,7 @@ class ChapterController extends Controller
         ]);
 
         //Redirect to the index page
-        return redirect()->route('chapter.index');
+        return redirect()->route('chapter.index')->with('message', 'Chapter created successfully');
     }
 
     /**
@@ -92,7 +93,7 @@ class ChapterController extends Controller
         $chapter->update($validated);
 
         //Redirect to the index page
-        return redirect()->route('chapter.index');
+        return redirect()->route('chapter.index')->with('message', 'Chapter updated successfully');
     }
 
     /**
@@ -101,6 +102,6 @@ class ChapterController extends Controller
     public function destroy(Chapter $chapter)
     {
         $chapter->delete();
-        return redirect()->route('chapter.index');
+        return redirect()->route('chapter.index')->with('message', 'Chapter deleted successfully');
     }
 }

@@ -41,5 +41,10 @@ class Admin extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function taxonomy()
+    {
+        return $this->hasMany(Taxonomy::class);
+    }
+
 
 }

@@ -1,7 +1,10 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
+import NavLink from "@/Components/NavLink.vue";
+import { Link } from '@inertiajs/vue3';
 import Button from "@/Components/Button.vue";
+import { router} from "@inertiajs/vue3";
 
 defineProps({
     chapters: Array,

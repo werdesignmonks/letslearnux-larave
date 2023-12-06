@@ -6,6 +6,7 @@ use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\ResourcesController;
+use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -106,6 +107,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('admin/lesson', LessonController::class);
     // Resource Resource
     Route::resource('admin/resource', ResourceController::class);
+
+    // Topic Resource
+    Route::resource('admin/topic', TopicController::class);
 
     // User Route
     Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.index');
