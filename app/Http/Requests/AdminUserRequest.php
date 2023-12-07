@@ -12,7 +12,7 @@ class AdminUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,10 +24,9 @@ class AdminUserRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'email' => 'required|max:255|unique:admins',
-            'password' => 'required|max:255',
-            'password_confirmation' => 'required|same:password',
+            'email' => 'required|email|unique:admins',
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'password' => 'required|min:8',
         ];
     }
 }

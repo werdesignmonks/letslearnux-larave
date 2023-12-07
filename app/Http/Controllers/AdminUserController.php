@@ -32,14 +32,14 @@ class AdminUserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AdminUserRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:admins',
-            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            'password' => 'required|min:8',
-        ]);
+//        $validated = $request->validate([
+//            'name' => 'required|max:255',
+//            'email' => 'required|email|unique:admins',
+//            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+//            'password' => 'required|min:8',
+//        ]);
 
         //Create a new user
         $user = Admin::create([

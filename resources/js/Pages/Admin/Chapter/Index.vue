@@ -1,7 +1,9 @@
 <script setup>
 import { Head, Link, router } from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
-import Button from "@/Components/Button.vue";
+import { TailwindPagination } from 'laravel-vue-pagination';
+import { ref } from 'vue';
+const laravelData = ref({});
 
 defineProps({
     chapters: Array,
@@ -78,6 +80,9 @@ setTimeout(function() {
                                         </tr>
                                     </tbody>
                                 </table>
+
+
+                                {{  }}
                             </div>
                         </div>
                     </div>

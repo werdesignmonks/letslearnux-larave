@@ -22,30 +22,67 @@ const form = useForm({
 });
 
 function submit() {
-    router.post(route('topic.store'), form);
+
+    form.post(route('topic.store'), {
+        preserveScroll: true,
+        onSuccess: (page) => {
+            $toast.open({
+                message: 'Topic Added Successfully!',
+                type: 'success',
+                position: 'top-right',
+                duration: 5000,
+                // Styling for Success Toast Gradient Background
+                style: {
+                    background: 'linear-gradient(to right, #00b09b, #96c93d)',
+                },
+            });
+        },
+        onError: (errors) => {
+            $toast.open({
+                message: 'Please fill all the fields',
+                type: 'success',
+                position: 'top-right',
+                duration: 5000,
+                // Styling for Success Toast Gradient Background
+                style: {
+                    background: 'linear-gradient(to right, #00b09b, #96c93d)',
+                },
+            });
+        }
+    })
+
+
+    // router.post(route('topic.store'), form);
 
     // Validation Check for Topic Name unique or not
-    if (form.topic_name == '' || form.chapter_id == '' || form.short_description == '' ) {
-        $toast.open({
-            message: 'All fields are required!',
-            type: 'error',
-            position: 'top-right',
-            duration: 5000,
-        });
-    }
+    // if (form.topic_name == '' || form.chapter_id == '' || form.short_description == '' ) {
+    //     $toast.open({
+    //         message: 'All fields are required!',
+    //         type: 'error',
+    //         position: 'top-right',
+    //         duration: 5000,
+    //     });
+    // }
+    //
+    // else {
+    //     $toast.open({
+    //         message: 'Topic Added Successfully!',
+    //         type: 'success',
+    //         position: 'top-right',
+    //         duration: 5000,
+    //         // Styling for Success Toast Gradient Background
+    //         style: {
+    //             background: 'linear-gradient(to right, #00b09b, #96c93d)',
+    //         },
+    //     });
+    // }
+    //
+    // onError: (errors) => {
+    //     this.showError(errors[0])
+    // }
 
-    else {
-        $toast.open({
-            message: 'Topic Added Successfully!',
-            type: 'success',
-            position: 'top-right',
-            duration: 5000,
-            // Styling for Success Toast Gradient Background
-            style: {
-                background: 'linear-gradient(to right, #00b09b, #96c93d)',
-            },
-        });
-    }
+
+
 
     //Dismissing the Toast after 5 seconds
     setTimeout(() => {
