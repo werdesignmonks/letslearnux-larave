@@ -1,6 +1,6 @@
 <script setup>
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
-import {Link, router, useForm} from '@inertiajs/vue3';
+import {router, useForm} from '@inertiajs/vue3';
 import Button from "@/Components/Button.vue";
 import { Head } from '@inertiajs/vue3';
 
@@ -50,8 +50,7 @@ function submit(id) {
                 <form @submit.prevent="submit(chapter.id)" class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]">
                     <div class="dm-input-field">
                         <label for="radio-1" class="dm-input-field__label block">Chapter Name</label>
-                        <input type="text" id="chapter_name" v-model="form.chapter_name"
-                               class="dm-input-field__input w-full">
+                        <input type="text" id="chapter_name" v-model="form.chapter_name" class="dm-input-field__input w-full">
                         <div class="text-red-500" v-if="errors.chapter_name">{{ errors.chapter_name }}</div>
                     </div>
 

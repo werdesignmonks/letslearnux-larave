@@ -74,7 +74,12 @@
         margin-bottom: 20px;
     }
 
-    .dm-input-field input[type="text"], .dm-input-field select, .dm-input-field input[type="number"], textarea {
+    .dm-input-field input[type="text"],
+    .dm-input-field input[type="email"],
+    .dm-input-field select,
+    .dm-input-field input[type="number"],
+    .dm-input-field input[type="password"],
+    textarea {
         border-radius: 8px;
         border: 1px solid #E5E6E7;
         padding: 11px 12px;
@@ -83,6 +88,10 @@
         transition: all 0.3s ease-in-out;
         outline: none;
         box-shadow: none;
+    }
+
+    .dm-input-field input[type="password"] {
+        letter-spacing: 2px;
     }
 
     textarea {
@@ -153,6 +162,23 @@
     .dm-radio-field input[type="radio"]:checked:before {
         border-color: #643EF3;
     }
+}
+
+/**
+ * Tiptap Editor strles
+ */
+.ProseMirror {
+    height: 200px;
+    border: 1px solid #E5E6E7;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+
+
+}
+
+.ProseMirror:focus {
+    outline: none;
 }
 
 

@@ -7,10 +7,14 @@ defineProps({
     chapters: Array,
 });
 
-
 function destroy(id) {
     router.delete(route('chapter.destroy', id));
 }
+
+// Auto hide flash message
+setTimeout(function() {
+    document.getElementById('flash-message').style.display = 'none';
+}, 3000);
 
 </script>
 
@@ -35,7 +39,7 @@ function destroy(id) {
                 <div class="flex flex-col">
                     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                            <div class="bg-green-500 text-white p-4 mb-4 rounded-lg" :class="$page.props.flash.type" v-if="$page.props.flash.message">
+                            <div class="bg-green-500 text-white p-4 mb-4 rounded-lg" id="flash-message" :class="$page.props.flash.type" v-if="$page.props.flash.message">
                                 <p>{{ $page.props.flash.message }}</p>
                             </div>
                             <div class="overflow-hidden rounded-lg border border-[#E5E6E7]">
@@ -82,7 +86,3 @@ function destroy(id) {
         </div>
     </AdminAuthenticatedLayout>
 </template>
-
-<style scoped>
-
-</style>

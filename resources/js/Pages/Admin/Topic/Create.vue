@@ -3,11 +3,10 @@ import {Head, router, useForm} from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import Button from "@/Components/Button.vue";
 import {useToast} from 'vue-toast-notification';
+import Tiptap from "@/Components/Tiptap.vue";
 import 'vue-toast-notification/dist/theme-sugar.css';
 
 const $toast = useToast();
-
-
 
 
 // Chapter List
@@ -47,7 +46,6 @@ function submit() {
             },
         });
     }
-
 
     //Dismissing the Toast after 5 seconds
     setTimeout(() => {
@@ -103,7 +101,7 @@ function submit() {
 
                 <div class="dm-input-field">
                     <label for="radio-1" class="dm-input-field__label block">Short Description</label>
-                    <textarea name="short_description" id="short_description" v-model="form.short_description" class="dm-input-field__input w-full" rows="15"></textarea>
+                    <textarea name="short_description" id="short_description" v-model="form.short_description" class="dm-input-field__input w-full" rows="5"></textarea>
                     <div class="text-red-500" v-if="errors.short_description">{{ errors.short_description }}</div>
                 </div>
 

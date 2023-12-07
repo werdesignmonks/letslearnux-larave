@@ -13,17 +13,26 @@
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^0.8.0",
         "postcss": "^8.4.18",
+        "sass": "^1.69.5",
         "tailwindcss": "^3.2.1",
         "vite": "^4.0.0",
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^40.1.0",
+        "@ckeditor/ckeditor5-vue": "^5.1.0",
         "@fortawesome/fontawesome-svg-core": "^6.4.2",
         "@fortawesome/free-brands-svg-icons": "^6.4.2",
         "@fortawesome/free-solid-svg-icons": "^6.4.2",
         "@fortawesome/vue-fontawesome": "^3.0.3",
         "@inertiajs/vue3": "^1.0.11",
+        "@tiptap/pm": "^2.1.13",
+        "@tiptap/starter-kit": "^2.1.13",
+        "@tiptap/vue-3": "^2.1.13",
         "@vitejs/plugin-vue": "^4.3.4",
+        "element-tiptap": "^2.2.1",
+        "remixicon": "^3.6.0",
+        "vue-remix-icons": "^3.5.0",
         "vue-toast-notification": "^3.1.2",
         "vue-toastr": "^2.1.2"
     }

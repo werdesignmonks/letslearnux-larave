@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\OnboardingController;
@@ -105,14 +106,17 @@ Route::middleware('auth:admin')->group(function () {
 
     // Lesson Resource
     Route::resource('admin/lesson', LessonController::class);
+
     // Resource Resource
     Route::resource('admin/resource', ResourceController::class);
 
     // Topic Resource
     Route::resource('admin/topic', TopicController::class);
+    Route::resource('admin/users', AdminUserController::class);
+
 
     // User Route
-    Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.index');
+//    Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.user.index');
 });
 
 

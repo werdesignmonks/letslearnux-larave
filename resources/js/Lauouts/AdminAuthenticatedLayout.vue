@@ -69,6 +69,7 @@ const showingNavigationDropdown = ref(false);
                                             Log Out
                                         </DropdownLink>
                                     </template>
+
                                 </Dropdown>
                             </div>
                         </div>

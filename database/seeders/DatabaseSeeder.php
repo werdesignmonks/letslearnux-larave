@@ -14,10 +14,17 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-         \App\Models\Admin::factory()->create([
-             'name' => 'Admin',
-             'email' => 'admin@designmonks.co',
-             'password' => bcrypt('admin@2024')
-         ]);
+//         \App\Models\Admin::factory()->create([
+//             'name' => 'Admin',
+//             'email' => 'admin@designmonks.co',
+//             'password' => bcrypt('admin@2024')
+//         ]);
+
+        $this->call([
+            AdminUserSeeder::class,
+//             UserSeeder::class,
+            ChapterSeeder::class,
+            TopicSeeder::class
+        ]);
     }
 }

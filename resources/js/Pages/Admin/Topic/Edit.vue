@@ -100,7 +100,7 @@ function submit(id) {
 
                 <div class="dm-input-field">
                     <label for="radio-1" class="dm-input-field__label block">Short Description</label>
-                    <textarea name="short_description" id="short_description" v-model="form.short_description" class="dm-input-field__input w-full" rows="15"></textarea>
+                    <textarea name="short_description" id="short_description" v-model="form.short_description" class="dm-input-field__input w-full" rows="7"></textarea>
                     <div class="text-red-500" v-if="errors.short_description">{{ errors.short_description }}</div>
                 </div>
 

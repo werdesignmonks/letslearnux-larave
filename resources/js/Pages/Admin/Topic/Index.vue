@@ -7,8 +7,6 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 
 const $toast = useToast();
 
-
-
 defineProps({
     topics: Array
 })

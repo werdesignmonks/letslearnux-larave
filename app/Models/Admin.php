@@ -5,10 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Admin extends Authenticatable
+class Admin extends Authenticatable implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
+
+    public const PLACEHOLDER_IMAGE = 'images/avatar-placeholder.jpg';
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +24,7 @@ class Admin extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_image',
     ];
 
     /**
@@ -41,9 +47,14 @@ class Admin extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function taxonomy()
+//    public function taxonomy()
+//    {
+//        return $this->hasMany(Taxonomy::class);
+//    }
+
+    public function getProfileImageAttribute() : string
     {
-        return $this->hasMany(Taxonomy::class);
+        return $this->hasMedia()  ? $this->getFirstMediaUrl('default') : asset(self::PLACEHOLDER_IMAGE);
     }
 
 
