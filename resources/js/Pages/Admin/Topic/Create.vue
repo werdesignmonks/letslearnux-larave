@@ -3,7 +3,7 @@ import {Head, router, useForm} from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import Button from "@/Components/Button.vue";
 import {useToast} from 'vue-toast-notification';
-import {QuillEditor} from '@vueup/vue-quill'
+import {QuillEditor} from '@vueup/vue-quill';
 import 'vue-toast-notification/dist/theme-sugar.css';
 
 const $toast = useToast();
@@ -82,8 +82,6 @@ function submit() {
     // }
 
 
-
-
     //Dismissing the Toast after 5 seconds
     setTimeout(() => {
         $toast.clear();
@@ -133,7 +131,7 @@ function submit() {
                             {{ chapter.chapter_name }}
                         </option>
                     </select>
-                    <div class="text-red-500" v-if="errors.chapter_id">{{ errors.short_description }}</div>
+                    <div class="text-red-500" v-if="errors.chapter_id">{{ errors.chapter_id }}</div>
                 </div>
 
 <!--                <div class="dm-input-field">-->
@@ -141,14 +139,18 @@ function submit() {
 <!--                    <textarea name="short_description" id="short_description" v-model="form.short_description" class="dm-input-field__input w-full" rows="5"></textarea>-->
 <!--                    <div class="text-red-500" v-if="errors.short_description">{{ errors.short_description }}</div>-->
 <!--                </div>-->
-
-                <QuillEditor
-                    theme="snow"
-                    contentType="html"
-                    toolbar="full"
-                    style="height: 350px"
-                    v-model:content="form.short_description"
-                />
+                <div class="dm-input-field">
+                    <label for="short_description" class="dm-input-field__label block">Short Description</label>
+                    <QuillEditor
+                        theme="snow"
+                        contentType="html"
+                        toolbar="full"
+                        style="height: 350px"
+                        name="short_description"
+                        v-model:content="form.short_description"
+                    />
+                    <div class="text-red-500" v-if="errors.short_description">{{ errors.short_description }}</div>
+                </div>
 
                 <div class="dm-input-field">
                     <button type="submit" class="dm-btn">

@@ -4,11 +4,13 @@ import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import Button from "@/Components/Button.vue";
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
+import Pagination from '@/Components/Pagination.vue'
+
 
 const $toast = useToast();
 
 defineProps({
-    topics: Array
+    topics: Object
 })
 
 function destroy(id) {
@@ -82,6 +84,7 @@ function destroy(id) {
                                     </tbody>
                                 </table>
                             </div>
+<!--                            <Pagination :links="topics.links" />-->
                         </div>
                     </div>
                 </div>
