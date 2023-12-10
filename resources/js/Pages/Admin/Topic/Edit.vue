@@ -100,6 +100,9 @@ function submit(id) {
                 type: 'error',
                 position: 'top-right',
                 duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #FF0000, #FF6347)',
+                },
             });
         }
     })
