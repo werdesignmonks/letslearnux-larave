@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('chapter_id');
-            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
+            $table->foreignId('chapter_id')->constrained('chapters');
             $table->string('topic_name');
             $table->longText('short_description');
             $table->integer('like')->default(0);
             $table->integer('dislike')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +28,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+//        Schema::table('topics', function (Blueprint $table) {
+//            $table->dropForeign(['chapter_id']);
+//            $table->dropIfExists();
+//        });
+
         Schema::dropIfExists('topics');
     }
 };

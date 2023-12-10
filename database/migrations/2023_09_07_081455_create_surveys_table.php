@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('surveys', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('question_id');
-            $table->unsignedBigInteger('option_id');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
-            $table->foreign('option_id')->references('id')->on('options')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('question_id')->constrained('questions');
+            $table->foreignId('option_id')->constrained('options');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }
@@ -28,6 +25,12 @@ return new class extends Migration
      */
     public function down(): void
     {
+//        Schema::table('surveys', function (Blueprint $table) {
+//            $table->dropForeign(['question_id']);
+//            $table->dropForeign(['option_id']);
+//            $table->dropForeign(['user_id']);
+//            $table->dropIfExists();
+//        });
         Schema::dropIfExists('surveys');
     }
 };

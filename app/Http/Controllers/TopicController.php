@@ -16,9 +16,10 @@ class TopicController extends Controller
      */
     public function index()
     {
+        $topics = Topic::with('chapter')->orderBy('id', 'desc')->paginate(10);
+
         return Inertia::render('Admin/Topic/Index', [
-            // Order By Descending , Latest Chapter will show first Paginate(10) means 10 data per page
-            'topics' => Topic::orderBy('id', 'DESC')->paginate(10)->all(),
+            'topics' => $topics,
         ]);
     }
 

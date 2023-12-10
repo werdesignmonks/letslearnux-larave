@@ -14,7 +14,9 @@ class ChapterController extends Controller
      */
     public function index()
     {
-        $chapers = Chapter::all();
+
+        $chapers = Chapter::orderBy('id', 'desc')->paginate(5);
+
         return Inertia::render('Admin/Chapter/Index', [
             'chapters' => $chapers
         ]);

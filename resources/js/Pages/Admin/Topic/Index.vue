@@ -9,8 +9,8 @@ import Pagination from '@/Components/Pagination.vue'
 
 const $toast = useToast();
 
-defineProps({
-    topics: Object
+const props = defineProps({
+    topics: Array,
 })
 
 function destroy(id) {
@@ -54,14 +54,16 @@ function destroy(id) {
                                     <thead class="text-left bg-dm-color-primary-light">
                                         <tr>
                                             <th scope="col" class="px-3 py-4 w-[80px] text-center">#</th>
-                                            <th scope="col" class="py-4">Topic Title</th>
+                                            <th scope="col" class="py-4">Title</th>
+                                            <th scope="col" class="py-4">Chapter Name</th>
                                             <th scope="col" class="px-4 py-4 text-left w-[160px]">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="border-dm-border-color border-t" v-for="(item, index) in topics">
+                                        <tr class="border-dm-border-color border-t" v-for="(item, index) in props.topics.data">
                                             <td class="whitespace-nowrap px-3 py-4 font-medium text-center">{{ index + 1 }}</td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.topic_name}}</td>
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.chapter_id}}</td>
                                             <td class="whitespace-nowrap py-4 text-left px-4">
                                                 <Link :href="route('topic.edit', item.id)" class="mr-2 inline-block">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -84,7 +86,11 @@ function destroy(id) {
                                     </tbody>
                                 </table>
                             </div>
-<!--                            <Pagination :links="topics.links" />-->
+                            <Pagination :links="topics.links" />
+
+                            {{
+                                console.log(props.topics)
+                            }}
                         </div>
                     </div>
                 </div>
@@ -92,7 +98,3 @@ function destroy(id) {
         </div>
     </AdminAuthenticatedLayout>
 </template>
-
-<style scoped>
-
-</style>

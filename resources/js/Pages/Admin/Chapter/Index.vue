@@ -1,11 +1,10 @@
 <script setup>
 import { Head, Link, router } from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
-import { TailwindPagination } from 'laravel-vue-pagination';
-import { ref } from 'vue';
-const laravelData = ref({});
+import Pagination from "@/Components/Pagination.vue";
 
-defineProps({
+
+const props = defineProps({
     chapters: Array,
 });
 
@@ -55,7 +54,7 @@ setTimeout(function() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="border-dm-border-color border-t" v-for="(chapter, index) in chapters">
+                                        <tr class="border-dm-border-color border-t" v-for="(chapter, index) in props.chapters.data">
                                             <td class="whitespace-nowrap px-3 py-4 font-medium text-center">{{ index + 1 }}</td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ chapter.chapter_name }}</td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ chapter.title }}</td>
@@ -80,10 +79,8 @@ setTimeout(function() {
                                         </tr>
                                     </tbody>
                                 </table>
-
-
-                                {{  }}
                             </div>
+                            <Pagination :links="props.chapters.links" />
                         </div>
                     </div>
                 </div>

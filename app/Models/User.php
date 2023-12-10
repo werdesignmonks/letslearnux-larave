@@ -27,6 +27,7 @@ class User extends Authenticatable
         'email_verified_at',
         'avatar_path',
         'avatar_url',
+        'role',
         'provider',
         'provider_id',
         'provider_token',
