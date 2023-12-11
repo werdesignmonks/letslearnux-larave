@@ -25,6 +25,14 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
+    public function adminCreate(): Response
+    {
+        return Inertia::render('Admin/Auth/Login', [
+            'canResetPassword' => Route::has('password.request'),
+            'status' => session('status'),
+        ]);
+    }
+
     /**
      * Handle an incoming authentication request.
      */
@@ -33,6 +41,10 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        if(Auth::user()->role == 'admin'){
+            return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
+        }
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

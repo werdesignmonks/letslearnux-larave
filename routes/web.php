@@ -87,10 +87,10 @@ Route::middleware('auth')->group(function () {
 //});
 
 require __DIR__.'/auth.php';
-require __DIR__.'/AdminAuth.php';
+//require __DIR__.'/AdminAuth.php';
 
 // Admin Dashboard
-Route::middleware('auth:admin')->group(function () {
+Route::middleware('auth')->group(function () {
 
     Route::get('/admin/dashboard', function () {
         return Inertia::render('Admin/Dashboard');
@@ -119,4 +119,12 @@ Route::middleware('auth:admin')->group(function () {
 //    Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.user.index');
 });
 
+// Route Group User Status Admin
+//Route::middleware('auth')->group(function () {
+//    Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.user.index');
+//    Route::get('/admin/users/{user}', [AdminUserController::class, 'show'])->name('admin.user.show');
+//    Route::get('/admin/users/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.user.edit');
+//    Route::patch('/admin/users/{user}', [AdminUserController::class, 'update'])->name('admin.user.update');
+//    Route::delete('/admin/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.user.destroy');
+//});
 

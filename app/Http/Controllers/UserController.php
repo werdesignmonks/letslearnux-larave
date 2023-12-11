@@ -11,4 +11,5 @@ class UserController extends Controller
     {
         return Inertia::render('Admin/User/Index');
     }
+
 }

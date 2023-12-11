@@ -17,8 +17,6 @@ const $toast = useToast();
 function destroy(id) {
     router.delete(route('users.destroy', id));
 
-
-
     $toast.open({
         message: 'User Deleted Successfully!',
         type: 'danger',
