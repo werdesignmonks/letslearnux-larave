@@ -18,8 +18,8 @@ class Chapter extends Model
         'slug',
     ];
 
-    public function topics()
+    public function lession()
     {
-        return $this->hasMany(Topic::class);
+        return $this->hasMany(Lesson::class);
     }
 }

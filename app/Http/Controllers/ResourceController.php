@@ -13,7 +13,10 @@ class ResourceController extends Controller
      */
     public function index( Request $request )
     {
-        return Inertia::render('Admin/Resource/Index');
+        $resources = Resource::with( 'admin' )->orderBy( 'id', 'desc' )->paginate( 5 );
+        return Inertia::render( 'Admin/Resource/Index', [
+            'resources' => $resources,
+        ] );
     }
 
     /**

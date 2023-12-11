@@ -64,4 +64,10 @@ class User extends Authenticatable
 
         return $username;
     }
+
+
+    public function resource()
+    {
+        return $this->hasMany(Resource::class);
+    }
 }

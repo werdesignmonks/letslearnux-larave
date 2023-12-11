@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\auth\ProviderController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Middleware\CheckUserStatus;
 use Illuminate\Support\Facades\Route;
 
 
@@ -26,8 +28,8 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
-    Route::get('admin/login', [AuthenticatedSessionController::class, 'adminCreate'])
-        ->name('admin.login');
+//    Route::get('admin/login', [AuthenticatedSessionController::class, 'adminCreate'])
+//        ->name('admin.login');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
@@ -69,3 +71,20 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
+
+
+//Route::middleware([CheckUserStatus::class])->group(function () {
+//    // Admin Login
+//    Route::prefix('admin')->group(function () {
+//        Route::get('login', [AdminController::Class, 'loginform'])->name('admin.login');
+//        Route::post('login', [AdminController::class, 'login'])->name('admin.login.post');
+//        // Add other admin routes as needed
+//    });
+//
+//    // User Login
+//    Route::prefix('user')->group(function () {
+//        Route::get('login', 'UserController@loginForm')->name('user.login');
+//        Route::post('login', 'UserController@login')->name('user.login.post');
+//        // Add other user routes as needed
+//    });
+//});

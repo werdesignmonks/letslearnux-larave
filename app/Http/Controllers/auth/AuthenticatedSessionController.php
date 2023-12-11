@@ -33,6 +33,7 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
+
     /**
      * Handle an incoming authentication request.
      */
@@ -42,11 +43,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+
         if(Auth::user()->role == 'admin'){
             return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
         }
 
         return redirect()->intended(RouteServiceProvider::HOME);
+
+//        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**

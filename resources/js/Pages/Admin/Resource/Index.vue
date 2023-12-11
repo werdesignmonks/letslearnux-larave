@@ -1,13 +1,18 @@
 <script setup>
-// import { Head } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
-import NavLink from "@/Components/NavLink.vue";
-import { Link } from '@inertiajs/vue3';
+
 import Button from "@/Components/Button.vue";
+
+
+defineProps({
+    resources: Array,
+});
+
 </script>
 
 <template>
-    <Head title="Onboarding"/>
+    <Head title="Resources"/>
 
     <AdminAuthenticatedLayout>
         <template #header>
@@ -32,14 +37,23 @@ import Button from "@/Components/Button.vue";
                                     <thead class="text-left bg-dm-color-primary-light">
                                         <tr>
                                             <th scope="col" class="px-3 py-4 w-[80px] text-center">#</th>
-                                            <th scope="col" class="py-4">Resource Title</th>
+                                            <th scope="col" class="py-4">Image</th>
+                                            <th scope="col" class="py-4">Title</th>
+                                            <th scope="col" class="py-4">Type</th>
+                                            <th scope="col" class="py-4">User</th>
+                                            <th scope="col" class="py-4">Status</th>
                                             <th scope="col" class="px-4 py-4 text-left w-[160px]">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="border-dm-border-color border-t">
-                                            <td class="whitespace-nowrap px-3 py-4 font-medium text-center">1</td>
-                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">Which describes you best?</td>
+                                        <tr class="border-dm-border-color border-t" v-for="(item, index) in  resources.data">
+                                            <td class="whitespace-nowrap px-3 py-4 font-medium text-center">{{ index+1 }}</td>
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">
+                                                <img :src="item.image" alt="resource image" width="60"></td>
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.title }}</td>
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.type }}</td>
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.admin.name }}</td>
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.status }}</td>
                                             <td class="whitespace-nowrap py-4 text-left px-4">
                                                 <button class="mr-2">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

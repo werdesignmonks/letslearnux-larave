@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             UserSeeder::class,
             ChapterSeeder::class,
-            TopicSeeder::class
+            LessonSeeder::class,
+            ResourceSeeder::class,
         ]);
     }
 }

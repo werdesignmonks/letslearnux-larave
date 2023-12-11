@@ -17,4 +17,19 @@ class Resource extends Model
         'estimate_time',
         'slug',
     ];
+
+    public function lession()
+    {
+        return $this->hasMany(Lesson::class);
+    }
+
+    public function chapter()
+    {
+        return $this->belongsTo(Chapter::class);
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'user_id', 'id');
+    }
 }

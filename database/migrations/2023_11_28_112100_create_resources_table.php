@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->enum('type', ['video', 'article', 'book', 'other']);
             $table->string('url');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('admins');
             $table->string('status')->default(Status::DRAFT);
             $table->string('image')->nullable();
             $table->timestamps();

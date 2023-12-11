@@ -3,33 +3,35 @@ import {Head, router, useForm} from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import Button from "@/Components/Button.vue";
 import {useToast} from 'vue-toast-notification';
-import {QuillEditor} from '@vueup/vue-quill';
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import 'vue-toast-notification/dist/theme-sugar.css';
-import '@vueup/vue-quill/dist/vue-quill.bubble.css';
+import {QuillEditor} from "@vueup/vue-quill";
 
 const $toast = useToast();
 
 
 // Chapter List
 const props = defineProps({
-    lesson: Object,
+    lesson: Array,
     errors: Object,
+    chapters: Object,
 });
 
 const form = useForm({
-    name: '',
-    chapter_id: '',
-    description: '',
+    title: props.lesson.title,
+    chapter_id: props.lesson.chapter_id,
+    description: props.lesson.description,
 });
 
-function submit() {
+console.log(props.lesson);
 
-    form.post(route('lesson.store'), {
+function submit(id) {
+    // router.put(route('lesson.update', id), form);
+
+    form.put(route('lesson.update', id), {
         preserveScroll: true,
         onSuccess: (page) => {
             $toast.open({
-                message: 'Lesson Added Successfully!',
+                message: 'Lesson Update Successfully!',
                 type: 'success',
                 position: 'top-right',
                 duration: 5000,
@@ -40,8 +42,8 @@ function submit() {
         },
         onError: (errors) => {
             $toast.open({
-                message: 'Please fill all the fields',
-                type: 'worning',
+                message: 'All fields are required!',
+                type: 'error',
                 position: 'top-right',
                 duration: 5000,
                 style: {
@@ -57,20 +59,16 @@ function submit() {
         $toast.clear();
     }, 3000);
 
-    // Clearing the form after submit
-    form.name = '';
-    form.chapter_id = '';
-    form.contetn = '';
 }
 
 </script>
 
 <template>
-    <Head title="Add New Topic"/>
+    <Head title="Add New Lesson"/>
 
     <AdminAuthenticatedLayout>
         <template #header>
-            <h1 class="font-bold text-dm-heading-color text-4xl">Add New Lesson</h1>
+            <h1 class="font-bold text-dm-heading-color text-4xl">Edit Lesson</h1>
         </template>
 
         <div class="py-8">
@@ -79,21 +77,19 @@ function submit() {
                     <Button :href="route('lesson.index')" :active="route().current('lesson.index')">
                         All Lesson
                     </Button>
-                    <Button :href="route('lesson.create')" :active="route().current('lesson.create')">
-                        Add New
-                    </Button>
                 </div>
             </div>
 
-            <form @submit.prevent="submit" class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]">
+            <form @submit.prevent="submit(lesson.id)" class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]">
                 <div class="dm-input-field">
-                    <label for="radio-1" class="dm-input-field__label block">Topic Title</label>
-                    <input type="text" id="lesson_name" v-model="form.name" class="dm-input-field__input w-full">
-                    <div class="text-red-500" v-if="errors.name">{{ errors.name }}</div>
+                    <label for="radio-1" class="dm-input-field__label block">Title</label>
+                    <input type="text" id="lesson_name" v-model="form.title" class="dm-input-field__input w-full">
+                    <div class="text-red-500" v-if="errors.title">{{ errors.title }}</div>
                 </div>
 
                 <div class="dm-input-field">
                     <label for="radio-1" class="dm-input-field__label block">Chapter Name</label>
+
                     <select name="chapter_id" id="chapter_id" v-model="form.chapter_id"
                             class="dm-input-field__input w-full">
                         <option value="">Select Chapter</option>
@@ -105,21 +101,20 @@ function submit() {
                 </div>
 
                 <div class="dm-input-field">
-                    <label for="short_description" class="dm-input-field__label block">Content</label>
+                    <label for="radio-1" class="dm-input-field__label block">Content</label>
                     <QuillEditor
                         theme="snow"
                         contentType="html"
                         toolbar="full"
                         style="height: 350px"
                         name="short_description"
-                        v-model:content="form.content"
+                        v-model:content="form.description"
                     />
-                    <div class="text-red-500" v-if="errors.description">{{ errors.description }}</div>
                 </div>
 
                 <div class="dm-input-field">
                     <button type="submit" class="dm-btn">
-                        Add New
+                        Update
                     </button>
                 </div>
             </form>
