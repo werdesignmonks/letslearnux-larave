@@ -1,5 +1,5 @@
 <script setup>
-import {Head, router, useForm} from '@inertiajs/vue3';
+import {Head, useForm} from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import Button from "@/Components/Button.vue";
 import {useToast} from 'vue-toast-notification';

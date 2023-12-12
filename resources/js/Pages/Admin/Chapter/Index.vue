@@ -2,6 +2,11 @@
 import { Head, Link, router } from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import Pagination from "@/Components/Pagination.vue";
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+
+const $toast = useToast();
 
 
 const props = defineProps({
@@ -10,12 +15,22 @@ const props = defineProps({
 
 function destroy(id) {
     router.delete(route('chapter.destroy', id));
+
+    $toast.open({
+        message: 'Lesson Deleted Successfully!',
+        type: 'success',
+        position: 'top-right',
+        duration: 5000,
+        style: {
+            background: 'linear-gradient(to right, #00b09b, #96c93d)',
+        },
+    });
 }
 
 // Auto hide flash message
-setTimeout(function() {
-    document.getElementById('flash-message').style.display = 'none';
-}, 3000);
+// setTimeout(function() {
+//     document.getElementById('flash-message').style.display = 'none';
+// }, 3000);
 
 </script>
 
@@ -40,9 +55,9 @@ setTimeout(function() {
                 <div class="flex flex-col">
                     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                            <div class="bg-green-500 text-white p-4 mb-4 rounded-lg" id="flash-message" :class="$page.props.flash.type" v-if="$page.props.flash.message">
-                                <p>{{ $page.props.flash.message }}</p>
-                            </div>
+<!--                            <div class="bg-green-500 text-white p-4 mb-4 rounded-lg" id="flash-message" :class="$page.props.flash.type" v-if="$page.props.flash.message">-->
+<!--                                <p>{{ $page.props.flash.message }}</p>-->
+<!--                            </div>-->
                             <div class="overflow-hidden rounded-lg border border-[#E5E6E7]">
                                 <table class="min-w-full text-sm font-light overflow-hidden">
                                     <thead class="text-left bg-dm-color-primary-light">

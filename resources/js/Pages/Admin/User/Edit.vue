@@ -46,19 +46,58 @@ const uploadImage = (event) => {
 // };
 
 
-function submit(id) {
-    router.put(route('users.update', id), form);
+// function submit(id) {
+//     router.put(route('users.update', id), form);
+//
+//     $toast.open({
+//         message: 'User Updated Successfully!',
+//         type: 'danger',
+//         position: 'top-right',
+//         duration: 5000,
+//         style: {
+//             background: 'linear-gradient(to right, #00b09b, #96c93d)',
+//         },
+//     });
+// }
 
-    $toast.open({
-        message: 'User Updated Successfully!',
-        type: 'danger',
-        position: 'top-right',
-        duration: 5000,
-        style: {
-            background: 'linear-gradient(to right, #00b09b, #96c93d)',
+
+
+
+function submit(id) {
+    // router.put(route('chapter.update', id), form);
+
+    form.put(route('users.update', id), {
+        preserveScroll: true,
+        onSuccess: (page) => {
+            $toast.open({
+                message: 'Chapter Updated Successfully!',
+                type: 'success',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #00b09b, #96c93d)',
+                },
+            });
         },
-    });
+        onError: (errors) => {
+            $toast.open({
+                message: 'All fields are required!',
+                type: 'error',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #FF0000, #FF6347)',
+                },
+            });
+        }
+    })
+
+    //Dismissing the Toast after 5 seconds
+    // setTimeout(() => {
+    //     $toast.clear();
+    // }, 3000);
 }
+
 
 </script>
 
@@ -76,9 +115,7 @@ function submit(id) {
                     <Button :href="route('users.index')" :active="route().current('users.index')">
                         All Users
                     </Button>
-
                 </div>
-
             </div>
 
             <div class="flex flex-col">

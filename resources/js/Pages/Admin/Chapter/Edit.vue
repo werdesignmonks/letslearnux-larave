@@ -2,7 +2,11 @@
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import {router, useForm} from '@inertiajs/vue3';
 import Button from "@/Components/Button.vue";
-import { Head } from '@inertiajs/vue3';
+import {Head} from '@inertiajs/vue3';
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+const $toast = useToast();
 
 const props = defineProps({
     errors: Object,
@@ -18,7 +22,38 @@ const form = useForm({
 });
 
 function submit(id) {
-    router.put(route('chapter.update', id), form);
+    // router.put(route('chapter.update', id), form);
+
+    form.put(route('chapter.update', id), {
+        preserveScroll: true,
+        onSuccess: (page) => {
+            $toast.open({
+                message: 'Chapter Updated Successfully!',
+                type: 'success',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #00b09b, #96c93d)',
+                },
+            });
+        },
+        onError: (errors) => {
+            $toast.open({
+                message: 'All fields are required!',
+                type: 'error',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #FF0000, #FF6347)',
+                },
+            });
+        }
+    })
+
+    //Dismissing the Toast after 5 seconds
+    // setTimeout(() => {
+    //     $toast.clear();
+    // }, 3000);
 }
 
 
@@ -47,10 +82,12 @@ function submit(id) {
             </div>
 
             <div class="flex flex-col">
-                <form @submit.prevent="submit(chapter.id)" class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]">
+                <form @submit.prevent="submit(chapter.id)"
+                      class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]">
                     <div class="dm-input-field">
                         <label for="radio-1" class="dm-input-field__label block">Chapter Name</label>
-                        <input type="text" id="chapter_name" v-model="form.chapter_name" class="dm-input-field__input w-full">
+                        <input type="text" id="chapter_name" v-model="form.chapter_name"
+                               class="dm-input-field__input w-full">
                         <div class="text-red-500" v-if="errors.chapter_name">{{ errors.chapter_name }}</div>
                     </div>
 
@@ -81,7 +118,7 @@ function submit(id) {
 
                     <div class="flex justify-start mt-6">
                         <button type="submit" class="dm-btn">
-                            Add New
+                            Update
                         </button>
                     </div>
                 </form>

@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('chapter_id');
             $table->string('title');
             $table->longText('description')->nullable();
-            $table->foreignId('chapter_id')->constrained('chapters');
+            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
             $table->integer('like')->default(0);
             $table->integer('dislike')->default(0);
             $table->timestamps();

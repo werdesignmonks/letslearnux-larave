@@ -1,15 +1,84 @@
 <script setup>
-// import { Head } from '@inertiajs/vue3';
+import {Head, router, useForm} from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
-import NavLink from "@/Components/NavLink.vue";
-import { Link } from '@inertiajs/vue3';
 import Button from "@/Components/Button.vue";
-import RadioGroupInput from "@/Components/RadioGroupInput.vue";
-import RadioInput from "@/Components/RadioInput.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import {useToast} from "vue-toast-notification";
+import 'vue-toast-notification/dist/theme-sugar.css';
+import {ref} from "vue";
+
+
+const $toast = useToast();
+const previewUrl = ref('../../images/avatar-placeholder.jpg');
+
+defineProps({
+    errors: Object,
+    resource: Object,
+});
+
+
+const form = useForm({
+    title: '',
+    type: '',
+    image: '',
+    url: '',
+    status: ''
+});
+
+const uploadImage = (event) => {
+    const file = event.target.files[0];
+    form.image = file;
+
+    // const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            previewUrl.value = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    } else {
+        previewUrl.value = '';
+    }
+};
+
+const removeImage = () => {
+    previewUrl.value = null;
+};
+
+function submit() {
+
+    form.post(route('resource.store'), {
+        preserveScroll: true,
+        onSuccess: (page) => {
+            $toast.open({
+                message: 'Resource Added Successfully!',
+                type: 'success',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #00b09b, #96c93d)',
+                },
+            });
+        },
+        onError: (errors) => {
+            $toast.open({
+                message: 'Please fill all the fields',
+                type: 'worning',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #FF0000, #FF6347)',
+                },
+            });
+        }
+    })
+}
 </script>
 
 <template>
-    <Head title="Onboarding"/>
+    <Head title="Resources"/>
 
     <AdminAuthenticatedLayout>
         <template #header>
@@ -22,37 +91,74 @@ import RadioInput from "@/Components/RadioInput.vue";
                     <Button :href="route('resource.index')" :active="route().current('resource.index')">
                         Resource List
                     </Button>
-                    <Button :href="route('resource.create')" :active="route().current('resource.create')">
-                        Add New Resource
-                    </Button>
-
                 </div>
 
             </div>
 
-            <div class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]">
+            <form @submit.prevent="submit" class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]" enctype="multipart/form-data">
                 <div class="dm-input-field">
-                    <label for="radio-1" class="dm-input-field__label block">Resource Title</label>
-                    <input type="text" name="question" id="question" class="dm-input-field__input w-full">
+                    <label for="radio-1" class="dm-input-field__label block">Title</label>
+                    <input type="text" name="question" id="question" v-model="form.title" class="dm-input-field__input w-full">
+                    <div class="text-red-500" v-if="errors.title">{{ errors.title }}</div>
                 </div>
 
 
                 <div class="dm-input-field">
-                    <label for="radio-1" class="dm-input-field__label block">Short Description</label>
-                    <textarea name="description" id="description" class="dm-input-field__input w-full"></textarea>
+                    <InputLabel for="Position" value="Content Type*" class="mb-2"/>
+
+                    <div class="form-check mr-2 inline-flex items-center gap-1">
+                        <input type="radio" id="type_video" name="type" v-model="form.type" value="video" class="form-check-input">
+                        <label for="type_video" class="form-check-label mb-0">Video</label>
+                    </div>
+                    <div class="form-check mr-2 inline-flex items-center gap-1">
+                        <input type="radio" id="type_article" name="type" v-model="form.type" value="article" class="form-check-input">
+                        <label for="type_article" class="form-check-label">Article</label>
+                    </div>
+                    <div class="form-check mr-2 inline-flex items-center gap-1">
+                        <input type="radio" id="type_book" name="type" v-model="form.type" value="book" class="form-check-input">
+                        <label for="type_book" class="form-check-label">Book</label>
+                    </div>
+                    <div class="text-red-500" v-if="errors.type">{{ errors.type }}</div>
+
+                    <!-- Profile Image-->
+                    <div class="dm-input-field">
+                        <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[100px]" />
+                        <span v-else>
+                            <img :src="previewUrl" alt="Placeholder" class="w-[100px]" />
+                        </span>
+                    </div>
+                    <div class="dm-input-field">
+                        <label for="profile-image" class="dm-input-field__label block">Thumbnail</label>
+                        <input type="file" id="profile-image" name="profile_image" @change="uploadImage"  class="dm-input-field__input w-full">
+                        <div class="text-red-500" v-if="errors.image">{{ errors.image }}</div>
+                    </div>
+
+                    <div class="dm-input-field">
+                        <label for="status" class="dm-input-field__label block">Status</label>
+                        <select name="status" id="status" v-model="form.status" class="dm-input-field__input w-full">
+                            <option value="">Select Status</option>
+                            <option value="approved">Public</option>
+                            <option value="pending">Draft</option>
+                        </select>
+                        <div class="text-red-500" v-if="errors.status">{{ errors.status }}</div>
+                    </div>
+
+                    <div class="dm-input-field">
+                        <label for="radio-1" class="dm-input-field__label block">URL <span class="text-red-300">*</span></label>
+                        <input type="text" name="url" id="url" v-model="form.url" class="dm-input-field__input w-full">
+                        <div class="text-red-500" v-if="errors.url">{{ errors.url }}</div>
+                    </div>
+
+
                 </div>
+
 
 
                 <div class="dm-input-field">
-                    <label for="radio-1" class="dm-input-field__label block">Duration</label>
-                    <input type="text" name="question" id="question" class="dm-input-field__input w-full">
+                    <button type="submit" class="dm-btn dm-button--primary">Add Now</button>
                 </div>
 
-                <div class="dm-input-field">
-                    <button type="button" class="dm-btn dm-button--primary">Add Now</button>
-                </div>
-
-            </div>
+            </form>
 
         </div>
     </AdminAuthenticatedLayout>

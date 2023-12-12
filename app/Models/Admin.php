@@ -47,11 +47,9 @@ class Admin extends Authenticatable implements HasMedia
         'password' => 'hashed',
     ];
 
-//    public function taxonomy()
-//    {
-//        return $this->hasMany(Taxonomy::class);
-//    }
-
+    /**
+     * Get the profile image URL attribute.
+     */
     public function getProfileImageAttribute() : string
     {
         return $this->hasMedia()  ? $this->getFirstMediaUrl('default') : asset(self::PLACEHOLDER_IMAGE);

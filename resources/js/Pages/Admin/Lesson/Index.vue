@@ -2,9 +2,9 @@
 import {Head, Link, router} from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import Button from "@/Components/Button.vue";
+import Pagination from '@/Components/Pagination.vue'
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
-import Pagination from '@/Components/Pagination.vue'
 
 
 const $toast = useToast();
@@ -29,11 +29,11 @@ function destroy(id) {
 </script>
 
 <template>
-    <Head title="Topics"/>
+    <Head title="Lessons"/>
 
     <AdminAuthenticatedLayout>
         <template #header>
-            <h1 class="font-bold text-dm-heading-color text-4xl">Topics</h1>
+            <h1 class="font-bold text-dm-heading-color text-4xl">Lessons</h1>
         </template>
 
         <div class="py-8">

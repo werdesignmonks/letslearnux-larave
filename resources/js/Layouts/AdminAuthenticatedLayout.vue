@@ -35,8 +35,8 @@ const showingNavigationDropdown = ref(false);
                         Chapter
                     </NavLink>
 
-                    <NavLink :href="route('topic.index')" :active="route().current('topic.index')" class="block">
-                        Topic
+                    <NavLink :href="route('lesson.index')" :active="route().current('lesson.index')" class="block">
+                        Lesson
                     </NavLink>
 
                     <NavLink :href="route('resource.index')" :active="route().current('resource.index')" class="block">

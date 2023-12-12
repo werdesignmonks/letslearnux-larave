@@ -50,21 +50,37 @@ const removeImage = () => {
 
 
 function submit() {
-    router.post(route('users.store'), form);
 
-    if( errors.name || errors.email || errors.password || errors.profile_image ) {
-        $toast.open({
-            message: 'User Created Successfully!',
-            type: 'success',
-            position: 'top-right',
-            duration: 5000,
-            style: {
-                background: 'linear-gradient(to right, #00b09b, #96c93d)',
-            },
-        });
-    }
+    form.post(route('users.store'), {
+        preserveScroll: true,
+        onSuccess: (page) => {
+            $toast.open({
+                message: 'User Created Successfully!',
+                type: 'success',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #00b09b, #96c93d)',
+                },
+            });
+        },
+        onError: (errors) => {
+            $toast.open({
+                message: 'Please fill all the fields',
+                type: 'worning',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #FF0000, #FF6347)',
+                },
+            });
+        }
+    })
 
-
+    // Clearing the form after submit
+    form.topic_name = '';
+    form.chapter_id = '';
+    form.short_description = '';
 }
 
 </script>
@@ -82,9 +98,6 @@ function submit() {
                 <div class="flex gap-2 mb-6">
                     <Button :href="route('users.index')" :active="route().current('users.index')">
                         All Users
-                    </Button>
-                    <Button :href="route('users.create')" :active="route().current('users.create')">
-                        Add New
                     </Button>
 
                 </div>

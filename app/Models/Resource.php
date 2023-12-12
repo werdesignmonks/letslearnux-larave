@@ -4,18 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Resource extends Model
+class Resource extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
+
+    public const PLACEHOLDER_IMAGE = 'images/avatar-placeholder.jpg';
 
     protected $fillable = [
-        'custom_sl',
-        'chapter_name',
         'title',
-        'sub_title',
-        'estimate_time',
-        'slug',
+        'type',
+        'url',
+        'user_id',
+        'status',
+        'image',
+        'chapter_id',
     ];
 
     public function lession()
@@ -32,4 +38,10 @@ class Resource extends Model
     {
         return $this->belongsTo(Admin::class, 'user_id', 'id');
     }
+
+    public function getProfileImageAttribute() : string
+    {
+        return $this->hasMedia()  ? $this->getFirstMediaUrl('default') : asset(self::PLACEHOLDER_IMAGE);
+    }
+
 }

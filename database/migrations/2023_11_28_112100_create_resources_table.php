@@ -14,10 +14,11 @@ return new class extends Migration
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->enum('type', ['video', 'article', 'book', 'other']);
             $table->string('url');
-            $table->foreignId('user_id')->constrained('admins');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('status')->default(Status::DRAFT);
             $table->string('image')->nullable();
             $table->timestamps();

@@ -2,9 +2,9 @@
 import {Head, router, useForm} from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import Button from "@/Components/Button.vue";
+import {QuillEditor} from "@vueup/vue-quill";
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
-import {QuillEditor} from "@vueup/vue-quill";
 
 const $toast = useToast();
 
