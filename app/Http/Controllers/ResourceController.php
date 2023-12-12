@@ -14,6 +14,7 @@ class ResourceController extends Controller
     public function index( Request $request )
     {
         $resources = Resource::with( 'admin' )->orderBy( 'id', 'desc' )->paginate( 5 );
+
         return Inertia::render( 'Admin/Resource/Index', [
             'resources' => $resources,
         ] );
@@ -33,23 +34,18 @@ class ResourceController extends Controller
     public function store(Request $request)
     {
 
-//        dd($request->all());
-
-        // Validate the data
-        $validate =$request->validate([
-            'title' => 'required|max:255',
-            'type' => 'required',
-            'url' => 'required',
-            'status' => 'required',
-            'image' => 'required',
+        $resource = Resource::create([
+            'title' => $request->title,
+            'type' => $request->type,
+            'url' => $request->url,
+            'user_id' => auth()->user()->id,
+            'status' => $request->status,
+            'image' => $request->hasFile('image') ? $request->file('image')->store('images') : null, // Image upload (if any
         ]);
 
-        // Array merge with user id
-        $validate = array_merge($validate, ['user_id' => auth()->user()->id]);
-
-
-        //Store the data
-        $resource = Resource::create($validate);
+        if($request->image){
+            $resource->addMedia($request->image)->toMediaCollection();
+        }
 
         // Redirect to the index page
         return redirect()->back()->with('message', 'Resource created successfully');
@@ -79,23 +75,24 @@ class ResourceController extends Controller
      */
     public function update(Request $request, Resource $resource)
     {
-        // Validate the data
-        $validate =$request->validate([
-            'title' => 'required|max:255' . $resource->id,
-            'type' => 'required',
-            'url' => 'required',
-            'status' => 'required',
-            'image' => 'required'   ,
+        dd($request->image);
+
+        $resource->update([
+            'title' => $request->title,
+            'type' => $request->type,
+            'url' => $request->url,
+            'user_id' => auth()->user()->id,
+            'status' => $request->status,
+            'image' => $request->hasFile('image') ? $request->file('image')->store('images') : null, // Image upload (if any
         ]);
 
-        // Array merge with user id
-        $validate = array_merge($validate, ['user_id' => auth()->user()->id]);
-
-        //Store the data
-        $resource->update($validate);
+        if($request->image){
+            $resource->addMedia($request->image)->toMediaCollection();
+        }
 
         // Redirect to the index page
         return redirect()->back()->with('message', 'Resource updated successfully');
+
     }
 
     /**

@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class Option extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'onboarding_id',
         'title',
-        'type',
     ];
 
-    public function options()
+    public function onboarding()
     {
-        return $this->hasMany(Option::class);
+        return $this->belongsTo(Onboarding::class, 'onboarding_id', 'id');
     }
 }

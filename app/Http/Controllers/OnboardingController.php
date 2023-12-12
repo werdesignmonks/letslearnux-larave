@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Onboarding;
+use App\Models\Option;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,7 +14,13 @@ class OnboardingController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Admin/Onboarding/Index');
+        $onboarding = Onboarding::orderBy('id', 'desc')->get();
+
+
+        return Inertia::render('Admin/Onboarding/Index', [
+            'onboarding' => $onboarding,
+        ]);
+
     }
 
     /**
@@ -45,7 +52,12 @@ class OnboardingController extends Controller
      */
     public function edit(Onboarding $onboarding)
     {
-        //
+        $options = Option::where('onboarding_id', $onboarding->id)->get();
+
+        return Inertia::render('Admin/Onboarding/Edit', [
+            'onboarding' => $onboarding,
+            'options' => $options,
+        ]);
     }
 
     /**
@@ -53,14 +65,41 @@ class OnboardingController extends Controller
      */
     public function update(Request $request, Onboarding $onboarding)
     {
-        //
+//        dd($request->all());
+
+        $request->validate([
+            'title' => 'required|max:255',
+            'type' => 'required',
+        ]);
+
+        $onboarding->update([
+            'title' => $request->title,
+            'type' => $request->type,
+        ]);
+
+        return redirect()->route('onboarding.index')->with('message', 'Onboarding updated successfully');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Onboarding $onboarding)
+    public function destroy(Onboarding $onboarding, Option $option)
     {
-        //
+        // Delete the data
+        $onboarding->delete();
+
+
+        // Redirect to the index page
+        return redirect()->route('onboarding.index')->with('message', 'Onboarding deleted successfully');
+    }
+
+    public function destroyOption(Onboarding $onboarding, Option $option)
+    {
+        // Delete the Option
+        $option->delete();
+
+        // Redirect to the index page
+        return redirect()->route('onboarding.edit', $onboarding->id)->with('message', 'Option deleted successfully');
     }
 }

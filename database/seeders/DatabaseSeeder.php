@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             ChapterSeeder::class,
             LessonSeeder::class,
             ResourceSeeder::class,
+            OnboardingSeeder::class,
+            OptionSeeder::class,
         ]);
     }
 }

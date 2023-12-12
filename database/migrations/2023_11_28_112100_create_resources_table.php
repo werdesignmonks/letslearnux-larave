@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->enum('type', ['video', 'article', 'book', 'other']);
             $table->string('url');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('admins')->onDelete('cascade');
             $table->string('status')->default(Status::DRAFT);
             $table->string('image')->nullable();
             $table->timestamps();

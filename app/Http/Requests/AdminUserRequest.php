@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Constants\Role;
 use Faker\Core\File;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AdminUserRequest extends FormRequest
 {
@@ -24,7 +26,7 @@ class AdminUserRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'email' => 'required|email|unique:admins',
+            'email' => ['required', 'email', Rule::unique('admins')->ignore($this->id)],
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'password' => 'required|min:8',
         ];

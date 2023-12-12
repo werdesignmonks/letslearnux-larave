@@ -102,8 +102,8 @@ function submit(id) {
             <div class="flex flex-col">
                 <form @submit.prevent="submit(resource.id)" class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]" enctype="multipart/form-data">
                     <div class="dm-input-field">
-                        <label for="radio-1" class="dm-input-field__label block">Title</label>
-                        <input type="text" name="question" id="question" v-model="form.title" class="dm-input-field__input w-full">
+                        <label for="title-1" class="dm-input-field__label block">Title</label>
+                        <input type="text" name="title" id="title-1" v-model="form.title" class="dm-input-field__input w-full">
                         <div class="text-red-500" v-if="errors.title">{{ errors.title }}</div>
                     </div>
 

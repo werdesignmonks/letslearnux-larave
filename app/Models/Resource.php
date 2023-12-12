@@ -21,7 +21,6 @@ class Resource extends Model implements HasMedia
         'user_id',
         'status',
         'image',
-        'chapter_id',
     ];
 
     public function lession()

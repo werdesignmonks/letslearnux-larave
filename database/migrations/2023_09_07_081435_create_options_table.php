@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('options', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('question_id')->constrained('questions');
-            $table->string('option_name');
+            $table->unsignedBigInteger('onboarding_id');
+            $table->foreign('onboarding_id')->references('id')->on('onboardings')->onDelete('cascade');
+            $table->string('title');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

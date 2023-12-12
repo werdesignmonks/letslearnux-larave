@@ -22,10 +22,14 @@ const form = useForm({
     profile_image: props.user.profile_image,
 });
 
+console.log(props.user.profile_image);
+
 
 const uploadImage = (event) => {
     const file = event.target.files[0];
     form.profile_image = file;
+
+    console.log(form);
 
     // const file = event.target.files[0];
     if (file) {
@@ -41,30 +45,9 @@ const uploadImage = (event) => {
     }
 };
 
-// const removeImage = () => {
-//     previewUrl.value = null;
-// };
-
-
-// function submit(id) {
-//     router.put(route('users.update', id), form);
-//
-//     $toast.open({
-//         message: 'User Updated Successfully!',
-//         type: 'danger',
-//         position: 'top-right',
-//         duration: 5000,
-//         style: {
-//             background: 'linear-gradient(to right, #00b09b, #96c93d)',
-//         },
-//     });
-// }
-
-
-
 
 function submit(id) {
-    // router.put(route('chapter.update', id), form);
+    // router.put(route('users.update', id), form);
 
     form.put(route('users.update', id), {
         preserveScroll: true,
@@ -98,6 +81,7 @@ function submit(id) {
     // }, 3000);
 }
 
+console.log(props.user.id);
 
 </script>
 

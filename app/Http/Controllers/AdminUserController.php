@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AdminUserRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class AdminUserController extends Controller
@@ -34,12 +35,6 @@ class AdminUserController extends Controller
      */
     public function store(AdminUserRequest $request)
     {
-//        $validated = $request->validate([
-//            'name' => 'required|max:255',
-//            'email' => 'required|email|unique:admins',
-//            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-//            'password' => 'required|min:8',
-//        ]);
 
         //Create a new user
         $user = Admin::create([
@@ -80,17 +75,36 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, Admin $user)
     {
-        $validated = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:admins,email,' . $user->id,
-            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            'password' => 'required|min:8',
-        ]);
+//        dd($request->all());
 
-        $user->update($validated);
+            $request->validate([
+                'name' => 'required|max:255',
+                'email' => ['required', 'email', Rule::unique('admins')->ignore($user->id)],
+                'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+                'password' => "nullable|string|between:5,16"
+            ]);
 
-        //Redirect to the index page
-        return redirect()->route('users.index')->with('message', 'User updated successfully');
+
+
+            //Update the user
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'profile_image' => $request->hasFile('profile_image') ? $request->file('profile_image')->store('images') : null, // Image upload (if any
+                'password' => bcrypt($request->password)
+            ]);
+
+            if($request->hasFile('profile_image')) {
+                $user->addMedia($request->profile_image)->toMediaCollection();
+            }
+
+//            if ($request->profile_image) {
+//                $user->addMedia($request->profile_image)->toMediaCollection();
+//            }
+
+            //Redirect to the index page
+            return redirect()->route('users.index')->with('message', 'User updated successfully');
+
     }
 
 

@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('onboardings', function (Blueprint $table) {
             $table->id();
-            $table->string('question_title');
-            $table->string('question_type');
+            $table->string('title');
+            $table->string('type');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('onboardings');
     }
 };

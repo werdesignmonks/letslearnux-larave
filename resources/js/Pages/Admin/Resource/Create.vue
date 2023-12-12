@@ -25,6 +25,24 @@ const form = useForm({
     status: ''
 });
 
+// const uploadImage = (event) => {
+//     const file = event.target.files[0];
+//     form.image = file;
+//
+//     if (file) {
+//         const reader = new FileReader();
+//
+//         reader.onload = (e) => {
+//             previewUrl.value = e.target.result;
+//         };
+//
+//         reader.readAsDataURL(file);
+//     } else {
+//         previewUrl.value = '';
+//     }
+// };
+
+
 const uploadImage = (event) => {
     const file = event.target.files[0];
     form.image = file;
@@ -42,6 +60,9 @@ const uploadImage = (event) => {
         previewUrl.value = '';
     }
 };
+
+
+
 
 const removeImage = () => {
     previewUrl.value = null;

@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lessons', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('chapter_id');
             $table->string('title');
-            $table->longText('description')->nullable();
-            $table->integer('like')->default(0);
-            $table->integer('dislike')->default(0);
-            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
+            $table->string('type');
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lessons');
+        Schema::dropIfExists('questions');
     }
 };

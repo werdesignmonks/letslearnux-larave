@@ -115,6 +115,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('admin/topic', TopicController::class);
     Route::resource('admin/users', AdminUserController::class);
 
+    // Option Destroy
+    Route::delete('/admin/onboarding/{onboarding}/option/{option}', [OnboardingController::class, 'destroyOption'])->name('admin.onboarding.destroyOption');
+
 
     // User Route
 //    Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.user.index');

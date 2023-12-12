@@ -22,7 +22,6 @@ const form = useForm({
     description: props.lesson.description,
 });
 
-console.log(props.lesson);
 
 function submit(id) {
     // router.put(route('lesson.update', id), form);
