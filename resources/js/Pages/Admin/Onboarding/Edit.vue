@@ -60,9 +60,7 @@ function submit(id) {
 }
 
 function destroy(id) {
-    router.delete(route('admin.onboarding.destroyOption', id));
-
-    console.log(id)
+    router.delete(route('option.destroy', id));
 
     $toast.open({
         message: 'Option Deleted Successfully!',

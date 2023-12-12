@@ -75,7 +75,6 @@ class ResourceController extends Controller
      */
     public function update(Request $request, Resource $resource)
     {
-        dd($request->image);
 
         $resource->update([
             'title' => $request->title,
@@ -87,6 +86,7 @@ class ResourceController extends Controller
         ]);
 
         if($request->image){
+            $resource->media()->delete();
             $resource->addMedia($request->image)->toMediaCollection();
         }
 

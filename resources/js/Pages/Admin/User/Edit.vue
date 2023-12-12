@@ -76,9 +76,9 @@ function submit(id) {
     })
 
     //Dismissing the Toast after 5 seconds
-    // setTimeout(() => {
-    //     $toast.clear();
-    // }, 3000);
+    setTimeout(() => {
+        $toast.clear();
+    }, 3000);
 }
 
 console.log(props.user.id);

@@ -91,36 +91,49 @@ require __DIR__.'/auth.php';
 require __DIR__.'/AdminAuth.php';
 
 // Admin Dashboard
-Route::middleware('auth:admin')->group(function () {
+Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
-    Route::get('/admin/dashboard', function () {
+
+    Route::get('/dashboard', function () {
         return Inertia::render('Admin/Dashboard');
     })->name('admin.dashboard');
 
-    Route::get('/admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
 
     // Onboarding Questions Resource
-    Route::resource('admin/onboarding', OnboardingController::class);
+    Route::resource('/onboarding', OnboardingController::class);
     // Chapter Resource with api
 //    Route::apiResource('admin/chapter', ChapterController::class);
-    Route::resource('admin/chapter', ChapterController::class);
+    Route::resource('/chapter', ChapterController::class);
 
     // Lesson Resource
-    Route::resource('admin/lesson', LessonController::class);
+    Route::resource('/lesson', LessonController::class);
 
     // Resource Resource
-    Route::resource('admin/resource', ResourceController::class);
+//    Route::resource('/resource', ResourceController::class);
+    // Resource Index
+    Route::get('/resource', [ResourceController::class, 'index'])->name('resource.index');
+    // Resource Create
+    Route::get('/resource/create', [ResourceController::class, 'create'])->name('resource.create');
+    // Resource Store
+    Route::post('/resource', [ResourceController::class, 'store'])->name('resource.store');
+    // Resource Edit
+    Route::get('/resource/{resource}/edit', [ResourceController::class, 'edit'])->name('resource.edit');
+    // Resource Update
+    Route::post('/resource/{resource}', [ResourceController::class, 'update'])->name('resource.update');
+    // Resource Destroy
+    Route::delete('/resource/{resource}', [ResourceController::class, 'destroy'])->name('resource.destroy');
 
     // Topic Resource
-    Route::resource('admin/topic', TopicController::class);
-    Route::resource('admin/users', AdminUserController::class);
+    Route::resource('/topic', TopicController::class);
+    Route::resource('/users', AdminUserController::class);
 
     // Option Destroy
-    Route::delete('/admin/onboarding/{onboarding}/option/{option}', [OnboardingController::class, 'destroyOption'])->name('admin.onboarding.destroyOption');
+    Route::delete('/option/{option}', [OnboardingController::class, 'destroyOption'])->name('option.destroy');
 
 
     // User Route
-//    Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.user.index');
+//    Route::get('/users', [AdminUserController::class, 'index'])->name('admin.user.index');
 });
 
 

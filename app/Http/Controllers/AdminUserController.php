@@ -84,8 +84,6 @@ class AdminUserController extends Controller
                 'password' => "nullable|string|between:5,16"
             ]);
 
-
-
             //Update the user
             $user->update([
                 'name' => $request->name,
@@ -94,13 +92,16 @@ class AdminUserController extends Controller
                 'password' => bcrypt($request->password)
             ]);
 
-            if($request->hasFile('profile_image')) {
-                $user->addMedia($request->profile_image)->toMediaCollection();
-            }
 
-//            if ($request->profile_image) {
-//                $user->addMedia($request->profile_image)->toMediaCollection();
-//            }
+        if ($request->hasFile('profile_image')) {
+            $user->media()->delete();
+            $user->addMedia($request->profile_image)->toMediaCollection();
+        }
+
+//        if ($request->hasFile('profile_image')) {
+//            $user->clearMediaCollection('default');
+//            $user->addMedia($request->profile_image)->toMediaCollection('default');
+//        }
 
             //Redirect to the index page
             return redirect()->route('users.index')->with('message', 'User updated successfully');

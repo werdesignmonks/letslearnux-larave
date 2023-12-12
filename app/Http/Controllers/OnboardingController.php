@@ -65,7 +65,7 @@ class OnboardingController extends Controller
      */
     public function update(Request $request, Onboarding $onboarding)
     {
-//        dd($request->all());
+        dd($request->all());
 
         $request->validate([
             'title' => 'required|max:255',
@@ -94,12 +94,13 @@ class OnboardingController extends Controller
         return redirect()->route('onboarding.index')->with('message', 'Onboarding deleted successfully');
     }
 
-    public function destroyOption(Onboarding $onboarding, Option $option)
+    public function destroyOption( Option $option)
     {
+        $onboardingId = $option->onboarding_id;
         // Delete the Option
         $option->delete();
 
         // Redirect to the index page
-        return redirect()->route('onboarding.edit', $onboarding->id)->with('message', 'Option deleted successfully');
+        return redirect()->route('onboarding.edit', $onboardingId)->with('message', 'Option deleted successfully');
     }
 }

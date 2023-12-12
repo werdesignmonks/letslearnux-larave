@@ -47,7 +47,7 @@ const uploadImage = (event) => {
 function submit(id) {
     // router.put(route('chapter.update', id), form);
 
-    form.put(route('resource.update', id), {
+    form.post(route('resource.update', id), {
         preserveScroll: true,
         onSuccess: (page) => {
             $toast.open({
