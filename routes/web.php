@@ -55,9 +55,9 @@ Route::get('/my-contribution', function () {
 })->middleware(['auth', 'verified'])->name('my-contribution');
 
 // Admin login
-Route::get('/admin/login', function () {
-    return Inertia::render('Admin/Login');
-})->name('admin.login');
+//Route::get('/admin/login', function () {
+//    return Inertia::render('Admin/Login');
+//})->name('admin.login');
 
 
 
@@ -88,9 +88,58 @@ Route::middleware('auth')->group(function () {
 //});
 
 require __DIR__.'/auth.php';
-require __DIR__.'/AdminAuth.php';
+//require __DIR__.'/AdminAuth.php';
+Route::middleware(['auth', 'verified','admin'])->prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return Inertia::render('Admin');
+    })->name('admin');
+}  );
+
 
 // Admin Dashboard
+Route::middleware(['auth:admin', 'verified', 'admin'])->prefix('admin')->group(function () {
+
+    Route::get('/dashboard', function () {
+        return Inertia::render('Admin/Dashboard');
+    })->name('admin.dashboard');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
+
+    // Onboarding Questions Resource
+    Route::resource('/onboarding', OnboardingController::class);
+
+    Route::resource('/chapter', ChapterController::class);
+
+    // Lesson Resource
+    Route::resource('/lesson', LessonController::class);
+
+    // Resource Resource
+//    Route::resource('/resource', ResourceController::class);
+    // Resource Index
+    Route::get('/resource', [ResourceController::class, 'index'])->name('resource.index');
+    // Resource Create
+    Route::get('/resource/create', [ResourceController::class, 'create'])->name('resource.create');
+    // Resource Store
+    Route::post('/resource', [ResourceController::class, 'store'])->name('resource.store');
+    // Resource Edit
+    Route::get('/resource/{resource}/edit', [ResourceController::class, 'edit'])->name('resource.edit');
+    // Resource Update
+    Route::post('/resource/{resource}', [ResourceController::class, 'update'])->name('resource.update');
+    // Resource Destroy
+    Route::delete('/resource/{resource}', [ResourceController::class, 'destroy'])->name('resource.destroy');
+
+    // Topic Resource
+    Route::resource('/topic', TopicController::class);
+    Route::resource('/users', AdminUserController::class);
+
+    // Option Destroy
+    Route::delete('/option/{option}', [OnboardingController::class, 'destroyOption'])->name('option.destroy');
+});
+
+
+
+
+
 Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
 
