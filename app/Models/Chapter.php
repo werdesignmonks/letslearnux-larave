@@ -18,7 +18,7 @@ class Chapter extends Model
         'slug',
     ];
 
-    public function lession()
+    public function lesson()
     {
         return $this->hasMany(Lesson::class);
     }

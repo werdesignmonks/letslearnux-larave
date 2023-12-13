@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Admin;
+use App\Models\Lesson;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +23,8 @@ class ResourceFactory extends Factory
             'title' => $this->faker->sentence,
             'type' => $this->faker->randomElement(['video', 'article', 'book', 'other']),
             'url' => $this->faker->url,
-            'user_id' => Admin::factory(),
+            'user_id' => User::factory(),
+            'lesson_id' => Lesson::factory(),
             'status' => $this->faker->randomElement(['approved', 'pending', 'rejected']),
             'image' => 'https://picsum.photos/200/300',
         ];

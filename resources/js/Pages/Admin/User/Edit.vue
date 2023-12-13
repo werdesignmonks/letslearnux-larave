@@ -19,19 +19,13 @@ const form = useForm({
     name: props.user.name,
     email: props.user.email,
     password: props.user.password,
-    profile_image: props.user.profile_image,
+    avatar_path: props.user.avatar_path,
 });
-
-console.log(props.user.profile_image);
 
 
 const uploadImage = (event) => {
     const file = event.target.files[0];
-    form.profile_image = file;
-
-    console.log(form);
-
-    // const file = event.target.files[0];
+    form.avatar_path = file;
     if (file) {
         const reader = new FileReader();
 
@@ -48,12 +42,11 @@ const uploadImage = (event) => {
 
 function submit(id) {
     // router.put(route('users.update', id), form);
-
-    form.put(route('profile.update', id), {
+    form.put(route('user.update', id), {
         preserveScroll: true,
         onSuccess: (page) => {
             $toast.open({
-                message: 'Chapter Updated Successfully!',
+                message: 'User Updated Successfully!',
                 type: 'success',
                 position: 'top-right',
                 duration: 5000,
@@ -64,7 +57,7 @@ function submit(id) {
         },
         onError: (errors) => {
             $toast.open({
-                message: 'All fields are required!',
+                message: 'Something is wrong!',
                 type: 'error',
                 position: 'top-right',
                 duration: 5000,
@@ -81,8 +74,6 @@ function submit(id) {
     }, 3000);
 }
 
-console.log(props.user.id);
-
 </script>
 
 <template>
@@ -97,7 +88,11 @@ console.log(props.user.id);
             <div class="">
                 <div class="flex gap-2 mb-6">
                     <Button :href="route('user.index')" :active="route().current('user.index')">
-                        All Users
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.8327 10H4.16602" stroke="#566474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9.99935 15.8333L4.16602 9.99999L9.99935 4.16666" stroke="#566474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      Go back
                     </Button>
                 </div>
             </div>
@@ -126,13 +121,13 @@ console.log(props.user.id);
                     <div class="dm-input-field">
                         <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[100px]" />
                         <span v-else>
-                            <img :src="form.profile_image" alt="Placeholder" class="w-[100px]" />
+                            <img :src="form.avatar_path" alt="Placeholder" class="w-[100px]" />
                         </span>
                     </div>
                     <div class="dm-input-field">
                         <label for="profile-image" class="dm-input-field__label block">Profile Image</label>
                         <input type="file" id="profile-image" name="profile_image" @change="uploadImage"  class="dm-input-field__input">
-                        <div class="text-red-500" v-if="errors.profile_image">{{ errors.profile_image }}</div>
+                        <div class="text-red-500" v-if="errors.avatar_path">{{ errors.avatar_path }}</div>
                     </div>
 
                     <div class="flex justify-start mt-6">

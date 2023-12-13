@@ -40,12 +40,12 @@ function submit() {
             <div class="">
                 <div class="flex gap-2 mb-6">
                     <Button :href="route('chapter.index')" :active="route().current('chapter.index')">
-                        Chapter List
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.8327 10H4.16602" stroke="#566474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9.99935 15.8333L4.16602 9.99999L9.99935 4.16666" stroke="#566474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      Go back
                     </Button>
-                    <Button :href="route('chapter.create')" :active="route().current('chapter.create')">
-                        Add New Chapter
-                    </Button>
-
                 </div>
 
             </div>

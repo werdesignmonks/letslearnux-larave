@@ -82,7 +82,7 @@ function submit(id) {
 
                     <div class="flex justify-start mt-6">
                         <button type="submit" class="dm-btn">
-                            Add New
+                            Update
                         </button>
                     </div>
                 </form>

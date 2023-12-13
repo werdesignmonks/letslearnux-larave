@@ -15,7 +15,7 @@ const image = ref('');
 
 const $toast = useToast();
 function destroy(id) {
-    router.delete(route('users.destroy', id));
+    router.delete(route('user.destroy', id));
 
     $toast.open({
         message: 'User Deleted Successfully!',
@@ -65,9 +65,13 @@ function destroy(id) {
                                         <tr class="border-dm-border-color border-t" v-for="(user, index) in users">
                                             <td class="whitespace-nowrap px-3 py-4 font-medium text-center">{{ index + 1}}</td>
                                             <td class="py-4 flex items-center">
-                                                <img :src="user.profile_image" alt="Profile Image" width="60" height="60"  class="h-[60px] object-cover rounded">
+                                                <img :src="user.avatar_path" alt="Profile Image" width="60" height="60"  class="h-[60px] object-cover rounded">
                                             </td>
-                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ user.name }}</td>
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">
+                                                <Link :href="route('user.show', user.id)" class="mr-2 inline-block">
+                                                    {{ user.name }}
+                                                </Link>
+                                            </td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ user.email }}</td>
                                             <td class="whitespace-nowrap py-4 text-left px-4">
                                                 <Link :href="route('user.edit', user.id)" class="mr-2 inline-block">

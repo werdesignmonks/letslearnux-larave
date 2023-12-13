@@ -78,18 +78,22 @@ function submit(id) {
 </script>
 
 <template>
-    <Head title="Edit Chapter"/>
+    <Head title="Edit Resource"/>
 
     <AdminAuthenticatedLayout>
         <template #header>
-            <h1 class="font-bold text-dm-heading-color text-4xl">Add New Chapter</h1>
+            <h1 class="font-bold text-dm-heading-color text-4xl">Edit Resource</h1>
         </template>
 
         <div class="py-8">
             <div class="">
                 <div class="flex gap-2 mb-6">
                     <Button :href="route('resource.index')" :active="route().current('resource.index')">
-                        Chapter List
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.8327 10H4.16602" stroke="#566474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9.99935 15.8333L4.16602 9.99999L9.99935 4.16666" stroke="#566474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      Go back
                     </Button>
 
                 </div>
@@ -123,17 +127,24 @@ function submit(id) {
                         <div class="text-red-500" v-if="errors.type">{{ errors.type }}</div>
 
                         <!-- Profile Image-->
-                        <div class="dm-input-field">
-                            <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[100px]" />
-                            <span v-else>
+                      <div class="dm-input-field dm-preview-image mt-6 relative">
+                        <label for="profile-image" class="dm-input-field__label block mb-3">Thumbnail</label>
+                        <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[250px]" />
+                        <span v-else>
                             <img :src="previewUrl" alt="Placeholder" class="w-[100px]" />
                         </span>
+
+                        <div class="dm-input-field__file-remove absolute top-[50px] right-[20px] bg-red-200 rounded p-1" v-if="previewUrl" @click="removeImage">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none"
+                               viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                          </svg>
                         </div>
-                        <div class="dm-input-field">
-                            <label for="profile-image" class="dm-input-field__label block">Thumbnail</label>
-                            <input type="file" id="profile-image" name="profile_image" @change="uploadImage"  class="dm-input-field__input w-full">
-                            <div class="text-red-500" v-if="errors.image">{{ errors.image }}</div>
-                        </div>
+                      </div>
+                      <div class="dm-input-field">
+                        <input type="file" id="profile-image" name="profile_image" @change="uploadImage"  class="dm-input-field__file">
+                        <div class="text-red-500" v-if="errors.image">{{ errors.image }}</div>
+                      </div>
 
                         <div class="dm-input-field">
                             <label for="status" class="dm-input-field__label block">Status</label>
@@ -150,14 +161,10 @@ function submit(id) {
                             <input type="text" name="url" id="url" v-model="form.url" class="dm-input-field__input w-full">
                             <div class="text-red-500" v-if="errors.url">{{ errors.url }}</div>
                         </div>
-
-
                     </div>
 
-
-
                     <div class="dm-input-field">
-                        <button type="submit" class="dm-btn dm-button--primary">Add Now</button>
+                        <button type="submit" class="dm-btn dm-button--primary">Update</button>
                     </div>
 
                 </form>

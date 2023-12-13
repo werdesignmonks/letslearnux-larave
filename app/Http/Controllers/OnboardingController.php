@@ -65,8 +65,6 @@ class OnboardingController extends Controller
      */
     public function update(Request $request, Onboarding $onboarding)
     {
-        dd($request->all());
-
         $request->validate([
             'title' => 'required|max:255',
             'type' => 'required',

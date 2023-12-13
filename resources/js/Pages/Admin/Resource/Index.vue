@@ -3,6 +3,7 @@ import {Head, Link, router} from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 
 import Button from "@/Components/Button.vue";
+import Pagination from "@/Components/Pagination.vue";
 
 
 defineProps({
@@ -53,7 +54,8 @@ function destroy(id) {
                                             <th scope="col" class="px-3 py-4 w-[80px] text-center">#</th>
                                             <th scope="col" class="py-4">Image</th>
                                             <th scope="col" class="py-4">Title</th>
-                                            <th scope="col" class="py-4">Type</th>
+                                            <th scope="col" class="py-4">Lesson</th>
+                                            <th scope="col" class="py-4 px-2">Type</th>
                                             <th scope="col" class="py-4">User</th>
                                             <th scope="col" class="py-4">Status</th>
                                             <th scope="col" class="px-4 py-4 text-left w-[160px]">Actions</th>
@@ -62,13 +64,26 @@ function destroy(id) {
                                     <tbody>
                                         <tr class="border-dm-border-color border-t" v-for="(item, index) in  resources.data">
                                             <td class="whitespace-nowrap px-3 py-4 font-medium text-center">{{ index+1 }}</td>
-                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">
-                                                <img :src="item.image" alt="" class="w-[80px] h-[60px] rounded">
+                                            <td class="whitespace-nowrap py-4 min-w-[100px] text-dm-heading-color text-base font-medium">
+                                                <img :src="item.image" alt="Resource Thumbnail" class="w-[80px] h-[60px] rounded object-cover">
                                             </td>
-                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.title }}</td>
-                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.type }}</td>
-                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.admin.name }}</td>
-                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.status }}</td>
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium max-w-[300px]">
+                                              <span class="overflow-hidden text-ellipsis max-w-[80%] block">
+                                                {{ item.title }}</span>
+                                            </td>
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium max-w-[270px]">
+                                              <span class="overflow-hidden text-ellipsis max-w-[80%] block">{{ item.lesson.title }}</span>
+                                            </td>
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium px-2">
+                                              {{ item.type.charAt(0).toUpperCase() + item.type.slice(1) }}
+                                            </td>
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.user.name }}</td>
+
+                                            <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">
+                                              <span class="py-1.5 px-3 text-xs font-medium leading-none rounded inline-block" :class="item.status === 'rejected' ? 'text-red-500 bg-red-50' : 'bg-emerald-50 text-emerald-600'">
+                                                {{ item.status.charAt(0).toUpperCase() + item.status.slice(1) }}
+                                              </span>
+                                            </td>
                                             <td class="whitespace-nowrap py-4 text-left px-4">
                                               <Link :href="route('resource.edit', item.id)" class="mr-2 inline-block">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,7 +105,9 @@ function destroy(id) {
                                         </tr>
                                     </tbody>
                                 </table>
+
                             </div>
+                          <Pagination :resources="resources" :links="resources.links"/>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lesson;
 use App\Models\Resource;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,7 +14,7 @@ class ResourceController extends Controller
      */
     public function index( Request $request )
     {
-        $resources = Resource::with( 'admin' )->orderBy( 'id', 'desc' )->paginate( 5 );
+        $resources = Resource::with( ['user', 'lesson'] )->orderBy( 'id', 'desc' )->paginate( 5 );
 
         return Inertia::render( 'Admin/Resource/Index', [
             'resources' => $resources,
@@ -25,7 +26,11 @@ class ResourceController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Resource/Create');
+        $lessons = Lesson::all();
+
+        return Inertia::render( 'Admin/Resource/Create', [
+            'lessons' => $lessons,
+        ] );
     }
 
     /**
@@ -39,6 +44,7 @@ class ResourceController extends Controller
             'type' => $request->type,
             'url' => $request->url,
             'user_id' => auth()->user()->id,
+            'lesson_id' => $request->lesson_id,
             'status' => $request->status,
             'image' => $request->hasFile('image') ? $request->file('image')->store('images') : null, // Image upload (if any
         ]);
@@ -48,7 +54,7 @@ class ResourceController extends Controller
         }
 
         // Redirect to the index page
-        return redirect()->back()->with('message', 'Resource created successfully');
+        return redirect()->route('resource.index')->with('message', 'Resource created successfully');
 
     }
 
@@ -65,8 +71,11 @@ class ResourceController extends Controller
      */
     public function edit(Resource $resource)
     {
+        $lessons = Lesson::all();
+
         return Inertia::render('Admin/Resource/Edit', [
             'resource' => $resource,
+            'lessons' => $lessons
         ]);
     }
 
@@ -91,7 +100,7 @@ class ResourceController extends Controller
         }
 
         // Redirect to the index page
-        return redirect()->back()->with('message', 'Resource updated successfully');
+        return redirect()->route('resource.index')->with('message', 'Resource updated successfully');
 
     }
 

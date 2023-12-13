@@ -19,13 +19,14 @@ class Resource extends Model implements HasMedia
         'type',
         'url',
         'user_id',
+        'lesson_id',
         'status',
         'image',
     ];
 
-    public function lession()
+    public function lesson()
     {
-        return $this->hasMany(Lesson::class);
+        return $this->belongsTo(Lesson::class, 'lesson_id', 'id');
     }
 
     public function chapter()
@@ -33,9 +34,9 @@ class Resource extends Model implements HasMedia
         return $this->belongsTo(Chapter::class);
     }
 
-    public function admin()
+    public function user()
     {
-        return $this->belongsTo(Admin::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function getImageAttribute() : string

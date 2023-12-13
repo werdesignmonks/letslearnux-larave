@@ -21,4 +21,16 @@ class Lesson extends Model
     {
         return $this->belongsTo(Chapter::class, 'chapter_id', 'id');
     }
+
+    public function resource()
+    {
+        return $this->hasMany(Resource::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+
 }

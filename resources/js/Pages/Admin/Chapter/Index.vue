@@ -4,6 +4,7 @@ import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import Pagination from "@/Components/Pagination.vue";
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
+import Button from "@/Components/Button.vue";
 
 
 const $toast = useToast();
@@ -46,11 +47,13 @@ function destroy(id) {
             <div class="">
                 <div class="flex gap-2 mb-6">
                     <Button :href="route('chapter.index')" :active="route().current('chapter.index')">
-                        Chapter List
+                        All Chapter
                     </Button>
                     <Button :href="route('chapter.create')" :active="route().current('chapter.create')">
-                        Add New Chapter
+                        Add New
                     </Button>
+
+
                 </div>
                 <div class="flex flex-col">
                     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">

@@ -38,19 +38,19 @@ class AdminUserController extends Controller
     {
 
         //Create a new user
-        $user = Admin::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'profile_image' => $request->hasFile('profile_image') ? $request->file('profile_image')->store('images') : null, // Image upload (if any
+            'avatar_path' => $request->hasFile('profile_image') ? $request->file('profile_image')->store('images') : null, // Image upload (if any
             'password' => bcrypt($request->password)
         ]);
 
-        if ($request->profile_image) {
-            $user->addMedia($request->profile_image)->toMediaCollection();
+        if ($request->avatar_path) {
+            $user->addMedia($request->avatar_path)->toMediaCollection();
         }
 
         //Redirect to the index page
-        return redirect()->route('users.index')->with('message', 'User created successfully');
+        return redirect()->route('user.index')->with('message', 'User created successfully');
     }
 
     /**
@@ -58,7 +58,11 @@ class AdminUserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return Inertia::render('Admin/User/Show', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -80,8 +84,8 @@ class AdminUserController extends Controller
 
             $request->validate([
                 'name' => 'required|max:255',
-                'email' => ['required', 'email', Rule::unique('admins')->ignore($user->id)],
-                'avater_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+                'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+                'avatar_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
                 'password' => "nullable|string|between:5,16"
             ]);
 
@@ -89,14 +93,14 @@ class AdminUserController extends Controller
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'avater_path' => $request->hasFile('profile_image') ? $request->file('profile_image')->store('images') : null, // Image upload (if any
+                'avatar_path' => $request->hasFile('avatar_path') ? $request->file('avatar_path')->store('images') : null, // Image upload (if any
                 'password' => bcrypt($request->password)
             ]);
 
 
-        if ($request->hasFile('avater_path')) {
+        if ($request->hasFile('avatar_path')) {
             $user->media()->delete();
-            $user->addMedia($request->profile_image)->toMediaCollection();
+            $user->addMedia($request->avatar_path)->toMediaCollection();
         }
 
 //        if ($request->hasFile('profile_image')) {
@@ -105,7 +109,7 @@ class AdminUserController extends Controller
 //        }
 
             //Redirect to the index page
-            return redirect()->route('users.index')->with('message', 'User updated successfully');
+            return redirect()->route('user.index')->with('message', 'User updated successfully');
 
     }
 
@@ -113,11 +117,10 @@ class AdminUserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Admin $user)
+    public function destroy(User $user)
     {
-
         $user->delete();
 
-        return redirect()->route('users.index')->with('message', 'User deleted successfully');
+        return redirect()->route('user.index')->with('message', 'User deleted successfully');
     }
 }

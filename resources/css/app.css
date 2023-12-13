@@ -53,12 +53,23 @@
         font-weight: 500;
         font-size: 16px;
         line-height: 1.5;
+        display: flex;
+        align-items: center;
+        gap: 10px
+    }
+
+    .dm-btn-light svg path {
+        transition: all 0.3s ease-in-out;
     }
 
     .dm-btn-light:hover {
         background: #643EF3;
         border-color: #643EF3;
         color: #fff;
+    }
+
+    .dm-btn-light:hover svg path {
+        stroke: #fff;
     }
 
     .dm-radio-field {

@@ -3,28 +3,16 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
+import Button from "@/Components/Button.vue";
 
 
 const $toast = useToast();
-
 
 const props = defineProps({
     onboarding: Array,
 });
 
 function destroy(id) {
-    // router.delete(route('onboarding.destroy', id));
-    //
-    // $toast.open({
-    //     message: 'Question Deleted Successfully!',
-    //     type: 'success',
-    //     position: 'top-right',
-    //     duration: 5000,
-    //     style: {
-    //         background: 'linear-gradient(to right, #00b09b, #96c93d)',
-    //     },
-    // });
-    console.log(id)
 
     router.delete(route('onboarding.destroy', id), {
         preserveScroll: true,
@@ -60,18 +48,19 @@ function destroy(id) {
 
     <AdminAuthenticatedLayout>
         <template #header>
-            <h1 class="font-bold text-dm-heading-color text-4xl">Questions</h1>
+            <h1 class="font-bold text-dm-heading-color text-4xl">On Boarding Questions</h1>
         </template>
 
         <div class="py-8">
             <div class="">
                 <div class="flex gap-2 mb-6">
-<!--                    <Button :href="route('onboarding.index')" :active="route().current('onboarding.index')">-->
-<!--                        Question List-->
-<!--                    </Button>-->
-<!--                    <Button :href="route('onboarding.create')" :active="route().current('onboarding.create')">-->
-<!--                        Add a Questions-->
-<!--                    </Button>-->
+                    <Button :href="route('onboarding.index')" :active="route().current('onboarding.index')">
+                        Question List
+                    </Button>
+                    <Button :href="route('onboarding.create')" :active="route().current('onboarding.create')">
+                        Add a Questions
+                    </Button>
+
                 </div>
                 <div class="flex flex-col">
                     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -81,7 +70,7 @@ function destroy(id) {
                                     <thead class="text-left bg-dm-color-primary-light">
                                     <tr>
                                         <th scope="col" class="px-3 py-4 w-[80px] text-center">#</th>
-                                        <th scope="col" class="py-4">Title</th>
+                                        <th scope="col" class="py-4">Questions</th>
                                         <th scope="col" class="px-4 py-4 text-left w-[160px]">Actions</th>
                                     </tr>
                                     </thead>

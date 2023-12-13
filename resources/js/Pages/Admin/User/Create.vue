@@ -11,12 +11,10 @@ const previewUrl = ref('../../images/avatar-placeholder.jpg');
 
 const props = defineProps({
   errors: Object,
-  users: Object,
-  name: String,
-  email: String,
-  password: String,
-  avatar_path: String,
+  users: Object
 });
+
+console.log(props.errors)
 
 const form = useForm({
   name: '',
@@ -51,7 +49,7 @@ const removeImage = () => {
 
 function submit() {
 
-  form.post(route('users.store'), {
+  form.post(route('user.store'), {
     preserveScroll: true,
     onSuccess: (page) => {
       $toast.open({
@@ -97,7 +95,11 @@ function submit() {
       <div class="">
         <div class="flex gap-2 mb-6">
           <Button :href="route('user.index')" :active="route().current('user.index')">
-            All Users
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.8327 10H4.16602" stroke="#566474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9.99935 15.8333L4.16602 9.99999L9.99935 4.16666" stroke="#566474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Go back
           </Button>
 
         </div>
@@ -129,8 +131,8 @@ function submit() {
           <div class="dm-input-field">
             <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[100px]"/>
             <span v-else>
-                            <img :src="previewUrl" alt="Placeholder" class="w-[100px]"/>
-                        </span>
+                <img :src="previewUrl" alt="Placeholder" class="w-[100px]"/>
+            </span>
           </div>
           <div class="dm-input-field">
             <label for="profile-image" class="dm-input-field__label block">Profile Image</label>

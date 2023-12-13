@@ -26,7 +26,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -54,30 +54,16 @@ Route::get('/my-contribution', function () {
     return Inertia::render('MyContribution');
 })->middleware(['auth', 'verified'])->name('my-contribution');
 
-// Admin login
-//Route::get('/admin/login', function () {
-//    return Inertia::render('Admin/Login');
-//})->name('admin.login');
-
-
-
-
-// Route Page Not Found
-//Route::get('/', function () {
-//    return Inertia::render('404');
-//})->name('404');
-
-
-
-
-
+/*
+ * User Dashboard
+ */
 Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile.profile');
-    Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -85,14 +71,10 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
 
 require __DIR__.'/auth.php';
 
-//Route::middleware(['auth', 'verified','admin'])->prefix('admin')->group(function () {
-//    Route::get('/', function () {
-//        return Inertia::render('Admin');
-//    })->name('admin');
-//}  );
+/*
+ * Admin Routes
+ */
 
-
-// Admin Dashboard
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(function () {
 
     Route::get('/dashboard', function () {
@@ -100,18 +82,11 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     })->name('admin.dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
-
-    // Onboarding Questions Resource
     Route::resource('/onboarding', OnboardingController::class);
-
     Route::resource('/chapter', ChapterController::class);
-
-    // Lesson Resource
     Route::resource('/lesson', LessonController::class);
 
-    // Resource Resource
-//    Route::resource('/resource', ResourceController::class);
-    // Resource Index
+    // Resource Route
     Route::get('/resource', [ResourceController::class, 'index'])->name('resource.index');
     // Resource Create
     Route::get('/resource/create', [ResourceController::class, 'create'])->name('resource.create');
@@ -124,7 +99,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     // Resource Destroy
     Route::delete('/resource/{resource}', [ResourceController::class, 'destroy'])->name('resource.destroy');
 
-    // Topic Resource
     Route::resource('/topic', TopicController::class);
 //    Route::resource('/users', AdminUserController::class);
     Route::get('/users', [AdminUserController::class, 'index'])->name('user.index');
@@ -133,6 +107,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     Route::get('/users/{user}/edit', [AdminUserController::class, 'edit'])->name('user.edit');
     Route::post('/users/{user}', [AdminUserController::class, 'update'])->name('user.update');
     Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('user.destroy');
+    // Show User
+    Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('user.show');
 
     // Option Destroy
     Route::delete('/option/{option}', [OnboardingController::class, 'destroyOption'])->name('option.destroy');

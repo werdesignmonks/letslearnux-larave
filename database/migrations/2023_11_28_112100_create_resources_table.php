@@ -15,10 +15,12 @@ return new class extends Migration
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('lesson_id');
             $table->string('title');
             $table->enum('type', ['video', 'article', 'book', 'other']);
             $table->string('url');
-            $table->foreign('user_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade');
             $table->string('status')->default(Status::DRAFT);
             $table->string('image')->nullable();
             $table->timestamps();
