@@ -47,7 +47,7 @@ const showingNavigationDropdown = ref(false);
 <!--                        Feedback-->
 <!--                    </NavLink>-->
 
-                    <NavLink :href="route('users.index')" :active="route().current('users.index')" class="block">
+                    <NavLink :href="route('user.index')" :active="route().current('user.index')" class="block">
                         User Management
                     </NavLink>
 
@@ -95,8 +95,8 @@ const showingNavigationDropdown = ref(false);
                                             </template>
 
                                             <template #content>
-                                                <DropdownLink :href="route('admin.profile.edit')"> Profile </DropdownLink>
-                                                <DropdownLink :href="route('admin.logout')" method="post" as="button">
+                                                <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                                <DropdownLink :href="route('logout')" method="post" as="button">
                                                     Log Out
                                                 </DropdownLink>
                                             </template>
@@ -157,8 +157,8 @@ const showingNavigationDropdown = ref(false);
                                 </div>
 
                                 <div class="mt-3 space-y-1">
-                                    <ResponsiveNavLink :href="route('admin.profile.edit')"> Profile </ResponsiveNavLink>
-                                    <ResponsiveNavLink :href="route('admin.logout')" method="post" as="button">
+                                    <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
+                                    <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                         Admin Log Out
                                     </ResponsiveNavLink>
                                 </div>

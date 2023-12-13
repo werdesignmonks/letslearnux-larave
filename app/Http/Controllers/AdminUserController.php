@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminUserRequest;
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -15,7 +16,7 @@ class AdminUserController extends Controller
      */
     public function index()
     {
-        $users = Admin::all();
+        $users = User::all();
 
         return Inertia::render('Admin/User/Index', [
             'users' => $users,
@@ -63,7 +64,7 @@ class AdminUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Admin $user)
+    public function edit(User $user)
     {
         return Inertia::render('Admin/User/Edit', [
             'user' => $user,
@@ -73,14 +74,14 @@ class AdminUserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Admin $user)
+    public function update(Request $request, User $user)
     {
 //        dd($request->all());
 
             $request->validate([
                 'name' => 'required|max:255',
                 'email' => ['required', 'email', Rule::unique('admins')->ignore($user->id)],
-                'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+                'avater_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
                 'password' => "nullable|string|between:5,16"
             ]);
 
@@ -88,12 +89,12 @@ class AdminUserController extends Controller
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'profile_image' => $request->hasFile('profile_image') ? $request->file('profile_image')->store('images') : null, // Image upload (if any
+                'avater_path' => $request->hasFile('profile_image') ? $request->file('profile_image')->store('images') : null, // Image upload (if any
                 'password' => bcrypt($request->password)
             ]);
 
 
-        if ($request->hasFile('profile_image')) {
+        if ($request->hasFile('avater_path')) {
             $user->media()->delete();
             $user->addMedia($request->profile_image)->toMediaCollection();
         }

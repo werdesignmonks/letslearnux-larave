@@ -15,6 +15,10 @@
         color: #000913;
     }
 
+    .dmb-0 {
+        margin-bottom: 0 !important;
+    }
+
     .dm-btn {
         display: inline-block;
         padding: 10px 29px;
@@ -90,6 +94,12 @@
         box-shadow: none;
     }
 
+    .dm-input-field__file {
+        border: 1px solid #E5E6E7;
+        border-radius: 6px;
+        padding: 7px;
+    }
+
     .dm-input-field input[type="password"] {
         letter-spacing: 2px;
     }
@@ -104,6 +114,42 @@
         box-shadow: none;
         outline: none;
     }
+
+
+    /* file upload button */
+    input[type="file"]::file-selector-button {
+        border-radius: 4px;
+        padding: 0 16px;
+        height: 40px;
+        cursor: pointer;
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, 0.16);
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+        margin-right: 16px;
+        transition: background-color 200ms;
+    }
+
+    /* file upload button hover state */
+    input[type="file"]::file-selector-button:hover {
+        background-color: #f3f4f6;
+    }
+
+    /* file upload button active state */
+    input[type="file"]::file-selector-button:active {
+        background-color: #e5e7eb;
+    }
+
+    input[type="file"]:focus {
+        outline: none;
+    }
+
+    .dm-preview-image {
+        border: 1px solid #E5E6E7;
+        padding: 10px;
+        border-radius: 8px;
+        width: max-content;
+    }
+
 
     .dm-radio-field input[type="radio"] {
         position: relative;
@@ -173,8 +219,6 @@
     padding: 10px;
     border-radius: 8px;
     font-size: 16px;
-
-
 }
 
 .ProseMirror:focus {

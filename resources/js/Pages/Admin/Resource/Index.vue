@@ -37,10 +37,10 @@ function destroy(id) {
             <div class="">
                 <div class="flex gap-2 mb-6">
                     <Button :href="route('resource.index')" :active="route().current('resource.index')">
-                        Resource List
+                        All Resources
                     </Button>
                     <Button :href="route('resource.create')" :active="route().current('resource.create')">
-                        Add New Resource
+                        Add New
                     </Button>
                 </div>
                 <div class="flex flex-col">
@@ -63,8 +63,7 @@ function destroy(id) {
                                         <tr class="border-dm-border-color border-t" v-for="(item, index) in  resources.data">
                                             <td class="whitespace-nowrap px-3 py-4 font-medium text-center">{{ index+1 }}</td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">
-
-                                                <img :src="item.image" alt="Profile Image" width="60" height="60"  class=" h-[60px] object-cover rounded-full">
+                                                <img :src="item.image" alt="" class="w-[80px] h-[60px] rounded">
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.title }}</td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.type }}</td>

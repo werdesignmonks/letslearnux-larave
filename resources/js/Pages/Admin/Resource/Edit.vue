@@ -45,7 +45,7 @@ const uploadImage = (event) => {
 };
 
 function submit(id) {
-    // router.put(route('chapter.update', id), form);
+    // router.put(route('resource.update', id), form);
 
     form.post(route('resource.update', id), {
         preserveScroll: true,
@@ -88,11 +88,8 @@ function submit(id) {
         <div class="py-8">
             <div class="">
                 <div class="flex gap-2 mb-6">
-                    <Button :href="route('chapter.index')" :active="route().current('chapter.index')">
+                    <Button :href="route('resource.index')" :active="route().current('resource.index')">
                         Chapter List
-                    </Button>
-                    <Button :href="route('chapter.create')" :active="route().current('chapter.create')">
-                        Add New Chapter
                     </Button>
 
                 </div>
@@ -113,15 +110,15 @@ function submit(id) {
 
                         <div class="form-check mr-2 inline-flex items-center gap-1">
                             <input type="radio" id="type_video" name="type" v-model="form.type" value="video" class="form-check-input">
-                            <label for="type_video" class="form-check-label mb-0">Video</label>
+                            <label for="type_video" class="form-check-label dmb-0 leading-none">Video</label>
                         </div>
                         <div class="form-check mr-2 inline-flex items-center gap-1">
                             <input type="radio" id="type_article" name="type" v-model="form.type" value="article" class="form-check-input">
-                            <label for="type_article" class="form-check-label">Article</label>
+                            <label for="type_article" class="form-check-label dmb-0 leading-none">Article</label>
                         </div>
                         <div class="form-check mr-2 inline-flex items-center gap-1">
                             <input type="radio" id="type_book" name="type" v-model="form.type" value="book" class="form-check-input">
-                            <label for="type_book" class="form-check-label">Book</label>
+                            <label for="type_book" class="form-check-label dmb-0 leading-none">Book</label>
                         </div>
                         <div class="text-red-500" v-if="errors.type">{{ errors.type }}</div>
 

@@ -40,10 +40,10 @@ function destroy(id) {
         <div class="py-8">
             <div class="">
                 <div class="flex gap-2 mb-6">
-                    <Button :href="route('users.index')" :active="route().current('users.index')">
+                    <Button :href="route('user.index')" :active="route().current('user.index')">
                         All
                     </Button>
-                    <Button :href="route('users.create')" :active="route().current('users.create')">
+                    <Button :href="route('user.create')" :active="route().current('user.create')">
                         Add New
                     </Button>
                 </div>
@@ -55,7 +55,7 @@ function destroy(id) {
                                     <thead class="text-left bg-dm-color-primary-light">
                                     <tr>
                                         <th scope="col" class="px-3 py-4 w-[80px] text-center">SL</th>
-                                        <th scope="col" class="py-4">Profile Image</th>
+                                        <th scope="col" class="py-4 w-[100px]">Image</th>
                                         <th scope="col" class="py-4">Name</th>
                                         <th scope="col" class="py-4">Email</th>
                                         <th scope="col" class="px-4 py-4 text-left w-[160px]">Actions</th>
@@ -65,12 +65,12 @@ function destroy(id) {
                                         <tr class="border-dm-border-color border-t" v-for="(user, index) in users">
                                             <td class="whitespace-nowrap px-3 py-4 font-medium text-center">{{ index + 1}}</td>
                                             <td class="py-4 flex items-center">
-                                                <img :src="user.profile_image" alt="Profile Image" width="60" height="60"  class=" h-[60px] object-cover rounded-full">
+                                                <img :src="user.profile_image" alt="Profile Image" width="60" height="60"  class="h-[60px] object-cover rounded">
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ user.name }}</td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ user.email }}</td>
                                             <td class="whitespace-nowrap py-4 text-left px-4">
-                                                <Link :href="route('users.edit', user.id)" class="mr-2 inline-block">
+                                                <Link :href="route('user.edit', user.id)" class="mr-2 inline-block">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M12 20H21" stroke="#643EF3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                         <path d="M16.5 3.5C16.8978 3.10217 17.4374 2.87868 18 2.87868C18.2786 2.87868 18.5544 2.93355 18.8118 3.04015C19.0692 3.14676 19.303 3.30301 19.5 3.5C19.697 3.69698 19.8532 3.93083 19.9598 4.1882C20.0665 4.44557 20.1213 4.72142 20.1213 5C20.1213 5.27857 20.0665 5.55442 19.9598 5.81179C19.8532 6.06916 19.697 6.30301 19.5 6.5L7 19L3 20L4 16L16.5 3.5Z" stroke="#643EF3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

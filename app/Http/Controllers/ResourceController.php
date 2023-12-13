@@ -85,7 +85,7 @@ class ResourceController extends Controller
             'image' => $request->hasFile('image') ? $request->file('image')->store('images') : null, // Image upload (if any
         ]);
 
-        if($request->image){
+        if($request->hasFile('image')){
             $resource->media()->delete();
             $resource->addMedia($request->image)->toMediaCollection();
         }

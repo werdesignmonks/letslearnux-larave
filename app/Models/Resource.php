@@ -12,7 +12,7 @@ class Resource extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
-    public const PLACEHOLDER_IMAGE = 'images/avatar-placeholder.jpg';
+    public const PLACEHOLDER_IMAGE = 'images/placeholder-image.jpg';
 
     protected $fillable = [
         'title',
@@ -38,7 +38,7 @@ class Resource extends Model implements HasMedia
         return $this->belongsTo(Admin::class, 'user_id', 'id');
     }
 
-    public function getProfileImageAttribute() : string
+    public function getImageAttribute() : string
     {
         return $this->hasMedia()  ? $this->getFirstMediaUrl('default') : asset(self::PLACEHOLDER_IMAGE);
     }

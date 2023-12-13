@@ -8,10 +8,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
+
+    public const PLACEHOLDER_IMAGE = 'images/avatar-placeholder.jpg';
 
     /**
      * The attributes that are mass assignable.
@@ -69,5 +73,11 @@ class User extends Authenticatable
     public function resource()
     {
         return $this->hasMany(Resource::class);
+    }
+
+    public function getAvatarPathAttribute()
+    {
+//        return $this->avatar_url ? $this->avatar_url : asset(self::PLACEHOLDER_IMAGE);
+        return $this->hasMedia()  ? $this->getFirstMediaUrl('default') : asset(self::PLACEHOLDER_IMAGE);
     }
 }

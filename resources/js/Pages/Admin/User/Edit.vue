@@ -49,7 +49,7 @@ const uploadImage = (event) => {
 function submit(id) {
     // router.put(route('users.update', id), form);
 
-    form.put(route('users.update', id), {
+    form.put(route('profile.update', id), {
         preserveScroll: true,
         onSuccess: (page) => {
             $toast.open({
@@ -96,7 +96,7 @@ console.log(props.user.id);
         <div class="py-8">
             <div class="">
                 <div class="flex gap-2 mb-6">
-                    <Button :href="route('users.index')" :active="route().current('users.index')">
+                    <Button :href="route('user.index')" :active="route().current('user.index')">
                         All Users
                     </Button>
                 </div>
