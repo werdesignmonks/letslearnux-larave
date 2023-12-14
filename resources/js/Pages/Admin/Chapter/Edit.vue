@@ -5,6 +5,7 @@ import Button from "@/Components/Button.vue";
 import {Head} from '@inertiajs/vue3';
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
+import {QuillEditor} from "@vueup/vue-quill";
 
 const $toast = useToast();
 
@@ -38,6 +39,7 @@ function submit(id) {
             });
         },
         onError: (errors) => {
+            console.log(errors)
             $toast.open({
                 message: 'All fields are required!',
                 type: 'error',
@@ -99,7 +101,15 @@ function submit(id) {
 
                     <div class="dm-input-field">
                         <label for="radio-1" class="dm-input-field__label block">Sub Title</label>
-                        <input type="text" id="sub_title" v-model="form.sub_title" class="dm-input-field__input w-full">
+<!--                        <input type="text" id="sub_title" v-model="form.sub_title" class="dm-input-field__input w-full">-->
+                        <QuillEditor
+                            theme="snow"
+                            contentType="html"
+                            toolbar="full"
+                            style="height: 150px"
+                            name="short_description"
+                            v-model:content="form.sub_title"
+                        />
                         <div class="text-red-500" v-if="errors.sub_title">{{ errors.sub_title }}</div>
                     </div>
 
@@ -108,12 +118,6 @@ function submit(id) {
                         <input type="text" id="estimate_time" v-model="form.estimate_time"
                                class="dm-input-field__input w-full">
                         <div class="text-red-500" v-if="errors.estimate_time">{{ errors.estimate_time }}</div>
-                    </div>
-
-                    <div class="dm-input-field">
-                        <label for="radio-1" class="dm-input-field__label block">Custom SL</label>
-                        <input type="text" id="custom_sl" v-model="form.custom_sl" class="dm-input-field__input w-full">
-                        <div class="text-red-500" v-if="errors.custom_sl">{{ errors.custom_sl }}</div>
                     </div>
 
                     <div class="flex justify-start mt-6">

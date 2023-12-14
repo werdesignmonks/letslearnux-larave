@@ -2,16 +2,16 @@
 import { Head, router, useForm } from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import Button from "@/Components/Button.vue";
+import {QuillEditor} from "@vueup/vue-quill";
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+import '@vueup/vue-quill/dist/vue-quill.bubble.css';
+
+const $toast = useToast();
 
 const props = defineProps({
     errors: Object,
     chapters: Array,
-    chapter_id: Number,
-    chapter_name: String,
-    title: String,
-    sub_title: String,
-    estimate_time: String,
-    custom_sl: String,
 });
 
 const form = useForm({
@@ -19,11 +19,47 @@ const form = useForm({
     title: '',
     sub_title: '',
     estimate_time: '',
-    custom_sl: '',
 });
 
 function submit() {
-    router.post(route('chapter.store'), form);
+
+    form.post(route('chapter.store'), {
+        preserveScroll: true,
+        onSuccess: (page) => {
+            $toast.open({
+                message: 'Chapter Added Successfully!',
+                type: 'success',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #00b09b, #96c93d)',
+                },
+            });
+        },
+        onError: (errors) => {
+            console.log(errors)
+            $toast.open({
+                message: 'Please fill all the fields',
+                type: 'warning',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #FF0000, #FF6347)',
+                },
+            });
+        }
+    })
+
+    //Dismissing the Toast after 5 seconds
+    setTimeout(() => {
+        $toast.clear();
+    }, 3000);
+
+    // Clearing the form after submit
+    form.chapter_name = '';
+    form.title = '';
+    form.sub_title = '';
+    form.estimate_time = '';
 }
 
 </script>
@@ -66,7 +102,16 @@ function submit() {
 
                     <div class="dm-input-field">
                         <label for="radio-1" class="dm-input-field__label block">Sub Title</label>
-                        <input type="text" id="sub_title" v-model="form.sub_title" class="dm-input-field__input w-full">
+<!--                        <input type="text" id="sub_title" v-model="form.sub_title" class="dm-input-field__input w-full">-->
+
+                        <QuillEditor
+                            theme="snow"
+                            contentType="html"
+                            toolbar="full"
+                            style="height: 150px"
+                            name="short_description"
+                            v-model:content="form.sub_title"
+                        />
                         <div class="text-red-500" v-if="errors.sub_title">{{ errors.sub_title }}</div>
                     </div>
 
@@ -75,12 +120,6 @@ function submit() {
                         <input type="text" id="estimate_time" v-model="form.estimate_time"
                                class="dm-input-field__input w-full">
                         <div class="text-red-500" v-if="errors.estimate_time">{{ errors.estimate_time }}</div>
-                    </div>
-
-                    <div class="dm-input-field">
-                        <label for="radio-1" class="dm-input-field__label block">Custom SL</label>
-                        <input type="text" id="custom_sl" v-model="form.custom_sl" class="dm-input-field__input w-full">
-                        <div class="text-red-500" v-if="errors.custom_sl">{{ errors.custom_sl }}</div>
                     </div>
 
                     <div class="flex justify-start mt-6">

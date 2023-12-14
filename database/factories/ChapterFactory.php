@@ -17,7 +17,6 @@ class ChapterFactory extends Factory
     public function definition(): array
     {
         return [
-            'custom_sl' => fake()->numberBetween(1, 50),
             'chapter_name' => fake()->word() . ' ' .fake()->numerify(),
             'title' => fake()->sentence(3),
             'sub_title' => fake()->sentence(1),

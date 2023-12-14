@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('chapters', function (Blueprint $table) {
             $table->id();
-            $table->integer('custom_sl');
             $table->string('chapter_name');
             $table->string('title');
             $table->string('sub_title');

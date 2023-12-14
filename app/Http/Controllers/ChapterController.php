@@ -38,7 +38,6 @@ class ChapterController extends Controller
     {
         // Validate the data
         $request->validate([
-            'custom_sl' => 'required|numeric',
             'chapter_name' => 'required|max:255|unique:chapters',
             'title' => 'required|max:255|unique:chapters',
             'sub_title' => 'required|max:255',
@@ -47,7 +46,6 @@ class ChapterController extends Controller
 
         //Store the data
         $chapter = Chapter::create([
-            'custom_sl' => $request->custom_sl,
             'chapter_name' => $request->chapter_name,
             'title' => $request->title,
             'sub_title' => $request->sub_title,
@@ -84,7 +82,6 @@ class ChapterController extends Controller
     {
         // Validate the data
         $validated = $request->validate([
-            'custom_sl' => 'required|numeric',
             'chapter_name' => 'required|max:255|unique:chapters,chapter_name,' . $chapter->id,
             'title' => 'required|max:255|unique:chapters,title,' . $chapter->id,
             'sub_title' => 'required|max:255',

@@ -11,8 +11,10 @@ class Lesson extends Model
 
     protected $fillable = [
         'chapter_id',
+        'custom_sl',
         'title',
         'description',
+        'slug',
         'like',
         'dislike',
     ];

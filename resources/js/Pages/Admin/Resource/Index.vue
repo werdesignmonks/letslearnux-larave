@@ -68,11 +68,11 @@ function destroy(id) {
                                                 <img :src="item.image" alt="Resource Thumbnail" class="w-[80px] h-[60px] rounded object-cover">
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium max-w-[300px]">
-                                              <span class="overflow-hidden text-ellipsis max-w-[80%] block">
+                                              <span class="overflow-hidden text-ellipsis max-w-[80%] block" :title="item.title">
                                                 {{ item.title }}</span>
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium max-w-[270px]">
-                                              <span class="overflow-hidden text-ellipsis max-w-[80%] block">{{ item.lesson.title }}</span>
+                                              <span class="overflow-hidden text-ellipsis max-w-[80%] block" :title="item.lesson.title">{{ item.lesson.title }}</span>
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium px-2">
                                               {{ item.type.charAt(0).toUpperCase() + item.type.slice(1) }}

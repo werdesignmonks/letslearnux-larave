@@ -138,7 +138,7 @@ function submit() {
             <label for="profile-image" class="dm-input-field__label block">Profile Image</label>
             <input type="file" id="profile-image" name="profile_image" @change="uploadImage"
                    class="dm-input-field__input w-full">
-            <div class="text-red-500" v-if="errors.profile_image">{{ errors.profile_image }}</div>
+            <div class="text-red-500" v-if="errors.avatar_path">{{ errors.avatar_path }}</div>
           </div>
 
           <div class="flex justify-start mt-6">

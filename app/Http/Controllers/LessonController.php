@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chapter;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class LessonController extends Controller
@@ -40,18 +41,22 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         // Validate the data
         $request->validate([
-            'topic_name' => 'required|max:255|unique:topics',
+            'title' => 'required|max:255',
             'chapter_id' => 'required',
-            'short_description' => 'required',
+            'description' => 'required',
+            'custom_sl' => 'required|numeric',
         ]);
 
         //Store the data
-        $topic = Lesson::create([
-            'name' => $request->title,
-            'chapter_id' => $request->chapter_id,
+        $lesson = Lesson::create([
+            'title' => $request->title,
             'description' => $request->description,
+            'chapter_id' => $request->chapter_id,
+            'custom_sl' => $request->custom_sl,
+            'slug' => Str::slug($request->title),
         ]);
 
         // Redirect to the index page

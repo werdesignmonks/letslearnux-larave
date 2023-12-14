@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('chapter_id');
+            $table->integer('custom_sl');
             $table->string('title');
             $table->longText('description')->nullable();
             $table->integer('like')->default(0);
             $table->integer('dislike')->default(0);
             $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
+            $table->string('slug');
             $table->timestamps();
         });
     }

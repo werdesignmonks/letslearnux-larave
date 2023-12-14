@@ -13,14 +13,15 @@ const $toast = useToast();
 
 // Chapter List
 const props = defineProps({
-    lesson: Object,
+    chapters: Object,
     errors: Object,
 });
 
 const form = useForm({
-    name: '',
+    title: '',
     chapter_id: '',
     description: '',
+    custom_sl: '',
 });
 
 function submit() {
@@ -39,6 +40,7 @@ function submit() {
             });
         },
         onError: (errors) => {
+            console.log(errors)
             $toast.open({
                 message: 'Please fill all the fields',
                 type: 'worning',
@@ -58,9 +60,10 @@ function submit() {
     }, 3000);
 
     // Clearing the form after submit
-    form.name = '';
+    form.title = '';
     form.chapter_id = '';
-    form.contetn = '';
+    form.description = '';
+    form.custom_sl = '';
 }
 
 </script>
@@ -88,9 +91,9 @@ function submit() {
 
             <form @submit.prevent="submit" class="border border-[#F2F3F3] p-5 rounded-2xl max-w-[850px]">
                 <div class="dm-input-field">
-                    <label for="radio-1" class="dm-input-field__label block">Topic Title</label>
-                    <input type="text" id="lesson_name" v-model="form.name" class="dm-input-field__input w-full">
-                    <div class="text-red-500" v-if="errors.name">{{ errors.name }}</div>
+                    <label for="radio-1" class="dm-input-field__label block">Title</label>
+                    <input type="text" id="lesson_name" v-model="form.title" class="dm-input-field__input w-full">
+                    <div class="text-red-500" v-if="errors.title">{{ errors.title }}</div>
                 </div>
 
                 <div class="dm-input-field">
@@ -106,6 +109,12 @@ function submit() {
                 </div>
 
                 <div class="dm-input-field">
+                    <label for="radio-1" class="dm-input-field__label block">Lesson Serial Number</label>
+                    <input type="text" id="custom_sl" v-model="form.custom_sl" class="dm-input-field__input w-full">
+                    <div class="text-red-500" v-if="errors.custom_sl">{{ errors.custom_sl }}</div>
+                </div>
+
+                <div class="dm-input-field">
                     <label for="short_description" class="dm-input-field__label block">Content</label>
                     <QuillEditor
                         theme="snow"
@@ -113,10 +122,11 @@ function submit() {
                         toolbar="full"
                         style="height: 350px"
                         name="short_description"
-                        v-model:content="form.content"
+                        v-model:content="form.description"
                     />
                     <div class="text-red-500" v-if="errors.description">{{ errors.description }}</div>
                 </div>
+
 
                 <div class="dm-input-field">
                     <button type="submit" class="dm-btn">

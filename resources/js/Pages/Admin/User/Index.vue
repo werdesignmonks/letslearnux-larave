@@ -65,6 +65,7 @@ function destroy(id) {
                                         <tr class="border-dm-border-color border-t" v-for="(user, index) in users">
                                             <td class="whitespace-nowrap px-3 py-4 font-medium text-center">{{ index + 1}}</td>
                                             <td class="py-4 flex items-center">
+
                                                 <img :src="user.avatar_path" alt="Profile Image" width="60" height="60"  class="h-[60px] object-cover rounded">
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">

@@ -10,7 +10,6 @@ class Chapter extends Model
     use HasFactory;
 
     protected $fillable = [
-        'custom_sl',
         'chapter_name',
         'title',
         'sub_title',

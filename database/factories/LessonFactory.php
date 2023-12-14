@@ -18,11 +18,13 @@ class LessonFactory extends Factory
     public function definition(): array
     {
         return [
+            'custom_sl' => fake()->numberBetween(1, 50),
             'title' => $this->faker->sentence(5),
             'description' => $this->faker->paragraph(4),
             'chapter_id' => Chapter::factory(),
             'like' => fake()->numberBetween(1, 1000),
-            'dislike' => fake()->numberBetween(1,20)
+            'dislike' => fake()->numberBetween(1,20),
+            'slug' => fake()->slug(),
         ];
     }
 }

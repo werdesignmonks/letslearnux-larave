@@ -77,7 +77,6 @@ class User extends Authenticatable implements HasMedia
 
     public function getAvatarPathAttribute()
     {
-//        return $this->avatar_url ? $this->avatar_url : asset(self::PLACEHOLDER_IMAGE);
         return $this->hasMedia()  ? $this->getFirstMediaUrl('default') : asset(self::PLACEHOLDER_IMAGE);
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\Frontend\RoadmapController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileController;
@@ -42,9 +43,9 @@ Route::get('/resources', function () {
     return Inertia::render('Resources');
 })->middleware(['auth', 'verified'])->name('Resources');
 
-Route::get('/roadmap', function () {
-    return Inertia::render('Roadmap');
-})->middleware(['auth', 'verified'])->name('roadmap');
+//Route::get('/roadmap', function () {
+//    return Inertia::render('Roadmap');
+//})->middleware(['auth', 'verified'])->name('roadmap');
 
 Route::get('/chapter-single', function () {
     return Inertia::render('ChapterSingle');
@@ -61,6 +62,11 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    // Route
+    Route::get('/roadmap', [RoadmapController::class, 'index'])->name('roadmap');
+    // Show Lesson Detail with slug
+    Route::get('/roadmap/{slug}', [RoadmapController::class, 'show'])->name('roadmap.show');
 
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile.profile');
     Route::post('/edit', [ProfileController::class, 'edit'])->name('profile.edit');

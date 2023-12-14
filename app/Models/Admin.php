@@ -52,8 +52,6 @@ class Admin extends Authenticatable implements HasMedia
      */
     public function getProfileImageAttribute() : string
     {
-        return $this->hasMedia()  ? $this->getFirstMediaUrl('default') : asset(self::PLACEHOLDER_IMAGE);
+        return $this->hasMedia()  ? $this->getFirstMediaUrl('avatar') : asset(self::PLACEHOLDER_IMAGE);
     }
-
-
 }

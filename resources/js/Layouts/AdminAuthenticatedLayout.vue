@@ -77,7 +77,7 @@ const showingNavigationDropdown = ref(false);
                                                     class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                                 >
                                                     {{ $page.props.auth.user.name }}
-                                                    <img :src="$page.props.auth.user.profile_image" class="h-12 w-12 rounded-full object-cover ml-4" alt="avatar">
+                                                    <img :src="$page.props.auth.user.avatar_path" class="h-12 w-12 rounded-full object-cover ml-4" alt="avatar">
                                                     <svg
                                                         class="ms-2 -me-0.5 h-4 w-4"
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +95,7 @@ const showingNavigationDropdown = ref(false);
                                             </template>
 
                                             <template #content>
-                                                <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                                <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
                                                 <DropdownLink :href="route('logout')" method="post" as="button">
                                                     Log Out
                                                 </DropdownLink>

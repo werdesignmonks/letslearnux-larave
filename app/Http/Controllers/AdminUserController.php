@@ -41,7 +41,7 @@ class AdminUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'avatar_path' => $request->hasFile('profile_image') ? $request->file('profile_image')->store('images') : null, // Image upload (if any
+            'avatar_path' => $request->hasFile('avatar_path') ? $request->file('avatar_path')->store('images') : null, // Image upload (if any
             'password' => bcrypt($request->password)
         ]);
 
@@ -80,36 +80,42 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-//        dd($request->all());
 
-            $request->validate([
-                'name' => 'required|max:255',
-                'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
-                'avatar_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-                'password' => "nullable|string|between:5,16"
-            ]);
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+            'avatar_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'password' => ['nullable', 'string', 'between:5,16']
+        ]);
 
-            //Update the user
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'avatar_path' => $request->hasFile('avatar_path') ? $request->file('avatar_path')->store('images') : null, // Image upload (if any
-                'password' => bcrypt($request->password)
-            ]);
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'avatar_path' => $request->hasFile('avatar_path') ? $request->file('avatar_path')->store('images') : null, // Image upload (if any
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $user->update($data);
+
+        //Update the user
+//        $user->update([
+//            'name' => $request->name,
+//            'email' => $request->email,
+//            'avatar_path' => $request->hasFile('avatar_path') ? $request->file('avatar_path')->store('images') : null, // Image upload (if any
+//            'password' => bcrypt($request->password)
+//        ]);
 
 
         if ($request->hasFile('avatar_path')) {
-            $user->media()->delete();
+//            $user->media()->delete();
             $user->addMedia($request->avatar_path)->toMediaCollection();
         }
 
-//        if ($request->hasFile('profile_image')) {
-//            $user->clearMediaCollection('default');
-//            $user->addMedia($request->profile_image)->toMediaCollection('default');
-//        }
-
-            //Redirect to the index page
-            return redirect()->route('user.index')->with('message', 'User updated successfully');
+        //Redirect to the index page
+        return redirect()->route('user.index')->with('message', 'User updated successfully');
 
     }
 
