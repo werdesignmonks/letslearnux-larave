@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('chapter_id');
-            $table->integer('custom_sl');
+            $table->float('custom_sl');
             $table->string('title');
             $table->longText('description')->nullable();
             $table->integer('like')->default(0);

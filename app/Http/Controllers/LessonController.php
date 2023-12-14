@@ -89,15 +89,22 @@ class LessonController extends Controller
      */
     public function update(Request $request, Lesson $lesson)
     {
-        // Validate the data
-        $validated = $request->validate([
+       // Validate the data
+        $request->validate([
             'title' => 'required|max:255|unique:topics,topic_name,' . $lesson->id,
             'chapter_id' => 'required',
             'description' => 'required',
+            'custom_sl' => 'required|numeric',
         ]);
 
         //Store the data
-        $lesson->update($validated);
+        $lesson->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'chapter_id' => $request->chapter_id,
+            'custom_sl' => $request->custom_sl,
+            'slug' => Str::slug($request->title),
+        ]);
 
         // Redirect to the index page
         return redirect()->route('lesson.index')->with('message', 'Lesson updated successfully');

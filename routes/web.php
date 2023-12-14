@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\Frontend\OnboadingFormController;
 use App\Http\Controllers\Frontend\RoadmapController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\OnboardingController;
@@ -35,21 +36,21 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/onboarding', function () {
-    return Inertia::render('Onboarding');
-})->middleware(['auth', 'verified'])->name('Onboarding');
+//Route::get('/onboarding', function () {
+//    return Inertia::render('Onboarding');
+//})->middleware(['auth', 'verified'])->name('Onboarding');
 
-Route::get('/resources', function () {
-    return Inertia::render('Resources');
-})->middleware(['auth', 'verified'])->name('Resources');
+//Route::get('/resources', function () {
+//    return Inertia::render('Resources');
+//})->middleware(['auth', 'verified'])->name('Resources');
 
 //Route::get('/roadmap', function () {
 //    return Inertia::render('Roadmap');
 //})->middleware(['auth', 'verified'])->name('roadmap');
 
-Route::get('/chapter-single', function () {
-    return Inertia::render('ChapterSingle');
-})->middleware(['auth', 'verified'])->name('chapter-single');
+//Route::get('/chapter-single', function () {
+//    return Inertia::render('ChapterSingle');
+//})->middleware(['auth', 'verified'])->name('chapter-single');
 
 Route::get('/my-contribution', function () {
     return Inertia::render('MyContribution');
@@ -62,6 +63,9 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::get('/onboarding', [OnboadingFormController::class, 'index'])->name('Onboarding');
+    Route::post('/onboarding/store', [RoadmapController::class, 'addResource'])->name('addresource.store');
 
     // Route
     Route::get('/roadmap', [RoadmapController::class, 'index'])->name('roadmap');
@@ -87,7 +91,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
         return Inertia::render('Admin/Dashboard');
     })->name('admin.dashboard');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
     Route::resource('/onboarding', OnboardingController::class);
     Route::resource('/chapter', ChapterController::class);
     Route::resource('/lesson', LessonController::class);

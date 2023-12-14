@@ -18,7 +18,7 @@ class LessonFactory extends Factory
     public function definition(): array
     {
         return [
-            'custom_sl' => fake()->numberBetween(1, 50),
+            'custom_sl' => fake()->randomFloat(2, 1, 5),
             'title' => $this->faker->sentence(5),
             'description' => $this->faker->paragraph(4),
             'chapter_id' => Chapter::factory(),

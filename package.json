@@ -36,6 +36,7 @@
         "remixicon": "^3.6.0",
         "vue-remix-icons": "^3.5.0",
         "vue-toast-notification": "^3.1.2",
-        "vue-toastr": "^2.1.2"
+        "vue-toastr": "^2.1.2",
+        "vue3-multi-stepper": "^1.1.7"
     }
 }

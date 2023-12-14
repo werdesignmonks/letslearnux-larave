@@ -20,6 +20,7 @@ const form = useForm({
     title: props.lesson.title,
     chapter_id: props.lesson.chapter_id,
     description: props.lesson.description,
+    custom_sl: props.lesson.custom_sl,
 });
 
 

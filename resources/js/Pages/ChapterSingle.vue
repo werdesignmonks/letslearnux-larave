@@ -1,7 +1,7 @@
 <script setup>
 import {ref} from 'vue';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import Image from "@/Components/Image.vue";
 import Card from "@/Pages/Roadmap/Card.vue";
 import SocialShare from "@/Components/SocialShare.vue";
@@ -17,12 +17,84 @@ const img = ref('images/youtube-1.png');
 const modalComplete = ref(false);
 const modalAddResource = ref(false);
 const feebback = ref('');
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+const $toast = useToast();
+const previewUrl = ref('../../images/placeholder-image.jpg');
+const lessonId = ref();
 
 const props = defineProps({
     lesson: Array,
+    errors: Object,
 });
 
-console.log(props.lesson);
+const form = useForm({
+    title: '',
+    url: '',
+    image: '',
+    lesson_id: lessonId,
+    type: '',
+});
+
+const uploadImage = (event) => {
+    const file = event.target.files[0];
+    form.image = file;
+
+    // const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            previewUrl.value = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    } else {
+        previewUrl.value = '';
+    }
+};
+
+function submit() {
+    form.post(route('addresource.store'), {
+        preserveScroll: true,
+        onSuccess: (page) => {
+	        modalAddResource.value = false;
+
+            $toast.open({
+                message: 'User Created Successfully!',
+                type: 'success',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #00b09b, #96c93d)',
+                },
+            });
+        },
+        onError: (errors) => {
+            console.log(errors)
+
+            $toast.open({
+                message: 'Please fill all the fields',
+                type: 'warning',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #FF0000, #FF6347)',
+                },
+            });
+        }
+    })
+
+    // Clearing the form after submit
+
+    form.title = '';
+    form.url = '';
+    form.image = '';
+    form.lesson_id = '';
+    form.type = '';
+}
+
 
 </script>
 
@@ -144,7 +216,15 @@ console.log(props.lesson);
 
     <!-- Resource Popup -->
     <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalAddResource" >
-        <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl p-[32px] opacity-1">
+        <div class="w-[512px]  min-h-screen h-full overflow-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl p-[32px] opacity-1 relative">
+
+	        <div class="absolute top-[20px] right-[20px] cursor-pointer" @click="modalAddResource = false">
+		        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#566474]" fill="none" viewBox="0 0 24 24"
+		             stroke="currentColor">
+			        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+			              d="M6 18L18 6M6 6l12 12"/>
+		        </svg>
+	        </div>
             <h1 class="text-[32px] leading-[38px] mb-[16px] font-bold text-gray-900 mb-[8px] -tracking-[2px] text-center">Add resources</h1>
 
             <div class="bg-dm-color-primary-light border border-[#EFECFE] rounded-lg p-3 mb-4">
@@ -168,30 +248,81 @@ console.log(props.lesson);
                 {{  lesson.title }}
             </p>
 
-            <h3 class="text-base text-[#566474] font-medium mb-1">Resource Title</h3>
-            <TextInput  placeholder="e.g. Introduction to UI Learning" class="w-full border-[#E5E6E7] " />
+            <form @submit.prevent="submit">
 
-            <h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Subscription</h3>
-            <div class="flex gap-[8px]">
-               <RadioInput label="Free" name="subscription" />
-               <RadioInput label="Paid" name="subscription" />
-            </div>
+                {{
+                    form.lesson_id = lesson.id
+                }}
 
-            <h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Resource Type</h3>
-            <div class="flex gap-[8px]">
-                <RadioInput label="Article" name="type" />
-                <RadioInput label="Video" name="type" />
-                <RadioInput label="Book" name="type" />
-            </div>
+                <input type="hidden" name="lesson_id" v-model="form.lesson_id">
+                <h3 class="text-base text-[#566474] font-medium mb-1">Resource Title</h3>
+<!--                <TextInput  placeholder="e.g. Introduction to UI Learning" class="w-full border-[#E5E6E7]" />-->
+                <input type="text" v-model="form.title" class="w-full border-[#E5E6E7]">
+                <div class="text-red-500" v-if="errors.title">{{ errors.title }}</div>
 
-            <h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Resource Link</h3>
-            <TextInput  placeholder="e.g. https://uxroadmap/guides/url-4" class="w-full border-[#E5E6E7] " />
+                <h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Subscription</h3>
+                <div class="flex gap-[8px]">
+                   <RadioInput label="Free" name="subscription" />
+                   <RadioInput label="Paid" name="subscription" />
+                </div>
 
-            <div class="text-center mt-5">
-                <button class="dm-btn px-4 text-center w-full">
-                    Submit Resources
-                </button>
-            </div>
+                <h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Resource Type</h3>
+                <div class="flex gap-[8px]">
+<!--                    <RadioInput label="Article" name="type" />-->
+<!--                    <RadioInput label="Video" name="type" />-->
+<!--                    <RadioInput label="Book" name="type" />-->
+
+
+                    <div class="form-check mr-2 inline-flex items-center gap-1">
+                        <input type="radio" id="type_video" name="type" v-model="form.type" value="video" class="form-check-input">
+                        <label for="type_video" class="form-check-label dmb-0">Video</label>
+                    </div>
+                    <div class="form-check mr-2 inline-flex items-center gap-1">
+                        <input type="radio" id="type_article" name="type" v-model="form.type" value="article"
+                               class="form-check-input">
+                        <label for="type_article" class="form-check-label dmb-0">Article</label>
+                    </div>
+                    <div class="form-check mr-2 inline-flex items-center gap-1">
+                        <input type="radio" id="type_book" name="type" v-model="form.type" value="book" class="form-check-input">
+                        <label for="type_book" class="form-check-label dmb-0">Book</label>
+                    </div>
+                    <div class="text-red-500" v-if="errors.type">{{ errors.type }}</div>
+                </div>
+
+                <h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Resource Link</h3>
+<!--                <TextInput  placeholder="e.g. https://uxroadmap/guides/url-4" class="w-full border-[#E5E6E7] " />-->
+                <div class="dm-input-field mt-3">
+                    <label for="radio-1" class="dm-input-field__label block">URL <span class="text-red-300">*</span></label>
+                    <input type="text" name="url" id="url" v-model="form.url" class="dm-input-field__input">
+                    <div class="text-red-500" v-if="errors.url">{{ errors.url }}</div>
+                </div>
+
+                <div class="dm-input-field dm-preview-image mt-6 relative">
+                    <label for="profile-image" class="dm-input-field__label block mb-3">Thumbnail</label>
+                    <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[250px]"/>
+                    <span v-else>
+                        <img :src="previewUrl" alt="Placeholder" class="w-[100px]"/>
+                    </span>
+
+                    <div class="dm-input-field__file-remove absolute top-[50px] right-[20px] bg-red-200 rounded p-1"
+                         v-if="previewUrl" @click="removeImage">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="dm-input-field">
+                    <input type="file" id="profile-image" name="profile_image" @change="uploadImage" class="dm-input-field__file">
+                    <div class="text-red-500" v-if="errors.image">{{ errors.image }}</div>
+                </div>
+
+                <div class="text-center mt-5">
+                    <button class="dm-btn px-4 text-center w-full" type="submit">
+                        Submit Resources
+                    </button>
+                </div>
+            </form>
         </div>
 
 <!--        <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">-->
