@@ -24,7 +24,7 @@ class RoadmapController extends Controller
     // Show lesson with slug
     public function show($slug)
     {
-        $lesson = Lesson::where('slug', $slug)->firstOrFail();
+        $lesson = Lesson::where('slug', $slug)->with(['resource', 'chapter'])->firstOrFail();
 
         return Inertia::render('ChapterSingle', [
             'lesson' => $lesson,

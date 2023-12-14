@@ -2,7 +2,7 @@
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Banner from "@/Pages/Roadmap/Banner.vue";
-import { Head, Link } from '@inertiajs/vue3';
+import {Head, Link, router} from '@inertiajs/vue3';
 
 
 const props = defineProps({
@@ -62,9 +62,9 @@ console.log(props.chapters)
                 <div class="mt-6">
                     <div class="group border border-dm-border-color bg-dm-bg-color py-[19px] px-[20px] flex items-center gap-4 rounded-3xl mb-[12px] hover:border-dm-color-primary hover:bg-[#F7F5FE] transition ease-in-out delay-150" v-for="(lesson, index) in item.lesson">
                         <div class="border border-dm-border-color text-base font-bold rounded-full w-[32px] h-[32px] flex items-center justify-center group-hover:border-dm-color-primary group-hover:text-dm-color-primary transition ease-in-out delay-150">
-                            1.1
+                            {{ lesson.custom_sl }}
                         </div>
-                        <Link href="/chapter-single/" class="text-base font-bold text-dm-heading-color tracking-[-0.5px] group-hover:text-dm-color-primary transition ease-in-out delay-150">
+                        <Link :href="route('roadmap.show', lesson.slug)" class="text-base font-bold text-dm-heading-color tracking-[-0.5px] group-hover:text-dm-color-primary transition ease-in-out delay-150">
                             {{ lesson.title}}
                         </Link>
                     </div>
