@@ -1,5 +1,5 @@
 <script setup>
-// import { Head } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import NavLink from "@/Components/NavLink.vue";
 import { Link } from '@inertiajs/vue3';
@@ -9,7 +9,7 @@ import RadioInput from "@/Components/RadioInput.vue";
 </script>
 
 <template>
-    <Head title="Onboarding"/>
+    <Head title="Create Onboarding Question"/>
 
     <AdminAuthenticatedLayout>
         <template #header>

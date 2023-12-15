@@ -1,5 +1,5 @@
 <script setup>
-// import { Head } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import Button from "@/Components/Button.vue";
 import {router, useForm} from "@inertiajs/vue3";
@@ -76,7 +76,7 @@ function destroy(id) {
 </script>
 
 <template>
-    <Head title="Onboarding"/>
+    <Head title="Edit Question"/>
 
     <AdminAuthenticatedLayout>
         <template #header>
