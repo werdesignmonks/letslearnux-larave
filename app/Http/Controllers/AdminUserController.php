@@ -110,7 +110,7 @@ class AdminUserController extends Controller
 
 
         if ($request->hasFile('avatar_path')) {
-//            $user->media()->delete();
+            $user->media()->delete();
             $user->addMedia($request->avatar_path)->toMediaCollection();
         }
 

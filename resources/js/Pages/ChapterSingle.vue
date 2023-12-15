@@ -106,17 +106,14 @@ function submit() {
                 {{  lesson.custom_sl }} - {{  lesson.title }}
             </h1>
 
-            <div  v-html="lesson.description"></div>
+            <div class="mb-10" v-html="lesson.description"></div>
 
             <div>
                 <h2 class="mb-4 leading-7 font-bold text-[20px]">
                     Youtube videos
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-5">
-<!--                    If Resource type video then show this-->
-
                     <VideoCard :title="item.title" :image="item.image" v-for="(item, index) in lesson.resource" />
-<!--                    <VideoCard title="Free English Level Test. How good is your English?" image="../images/youtube-2.png"  />-->
                 </div>
             </div>
 

@@ -50,6 +50,10 @@ class RoadmapController extends Controller
             'type' => $request->type,
         ]);
 
+        if($request->image){
+            $resource->addMedia($request->image)->toMediaCollection();
+        }
+
         return redirect()->back()->with('success', 'Resource Added Successfully');
     }
 }
