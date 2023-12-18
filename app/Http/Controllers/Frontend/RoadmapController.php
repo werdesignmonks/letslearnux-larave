@@ -25,14 +25,14 @@ class RoadmapController extends Controller
     public function show($slug)
     {
 
-        $lesson = Lesson::query()->where('slug', $slug)->where('status', 'publish')->firstOrFail();
-        $audio_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_AUDIO)->get();
-        $article_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_ARTICLE)->get();
-        $video_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_VIDEO)->get();
+        $lesson = Lesson::query()->where('slug', $slug)->firstOrFail();
+        $book_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_BOOK)->where('status', 'approved')->get();
+        $article_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_ARTICLE)->where('status', 'approved')->get();
+        $video_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_VIDEO)->where('status', 'approved')->get();
 
         return Inertia::render('ChapterSingle', [
             'lesson' => $lesson,
-            'audio_resource' => $audio_resource,
+            'book_resource' => $book_resource,
             'article_resource' => $article_resource,
             'video_resource' => $video_resource,
         ]);

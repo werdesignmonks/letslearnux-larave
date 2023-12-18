@@ -26,6 +26,9 @@ const lessonId = ref();
 
 const props = defineProps({
     lesson: Array,
+	article_resource: Array,
+	video_resource: Array,
+	book_resource: Array,
     errors: Object,
 });
 
@@ -96,6 +99,8 @@ function submit() {
 }
 
 
+console.log(props.article_resource)
+
 </script>
 
 <template>
@@ -108,37 +113,30 @@ function submit() {
 
             <div class="mb-10" v-html="lesson.description"></div>
 
-            <div>
+            <div v-if="video_resource.length > 0" class="border-b border-dm-border-color pb-8 mb-8">
                 <h2 class="mb-4 leading-7 font-bold text-[20px]">
                     Youtube videos
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-5">
-                    <VideoCard :title="item.title" :image="item.image" v-for="(item, index) in lesson.resource" />
+                    <VideoCard :title="item.title" :image="item.image" v-for="(item, index) in video_resource" :key="item.id" />
                 </div>
             </div>
 
-            <hr class="mt-9 mb-8 block">
-
-            <div>
+            <div v-if="article_resource.length > 0" class="border-b border-dm-border-color pb-8 mb-8">
                 <h2 class="mb-4 leading-7 font-bold text-[20px]">
                     Topic Links
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-5">
-                    <Card title="Free English Level Test. How good is your English?" src='../images/card-1.png' url="https://www.cambridgeenglish.org/test-your-english/" />
-                    <Card title="Free English Level Test. How good is your English?" src="../images/card-1.png" url="https://www.cambridgeenglish.org/test-your-english/" />
-                    <Card title="Free English Level Test. How good is your English?" src="../images/card-1.png" url="https://www.cambridgeenglish.org/test-your-english/" />
-                    <Card title="Free English Level Test. How good is your English?" src="../images/card-1.png" url="https://www.cambridgeenglish.org/test-your-english/" />
+                    <Card :title="item.title" :src='item.image' :url="item.url" v-for="(item, index) in article_resource" :key="item.id" />
                 </div>
             </div>
 
-            <hr class="mt-9 mb-6 block">
-
-            <div>
+            <div v-if="book_resource.length > 0">
                 <h2 class="mb-4 leading-7 font-bold text-[20px]">
                     Related books
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-5">
-                    <Book title="Free English Level Test. How good is your English?" src='../images/book.jpg' url="https://www.cambridgeenglish.org/test-your-english/" />
+                    <Book :title="item.title" :src="item.image" :url="item.url" v-for="(item, index) in book_resource" :key="item.id" />
                 </div>
             </div>
 
@@ -235,15 +233,15 @@ function submit() {
                </ul>
             </div>
 
-            <h3 class="text-base text-[#566474] font-medium mb-1">Chapter Name</h3>
-            <p class="border border-dm-border-color rounded-lg bg-[#F2F3F3] p-3 mb-3">
-                {{ lesson.chapter.chapter_name }}
-            </p>
+<!--            <h3 class="text-base text-[#566474] font-medium mb-1">Chapter Name</h3>-->
+<!--            <p class="border border-dm-border-color rounded-lg bg-[#F2F3F3] p-3 mb-3">-->
+<!--                {{ lesson.chapter.chapter_name }}-->
+<!--            </p>-->
 
-            <h3 class="text-base text-[#566474] font-medium mb-1">Lesson Name</h3>
-            <p class="border border-dm-border-color rounded-lg bg-[#F2F3F3] p-3 mb-3">
-                {{  lesson.title }}
-            </p>
+<!--            <h3 class="text-base text-[#566474] font-medium mb-1">Lesson Name</h3>-->
+<!--            <p class="border border-dm-border-color rounded-lg bg-[#F2F3F3] p-3 mb-3">-->
+<!--                {{  lesson.title }}-->
+<!--            </p>-->
 
             <form @submit.prevent="submit">
 

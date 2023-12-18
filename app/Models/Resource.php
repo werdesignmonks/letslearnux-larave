@@ -12,7 +12,7 @@ class Resource extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
-    const TYPE_AUDIO = 'audio';
+    const TYPE_BOOK = 'book';
     const TYPE_VIDEO = 'video';
     const TYPE_ARTICLE = 'article';
 

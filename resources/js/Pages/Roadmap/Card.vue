@@ -22,7 +22,7 @@ defineProps({
 <template>
 
     <div class="group border border-dm-border-color overflow-hidden rounded-[16px]">
-        <Link href="{{ url }}" target="_blank">
+        <Link :href="url" target="_blank">
             <Image :alt='title' :src="src" classes="w-full" />
             <h3 class="p-[16px] text-sm text-dm-color-text font-medium leading-5 group-hover:text-dm-color-primary">
                 {{ title }}

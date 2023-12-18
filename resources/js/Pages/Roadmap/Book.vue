@@ -20,7 +20,7 @@ defineProps({
 
 <template>
     <div class="rounded-[20px] relative overflow-hidden">
-        <Link href="{{ url }}" target="_blank">
+        <Link :href="url" target="_blank">
             <img :alt="title" :src="src" />
         </Link>
     </div>

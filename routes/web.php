@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\Frontend\OnboadingFormController;
+use App\Http\Controllers\Frontend\ResourcesController;
 use App\Http\Controllers\Frontend\RoadmapController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\OnboardingController;
@@ -66,6 +67,7 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
 
     Route::get('/onboarding', [OnboadingFormController::class, 'index'])->name('Onboarding');
     Route::post('/onboarding/store', [RoadmapController::class, 'addResource'])->name('addresource.store');
+    Route::get('/resources', ResourcesController::class)->name('resources');
 
     // Route
     Route::get('/roadmap', [RoadmapController::class, 'index'])->name('roadmap');
@@ -73,7 +75,7 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::get('/roadmap/{slug}', [RoadmapController::class, 'show'])->name('roadmap.show');
 
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile.profile');
-    Route::post('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

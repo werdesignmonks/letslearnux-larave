@@ -41,7 +41,7 @@ defineProps({
                 <img :src="form.avatar_path" alt="avatar" class="w-[120px] h-[120] mx-auto mb-10 rounded-full"/>
                 <header class="flex justify-between mb-10">
                     <h2 class="text-[20px] font-bold text-gray-900">Profile info</h2>
-                    <Link href="edit" class="underline font-bold text-dm-color-primary -tracking-[0.5px] "> Edit</Link>
+                    <Link href="edit" class="underline font-bold text-dm-color-primary -tracking-[0.5px] ">Edit</Link>
                 </header>
 
                 <div>
