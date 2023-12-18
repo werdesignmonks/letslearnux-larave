@@ -5,14 +5,17 @@ import { useForm } from "@inertiajs/vue3";
 
 defineProps({
     onboardings: Object,
-    errors: Object
+    errors: Object,
 });
+
+
 
 // console.log(porps.onboardings)
 
 const form = useForm({
     question_id: '',
     option_id: '',
+    answer: []
 });
 
 // Make question_id into an array
@@ -40,13 +43,13 @@ console.log(form.option_id)
 
                         <div v-for="(option, index) in item.options" :key="index">
                             <div v-if="item.type === 'checkbox'" class="flex items-center mb-4">
-                                <input type="checkbox" :id="option.id" v-model="question_id" :value="item.id" class="mr-3">
+                                <input type="checkbox" :id="option.id" v-model="form.answer[question_id]" :value="item.id" class="mr-3">
                                 <label :for="option.id" class="text-[18px] leading-[21px] line text-dm-heading-color font-bold">{{ option.title }}</label>
                             </div>
 
 
                             <div v-else-if="item.type === 'radio'" class="flex items-center mb-4">
-                                <input type="radio" :id="option.id" v-model="form.option_id" :value="option.id" class="mr-3">
+                                <input type="radio" :id="option.id" v-model="form.answer[question_id]" :value="option.id" class="mr-3">
                                 <label :for="option.id" class="text-[18px] leading-[21px] line text-dm-heading-color font-bold">{{ option.title }}</label>
                             </div>
 

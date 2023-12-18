@@ -24,10 +24,17 @@ class RoadmapController extends Controller
     // Show lesson with slug
     public function show($slug)
     {
-        $lesson = Lesson::where('slug', $slug)->with(['resource', 'chapter'])->firstOrFail();
+
+        $lesson = Lesson::query()->where('slug', $slug)->where('status', 'publish')->firstOrFail();
+        $audio_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_AUDIO)->get();
+        $article_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_ARTICLE)->get();
+        $video_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_VIDEO)->get();
 
         return Inertia::render('ChapterSingle', [
             'lesson' => $lesson,
+            'audio_resource' => $audio_resource,
+            'article_resource' => $article_resource,
+            'video_resource' => $video_resource,
         ]);
     }
 

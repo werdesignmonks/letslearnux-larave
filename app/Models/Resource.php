@@ -12,6 +12,10 @@ class Resource extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
+    const TYPE_AUDIO = 'audio';
+    const TYPE_VIDEO = 'video';
+    const TYPE_ARTICLE = 'article';
+
     public const PLACEHOLDER_IMAGE = 'images/placeholder-image.jpg';
 
     protected $fillable = [
