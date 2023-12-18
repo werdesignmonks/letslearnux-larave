@@ -1,7 +1,12 @@
 <script setup>
-import { defineProps, computed } from 'vue';
+import {defineProps, computed} from "vue";
+import {Link} from '@inertiajs/vue3';
 
 const props = defineProps({
+	url: {
+		type: String,
+		required: true,
+	},
     label: {
         type: String,
         required: true,
@@ -27,9 +32,9 @@ const publishedBooksMessage = computed(() => {
 </script>
 
 <template>
-    <button class="p-3 text-base hover:bg-dm-color-primary hover:border-dm-color-primary hover:text-white rounded-lg transition duration-300 ease-in-out" :class="publishedBooksMessage">
+    <Link :href="url" class="p-3 text-base hover:bg-dm-color-primary hover:border-dm-color-primary hover:text-white rounded-lg transition duration-300 ease-in-out" :class="publishedBooksMessage">
         {{ label }}
-    </button>
+    </Link>
 </template>
 
 <style scoped>

@@ -53,12 +53,12 @@ function filterByType(type) {
                     <div class="mb-4 flex justify-between items-center mb-6">
                         <div class="flex jus gap-2">
 <!--	                        <Link :href="resources" class="underline font-bold text-dm-color-primary -tracking-[0.5px] ">All Resources</Link>-->
-	                        <Link :href="'resources/?type=article'" class="underline font-bold text-dm-color-primary -tracking-[0.5px]">Articles</Link>
-	                        <Link :href="'resources/?type=book'" class="underline font-bold text-dm-color-primary -tracking-[0.5px] ">Books</Link>
-	                        <Link :href="'resources/?type=video'" class="underline font-bold text-dm-color-primary -tracking-[0.5px] ">Video</Link>
-<!--                            <FilterButton label="Books" :isActive=true />-->
-<!--                            <FilterButton label="Articles"  />-->
-<!--                            <FilterButton label="Video"  />-->
+<!--	                        <Link :href="`${route('resources')}/?type=article`" class="underline font-bold text-dm-color-primary -tracking-[0.5px]">Articles</Link>-->
+<!--	                        <Link :href="`${route('resources')}/?type=book`" class="underline font-bold text-dm-color-primary -tracking-[0.5px] ">Books</Link>-->
+<!--	                        <Link :href="`${route('resources')}/?type=video`" class="underline font-bold text-dm-color-primary -tracking-[0.5px] ">Video</Link>-->
+                            <FilterButton :href="`${route('resources')}/?type=article`" label="Books" :isActive=true />
+                            <FilterButton :href="`${route('resources')}/?type=book`" label="Articles"  />
+                            <FilterButton :href="`${route('resources')}/?type=video`" label="Video"  />
                         </div>
 
                         <div>
