@@ -120,7 +120,7 @@ const submit = () => {
                 Continue with Google
             </a>
 
-            <a href="/auth/github/redirect" class="w-full rounded-2xl flex items-center gap-5 text-white font-bold py-1 px-1 rounded bg-[#475CA9]">
+            <a href="/auth/facebook/redirect" class="w-full rounded-2xl flex items-center gap-5 text-white font-bold py-1 px-1 rounded bg-[#475CA9]">
                 <div class="bg-white p-3 rounded-xl">
                     <img src="/images/facebook-icon.svg" alt="Github" class="w-5 h-5">
                 </div>
