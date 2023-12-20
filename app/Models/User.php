@@ -75,6 +75,12 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Resource::class);
     }
 
+
+    public function onboardingQuestion()
+    {
+        return $this->hasOne(OnboardingQuestion::class);
+    }
+
     public function getAvatarPathAttribute()
     {
         return $this->hasMedia()  ? $this->getFirstMediaUrl('default') : asset(self::PLACEHOLDER_IMAGE);

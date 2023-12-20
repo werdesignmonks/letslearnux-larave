@@ -67,6 +67,7 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
 
     Route::get('/onboarding', [OnboadingFormController::class, 'index'])->name('Onboarding');
     Route::post('/onboarding/store', [RoadmapController::class, 'addResource'])->name('addresource.store');
+    Route::post('/onboarding/save', [OnboadingFormController::class, 'save'])->name('save');
     Route::get('/resources', ResourcesController::class)->name('resources');
 
     // Route

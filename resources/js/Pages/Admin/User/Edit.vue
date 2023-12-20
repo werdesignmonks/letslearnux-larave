@@ -13,6 +13,7 @@ const previewUrl = ref('');
 const props = defineProps({
     errors: Object,
     user: Object,
+    onboardingQuestions: Object,
 });
 
 const form = useForm({
@@ -21,6 +22,9 @@ const form = useForm({
     password: props.user.password,
     avatar_path: props.user.avatar_path,
 });
+
+
+
 
 
 const uploadImage = (event) => {
@@ -73,6 +77,7 @@ function submit(id) {
         $toast.clear();
     }, 3000);
 }
+
 
 </script>
 

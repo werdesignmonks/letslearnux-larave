@@ -5,15 +5,21 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import RadioInput from "@/Components/RadioInput.vue";
-
-defineProps({
+import {ref} from "vue";
+const previewUrl = ref('');
+const props = defineProps({
     mustVerifyEmail: {
         type: Boolean,
     },
     status: {
         type: String,
     },
+    onboardings: Object,
+    onboardingQuestions: Array
+
 });
+
+console.log(props.onboardingQuestions);
 
 const user = usePage().props.auth.user;
 
@@ -24,6 +30,23 @@ const form = useForm({
     date_of_birth: user.date_of_birth,
     gender: user.gender
 });
+
+const uploadImage = (event) => {
+    const file = event.target.files[0];
+    form.avatar_path = file;
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            previewUrl.value = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    } else {
+        previewUrl.value = '';
+    }
+};
+
 </script>
 
 <template>
@@ -32,8 +55,22 @@ const form = useForm({
         <form @submit.prevent="form.post(route('profile.update'))" class="mt-6 space-y-6">
             <div>
 
-                <div class="mb-5">
-                    <img :src="form.avatar_path" alt="avatar" class="w-[120px] h-[120px] mx-auto rounded-full" />
+<!--                <div class="mb-5">-->
+<!--&lt;!&ndash;                    <img :src="form.avatar_path" alt="avatar" class="w-[120px] h-[120px] mx-auto rounded-full" />&ndash;&gt;-->
+<!--                    <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[120px] h-[120px] mx-auto rounded-full" />-->
+<!--                </div>-->
+
+                <div class="dm-input-field mb-5">
+                    <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[120px] h-[120px] mx-auto rounded-full" />
+                    <span v-else>
+                            <img :src="form.avatar_path" alt="Placeholder" class="w-[120px] h-[120px] mx-auto rounded-full" />
+                        </span>
+                </div>
+
+                <div class="dm-input-field">
+                    <label for="profile-image" class="dm-input-field__label block">Profile Image</label>
+                    <input type="file" id="profile-image" name="profile_image" @change="uploadImage"  class="dm-input-field__input">
+<!--                    <div class="text-red-500" v-if="errors.avatar_path">{{ errors.avatar_path }}</div>-->
                 </div>
 
 <!--                <div class="mb-5">-->

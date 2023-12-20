@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\OnboardingQuestion;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,9 +19,12 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $onboardingQuestions = OnboardingQuestion::with('user')->where('user_id', $request->user()->id)->first();
+
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'onboardingQuestions' => $onboardingQuestions,
         ]);
     }
 
@@ -39,6 +43,12 @@ class ProfileController extends Controller
     {
 
         $request->user()->fill($request->validated());
+
+        // Also Image Upload
+
+        if ($request->avatar_path) {
+            $request->user()->addMedia($request->avatar_path)->toMediaCollection();
+        }
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
