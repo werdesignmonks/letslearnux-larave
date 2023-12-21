@@ -15,20 +15,27 @@ const props = defineProps({
         type: String,
     },
     onboardings: Object,
-    onboardingQuestions: Array
-
+    onboarding: Object
 });
 
-console.log(props.onboardingQuestions);
+console.log(props.onboarding);
 
 const user = usePage().props.auth.user;
+const onboarding = usePage().props.onboarding;
+
+console.log(onboarding);
+
+// console.log(user)
 
 const form = useForm({
     name: user.name,
     email: user.email,
     avatar_path: user.avatar_path,
     date_of_birth: user.date_of_birth,
-    gender: user.gender
+    gender: user.gender,
+    profession: onboarding.profession,
+    experience: onboarding.experience,
+    learning: []
 });
 
 const uploadImage = (event) => {
@@ -55,16 +62,11 @@ const uploadImage = (event) => {
         <form @submit.prevent="form.post(route('profile.update'))" class="mt-6 space-y-6">
             <div>
 
-<!--                <div class="mb-5">-->
-<!--&lt;!&ndash;                    <img :src="form.avatar_path" alt="avatar" class="w-[120px] h-[120px] mx-auto rounded-full" />&ndash;&gt;-->
-<!--                    <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[120px] h-[120px] mx-auto rounded-full" />-->
-<!--                </div>-->
-
-                <div class="dm-input-field mb-5">
-                    <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[120px] h-[120px] mx-auto rounded-full" />
+                <div class="dm-input-field mb-5 w-[120px] h-[120px] mx-auto rounded-full overflow-hidden">
+                    <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="object-cover" />
                     <span v-else>
-                            <img :src="form.avatar_path" alt="Placeholder" class="w-[120px] h-[120px] mx-auto rounded-full" />
-                        </span>
+                        <img :src="form.avatar_path" alt="Placeholder" class="object-cover h-full w-full" />
+                    </span>
                 </div>
 
                 <div class="dm-input-field">
@@ -133,23 +135,68 @@ const uploadImage = (event) => {
                     <InputError class="mt-2" :message="form.errors.gender" />
                 </div>
 
-                <div class="mb-4">
+<!--                <div class="mb-4">-->
+<!--                    <InputLabel for="Position" value="Your Current Position*" class="mb-2"/>-->
+<!--                    <div>-->
+<!--                        <RadioInput label="Student" :model="form.profession"  />-->
+<!--                        <RadioInput label="Professional" :model="form.profession" />-->
+<!--                        <RadioInput label="Manager or Business Owner" :model="form.profession" />-->
+<!--                        <RadioInput label="Others" :model="form.profession" />-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="mb-4">-->
+<!--                    <InputLabel for="experience" value="Experience" class="mb-2"/>-->
+<!--                    <div>-->
+<!--                        <RadioInput label="Beginner (0-2 years experience)" name="experience" />-->
+<!--                        <RadioInput label="Intermediate (3-5 years experience)" name="experience" />-->
+<!--                        <RadioInput label="Advanced (5+ years experience)" name="experience" />-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <div class="mb-10">
                     <InputLabel for="Position" value="Your Current Position*" class="mb-2"/>
-                    <div>
-                        <RadioInput label="Student" name="position" />
-                        <RadioInput label="Professional" name="position" />
-                        <RadioInput label="Manager or Business Owner" name="position" />
-                        <RadioInput label="Others" name="position" />
-                    </div>
+
+                    <label for="Student" class="flex items-center cursor-pointer">
+                        <input type="radio" id="Student" v-model="form.profession" value="student" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-[#CCCED0] text-indigo-600 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-9 before:w-9 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-[#643EF3] before:opacity-0 before:transition-opacity checked:border-[#643EF3] focus:outline-none">
+                        <span class="ml-2">Student</span>
+                    </label>
+
+
+                    <label for="profession" class="flex items-center cursor-pointer">
+                        <input type="radio" id="profession" v-model="form.profession" value="professional" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-[#CCCED0] text-indigo-600 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-9 before:w-9 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-[#643EF3] before:opacity-0 before:transition-opacity checked:border-[#643EF3] focus:outline-none">
+                        <span class="ml-2">Professional</span>
+                    </label>
+
+                    <label for="Business" class="flex items-center cursor-pointer">
+                        <input type="radio" id="Business" v-model="form.profession" value="business" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-[#CCCED0] text-indigo-600 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-9 before:w-9 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-[#643EF3] before:opacity-0 before:transition-opacity checked:border-[#643EF3] focus:outline-none">
+                        <span class="ml-2">Manager or Business Owner</span>
+                    </label>
+
+                    <label for="other" class="flex items-center cursor-pointer">
+                        <input type="radio" id="other" v-model="form.profession" value="other" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-[#CCCED0] text-indigo-600 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-9 before:w-9 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-[#643EF3] before:opacity-0 before:transition-opacity checked:border-[#643EF3] focus:outline-none">
+                        <span class="ml-2">Other</span>
+                    </label>
+
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-10">
                     <InputLabel for="experience" value="Experience" class="mb-2"/>
-                    <div>
-                        <RadioInput label="Begineer (0-2 years experience)" name="experience" />
-                        <RadioInput label="Intermediate (3-5 years experience)" name="experience" />
-                        <RadioInput label="Advanced (5+ years experience)" name="experience" />
-                    </div>
+
+                    <label class="flex items-center cursor-pointer" for="beginner">
+                        <input type="radio" id="beginner" v-model="form.experience" value="beginner" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-[#CCCED0] text-indigo-600 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-9 before:w-9 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-[#643EF3] before:opacity-0 before:transition-opacity checked:border-[#643EF3] focus:outline-none">
+                        <span class="ml-2"><strong>Beginner</strong> (0-2 years experience)</span>
+                    </label>
+
+                    <label class="flex items-center cursor-pointer" for="intermediate">
+                        <input type="radio" id="beginner" v-model="form.experience" value="intermediate" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-[#CCCED0] text-indigo-600 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-9 before:w-9 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-[#643EF3] before:opacity-0 before:transition-opacity checked:border-[#643EF3] focus:outline-none">
+                        <span class="ml-2"><strong>Intermediate</strong> (3-5 years experience)</span>
+                    </label>
+
+                    <label class="flex items-center cursor-pointer" for="advanced">
+                        <input type="radio" id="beginner" v-model="form.experience" value="advanced" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-[#CCCED0] text-indigo-600 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-9 before:w-9 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-[#643EF3] before:opacity-0 before:transition-opacity checked:border-[#643EF3] focus:outline-none">
+                        <span class="ml-2"><strong>Advanced</strong> (5+ years experience)</span>
+                    </label>
                 </div>
 
 

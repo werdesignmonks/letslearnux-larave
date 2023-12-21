@@ -38,7 +38,10 @@ defineProps({
         <div class="max-w-[520px] mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 border  sm:rounded-3xl">
 
-                <img :src="form.avatar_path" alt="avatar" class="w-[120px] h-[120] mx-auto mb-10 rounded-full"/>
+                <div class="w-[120px] h-[120px] mx-auto mb-10 rounded-full overflow-hidden">
+                    <img :src="form.avatar_path" alt="avatar" class=" h-full w-full object-cover"/>
+                </div>
+
                 <header class="flex justify-between mb-10">
                     <h2 class="text-[20px] font-bold text-gray-900">Profile info</h2>
                     <Link href="edit" class="underline font-bold text-dm-color-primary -tracking-[0.5px] ">Edit</Link>

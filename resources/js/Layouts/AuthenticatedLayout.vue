@@ -49,7 +49,10 @@ const showingNavigationDropdown = ref(false);
                                                 class="inline-flex items-center px-3 py-2 border border-transparent leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
                                                 {{ $page.props.auth.user.name }}
-                                                <img :src="$page.props.auth.user.avatar_path" class="h-12 w-12 rounded-full object-cover ml-4" alt="avatar">
+                                                <span class="h-12 w-12 rounded-full ml-4 overflow-hidden">
+
+                                                <img :src="$page.props.auth.user.avatar_path" class="h-full w-full object-cover" alt="avatar">
+                                                </span>
                                             </button>
                                         </span>
                                         </template>

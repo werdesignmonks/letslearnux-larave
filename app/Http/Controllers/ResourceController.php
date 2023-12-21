@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lesson;
 use App\Models\Resource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,6 +16,7 @@ class ResourceController extends Controller
     public function index( Request $request )
     {
         $resources = Resource::with( ['user', 'lesson'] )->orderBy( 'id', 'desc' )->paginate( 5 );
+
 
         return Inertia::render( 'Admin/Resource/Index', [
             'resources' => $resources,
@@ -72,10 +74,12 @@ class ResourceController extends Controller
     public function edit(Resource $resource)
     {
         $lessons = Lesson::all();
+        $users = User::all();
 
         return Inertia::render('Admin/Resource/Edit', [
             'resource' => $resource,
-            'lessons' => $lessons
+            'lessons' => $lessons,
+            'users' => $users,
         ]);
     }
 
@@ -89,7 +93,7 @@ class ResourceController extends Controller
             'title' => $request->title,
             'type' => $request->type,
             'url' => $request->url,
-            'user_id' => auth()->user()->id,
+            'user_id' => $request->user_id,
             'status' => $request->status,
             'image' => $request->hasFile('image') ? $request->file('image')->store('images') : null, // Image upload (if any
         ]);

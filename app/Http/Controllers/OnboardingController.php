@@ -16,7 +16,6 @@ class OnboardingController extends Controller
     {
         $onboarding = Onboarding::orderBy('id', 'desc')->get();
 
-
         return Inertia::render('Admin/Onboarding/Index', [
             'onboarding' => $onboarding,
         ]);
@@ -86,7 +85,6 @@ class OnboardingController extends Controller
     {
         // Delete the data
         $onboarding->delete();
-
 
         // Redirect to the index page
         return redirect()->route('onboarding.index')->with('message', 'Onboarding deleted successfully');

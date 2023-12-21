@@ -16,6 +16,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 const img = ref('images/youtube-1.png');
 const modalComplete = ref(false);
 const modalAddResource = ref(false);
+const modalSubmited = ref(false);
 const feebback = ref('');
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
@@ -36,7 +37,7 @@ const form = useForm({
     title: '',
     url: '',
     image: '',
-    lesson_id: lessonId,
+    lesson_id: props.lesson.id,
     type: '',
 });
 
@@ -99,7 +100,7 @@ function submit() {
 }
 
 
-console.log(props.article_resource)
+console.log(props.errors)
 
 </script>
 
@@ -184,34 +185,34 @@ console.log(props.article_resource)
 <!--            </div>-->
 <!--        </div>-->
 
-        <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">
-            <div class="text-center">
-                <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Help us to improve!</h1>
-                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px]">
-                    Your insights are crucial. Tell us how we can enhance your learning experience on this topic.
-                </p>
-                <form>
-                    <div class="text-left text-base font-medium tracking[-0.5px] mb-[4px]">
-                        Your Feedback <span class="text-[#F87171]">*</span>
-                    </div>
-                    <textarea v-model="feebback" placeholder="Write your feedback" class="w-full h-[120px]  border-[#E5E6E7] rounded-md "></textarea>
-                    <div class="flex items-center gap-2 mt-5">
-                        <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150">
-                            Cancel
-                        </button>
+<!--        <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">-->
+<!--            <div class="text-center">-->
+<!--                <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Help us to improve!</h1>-->
+<!--                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px]">-->
+<!--                    Your insights are crucial. Tell us how we can enhance your learning experience on this topic.-->
+<!--                </p>-->
+<!--                <form>-->
+<!--                    <div class="text-left text-base font-medium tracking[-0.5px] mb-[4px]">-->
+<!--                        Your Feedback <span class="text-[#F87171]">*</span>-->
+<!--                    </div>-->
+<!--                    <textarea v-model="feebback" placeholder="Write your feedback" class="w-full h-[120px]  border-[#E5E6E7] rounded-md "></textarea>-->
+<!--                    <div class="flex items-center gap-2 mt-5">-->
+<!--                        <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150">-->
+<!--                            Cancel-->
+<!--                        </button>-->
 
-                        <button class="dm-btn w-[219px] px-4 text-center">
-                            Submit
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+<!--                        <button class="dm-btn w-[219px] px-4 text-center">-->
+<!--                            Submit-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 
     <!-- Resource Popup -->
     <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalAddResource" >
-        <div class="w-[512px]  min-h-screen h-full overflow-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl p-[32px] opacity-1 relative">
+        <div class="w-[512px] bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl p-[32px] opacity-1">
 
 	        <div class="absolute top-[20px] right-[20px] cursor-pointer" @click="modalAddResource = false">
 		        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#566474]" fill="none" viewBox="0 0 24 24"
@@ -222,8 +223,8 @@ console.log(props.article_resource)
 	        </div>
             <h1 class="text-[32px] leading-[38px] mb-[16px] font-bold text-gray-900 mb-[8px] -tracking-[2px] text-center">Add resources</h1>
 
-            <div class="bg-dm-color-primary-light border border-[#EFECFE] rounded-lg p-3 mb-4">
-                <h3 class="text-base text-[#566474] font-medium">Guidelines</h3>
+            <div class="p-4 bg-violet-50 rounded-2xl border border-violet-100 flex-col justify-start items-start gap-1 inline-flex">
+                <h3 class="text-gray-950 text-sm font-bold leading-tight">Guidelines</h3>
                <ul class="list-disc ml-4 text-sm text-[#566474] mt-3">
                     <li>Content should only be in English.</li>
                     <li>Do not add things you have not evaluated personally.</li>
@@ -233,32 +234,12 @@ console.log(props.article_resource)
                </ul>
             </div>
 
-<!--            <h3 class="text-base text-[#566474] font-medium mb-1">Chapter Name</h3>-->
-<!--            <p class="border border-dm-border-color rounded-lg bg-[#F2F3F3] p-3 mb-3">-->
-<!--                {{ lesson.chapter.chapter_name }}-->
-<!--            </p>-->
-
-<!--            <h3 class="text-base text-[#566474] font-medium mb-1">Lesson Name</h3>-->
-<!--            <p class="border border-dm-border-color rounded-lg bg-[#F2F3F3] p-3 mb-3">-->
-<!--                {{  lesson.title }}-->
-<!--            </p>-->
-
             <form @submit.prevent="submit">
 
-                {{
-                    form.lesson_id = lesson.id
-                }}
-
-                <input type="hidden" name="lesson_id" v-model="form.lesson_id">
-                <h3 class="text-base text-[#566474] font-medium mb-1">Resource Title</h3>
-<!--                <TextInput  placeholder="e.g. Introduction to UI Learning" class="w-full border-[#E5E6E7]" />-->
-                <input type="text" v-model="form.title" class="w-full border-[#E5E6E7]">
-                <div class="text-red-500" v-if="errors.title">{{ errors.title }}</div>
-
-                <h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Subscription</h3>
-                <div class="flex gap-[8px]">
-                   <RadioInput label="Free" name="subscription" />
-                   <RadioInput label="Paid" name="subscription" />
+                <div class="dm-input-field mt-3">
+                    <label for="title" class="text-base text-[#566474] font-medium mb-1">Resource Title <span class="text-red-300">*</span></label>
+                    <input type="text" id="title" v-model="form.title" class="dm-input-field__input">
+                    <div class="text-red-500" v-if="errors.title">{{ errors.title }}</div>
                 </div>
 
                 <h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Resource Type</h3>
@@ -266,7 +247,6 @@ console.log(props.article_resource)
 <!--                    <RadioInput label="Article" name="type" />-->
 <!--                    <RadioInput label="Video" name="type" />-->
 <!--                    <RadioInput label="Book" name="type" />-->
-
 
                     <div class="form-check mr-2 inline-flex items-center gap-1">
                         <input type="radio" id="type_video" name="type" v-model="form.type" value="video" class="form-check-input">
@@ -287,30 +267,30 @@ console.log(props.article_resource)
                 <h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Resource Link</h3>
 <!--                <TextInput  placeholder="e.g. https://uxroadmap/guides/url-4" class="w-full border-[#E5E6E7] " />-->
                 <div class="dm-input-field mt-3">
-                    <label for="radio-1" class="dm-input-field__label block">URL <span class="text-red-300">*</span></label>
+                    <label for="url" class="dm-input-field__label block">URL <span class="text-red-300">*</span></label>
                     <input type="text" name="url" id="url" v-model="form.url" class="dm-input-field__input">
                     <div class="text-red-500" v-if="errors.url">{{ errors.url }}</div>
                 </div>
 
-                <div class="dm-input-field dm-preview-image mt-6 relative">
-                    <label for="profile-image" class="dm-input-field__label block mb-3">Thumbnail</label>
-                    <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[250px]"/>
-                    <span v-else>
-                        <img :src="previewUrl" alt="Placeholder" class="w-[100px]"/>
-                    </span>
+<!--                <div class="dm-input-field dm-preview-image mt-6 relative">-->
+<!--                    <label for="profile-image" class="dm-input-field__label block mb-3">Thumbnail</label>-->
+<!--                    <img :src="previewUrl" v-if="previewUrl" alt="Preview" class="w-[250px]"/>-->
+<!--                    <span v-else>-->
+<!--                        <img :src="previewUrl" alt="Placeholder" class="w-[100px]"/>-->
+<!--                    </span>-->
 
-                    <div class="dm-input-field__file-remove absolute top-[50px] right-[20px] bg-red-200 rounded p-1"
-                         v-if="previewUrl" @click="removeImage">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="dm-input-field">
-                    <input type="file" id="profile-image" name="profile_image" @change="uploadImage" class="dm-input-field__file">
-                    <div class="text-red-500" v-if="errors.image">{{ errors.image }}</div>
-                </div>
+<!--                    <div class="dm-input-field__file-remove absolute top-[50px] right-[20px] bg-red-200 rounded p-1"-->
+<!--                         v-if="previewUrl" @click="removeImage">-->
+<!--                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none"-->
+<!--                             viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>-->
+<!--                        </svg>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="dm-input-field">-->
+<!--                    <input type="file" id="profile-image" name="profile_image" @change="uploadImage" class="dm-input-field__file">-->
+<!--                    <div class="text-red-500" v-if="errors.image">{{ errors.image }}</div>-->
+<!--                </div>-->
 
                 <div class="text-center mt-5">
                     <button class="dm-btn px-4 text-center w-full" type="submit">
@@ -320,26 +300,26 @@ console.log(props.article_resource)
             </form>
         </div>
 
-<!--        <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">-->
-<!--            <div class="mb-5 relative z-10">-->
-<!--                <img :src="'../images/success-icon.svg'" alt="cup" class="mx-auto">-->
-<!--            </div>-->
+        <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">
+            <div class="mb-5 relative z-10">
+                <img :src="'../images/success-icon.svg'" alt="cup" class="mx-auto">
+            </div>
 
-<!--            <div class="text-center">-->
-<!--                <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Your resources are under review</h1>-->
-<!--                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px] ">Your diligent efforts and attention to detail are truly appreciated. We’ll check the information and you’ll get-->
-<!--                    an email while approved.</p>-->
-<!--                <div class="flex items-center gap-2 mt-5">-->
-<!--                    <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150">-->
-<!--                        Close-->
-<!--                    </button>-->
+            <div class="text-center">
+                <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Your resources are under review</h1>
+                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px] ">Your diligent efforts and attention to detail are truly appreciated. We’ll check the information and you’ll get
+                    an email while approved.</p>
+                <div class="flex items-center gap-2 mt-5">
+                    <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150">
+                        Close
+                    </button>
 
-<!--                    <button class="dm-btn w-[219px] px-4 text-center">-->
-<!--                        Submit Another-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+                    <button class="dm-btn w-[219px] px-4 text-center">
+                        Submit Another
+                    </button>
+                </div>
+            </div>
+        </div>
 
 
 <!--        <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-3xl pb-[60px] opacity-1 overflow-hidden">-->

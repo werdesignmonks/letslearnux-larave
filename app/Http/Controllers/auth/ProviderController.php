@@ -38,8 +38,6 @@ class ProviderController extends Controller
                 ]
             )->first();
 
-
-
             // Avatar stored in public folder
             $avatar = $socialUser->getAvatar();
 
@@ -60,13 +58,25 @@ class ProviderController extends Controller
             }
 
             Auth::login($user);
+
+
+            $isLogin = auth()->user()->isFirstLogin;
+
+            if ($isLogin) {
+                // Set isFirstLogin to false after first login for a user
+                auth()->user()->update(['isFirstLogin' => 0]);
+
+                // Redirect to a specific page for first-time login
+                return redirect()->route('Onboarding');
+            }
+
             return redirect('/roadmap');
+
 
         } catch (\Exception $e) {
             Log::info($e->getMessage());
             return redirect('/login');
 
         }
-
     }
 }

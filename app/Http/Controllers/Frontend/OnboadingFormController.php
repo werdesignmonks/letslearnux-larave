@@ -42,18 +42,18 @@ class OnboadingFormController extends Controller
     {
 
         $request->validate([
-            'profession' => 'required|array',
+            'profession' => 'required|string',
             'experience' => 'required|string',
             'learning' => 'required|array',
         ]);
 
         $onboarding = OnboardingQuestion::create([
-            'profession' => json_encode($request->profession), // json_encode($request->profession)
+            'profession' => $request->profession, // json_encode($request->profession)
             'experience' => $request->experience,
             'learning' => json_encode($request->learning),
             'user_id' => auth()->user()->id,
         ]);
 
-        return redirect()->back()->with('success', 'Onboarding created successfully.');
+        return redirect()->route('dashboard')->with('success', 'Onboarding created successfully.');
     }
 }

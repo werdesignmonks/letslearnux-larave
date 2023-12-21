@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('gender')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('role')->default(Role::USER);
+            $table->boolean('isFirstLogin')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('provider')->nullable();
             $table->string('provider_id')->nullable();

@@ -8,13 +8,13 @@ defineProps({
 });
 
 const form = useForm({
-    profession: [],
+    profession: '',
     experience: '',
     learning: []
 });
 
 function submit() {
-    form.post(route('save'), {
+    form.post(route('onboardingStore'), {
         onSuccess: () => {
             console.log('success');
         },
@@ -46,24 +46,24 @@ function submit() {
                         </h2>
 
                         <label for="Student" class="text-[18px] leading-[21px] line text-dm-heading-color block font-bold">
-                            <input type="checkbox" id="Student" v-model="form.profession" value="student" class="mr-3">
+                            <input type="radio" id="Student" v-model="form.profession" value="student" class="mr-3">
                             <span class="ml-2">Student</span>
                         </label>
 
 
                         <label for="profession" class="text-[18px] leading-[21px] line text-dm-heading-color block font-bold">
-                            <input type="checkbox" id="profession" v-model="form.profession" value="professional" class="mr-3">
+                            <input type="radio" id="profession" v-model="form.profession" value="professional" class="mr-3">
                             <span class="ml-2">Professional</span>
                         </label>
 
                         <label for="Business" class="text-[18px] leading-[21px] line text-dm-heading-color block font-bold">
-                            <input type="checkbox" id="Business" v-model="form.profession" value="business"
+                            <input type="radio" id="Business" v-model="form.profession" value="business"
                                    class="mr-3">
                             <span class="ml-2">Manager or Business Owner</span>
                         </label>
 
                         <label for="other" class="text-[18px] leading-[21px] line text-dm-heading-color block font-bold">
-                            <input type="checkbox" id="other" v-model="form.profession" value="other" class="mr-3">
+                            <input type="radio" id="other" v-model="form.profession" value="other" class="mr-3">
                             <span class="ml-2">Other</span>
                         </label>
 

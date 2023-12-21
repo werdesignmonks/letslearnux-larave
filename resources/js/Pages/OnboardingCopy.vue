@@ -38,7 +38,6 @@ function submit() {
         <div class="px-5">
             <div class="border border-dm-border-color rounded-3xl sm:max-w-[520px] sm:min-w-[520px] p-[48px]  mx-auto">
                 <form @submit.prevent="submit" method="POST">
-
                     <div v-for="(item, index) in onboardings" :key="index" class="mb-10">
                         <h2 class="text-[32px] leading-[32px] line text-center font-bold -tracking-[2px] mb-[24px]" >{{ item.title }}</h2>
                         <input type="hidden" v-model="form.question_id">

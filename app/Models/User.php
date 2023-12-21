@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -35,6 +36,7 @@ class User extends Authenticatable implements HasMedia
         'provider',
         'provider_id',
         'provider_token',
+        'isFirstLogin',
     ];
 
     /**
@@ -84,5 +86,13 @@ class User extends Authenticatable implements HasMedia
     public function getAvatarPathAttribute()
     {
         return $this->hasMedia()  ? $this->getFirstMediaUrl('default') : asset(self::PLACEHOLDER_IMAGE);
+    }
+
+    // Media Resizing
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(100)
+            ->height(100);
     }
 }

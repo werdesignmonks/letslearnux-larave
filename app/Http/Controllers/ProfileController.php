@@ -19,12 +19,13 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        $onboardingQuestions = OnboardingQuestion::with('user')->where('user_id', $request->user()->id)->first();
+
+        $onboardingQuestions = OnboardingQuestion::where('user_id', $request->user()->id)->first();
 
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'onboardingQuestions' => $onboardingQuestions,
+            'onboarding' => $onboardingQuestions,
         ]);
     }
 
@@ -44,9 +45,18 @@ class ProfileController extends Controller
 
         $request->user()->fill($request->validated());
 
-        // Also Image Upload
+        $request->user()->onboardingQuestion()->updateOrCreate(
+            ['user_id' => $request->user()->id],
+            [
+                'profession' => $request->profession,
+                'experience' => $request->experience,
+                'user_id' => $request->user()->id,
+            ]
+        );
 
-        if ($request->avatar_path) {
+
+        if ($request->hasFile('avatar_path')) {
+            $request->user()->media()->delete();
             $request->user()->addMedia($request->avatar_path)->toMediaCollection();
         }
 

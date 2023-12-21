@@ -55,6 +55,7 @@ class RoadmapController extends Controller
             'title' => $request->title,
             'url' => $request->url,
             'type' => $request->type,
+            'status' => 'draft',
         ]);
 
         if($request->image){

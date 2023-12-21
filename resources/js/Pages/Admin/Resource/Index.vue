@@ -80,8 +80,14 @@ function destroy(id) {
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">{{ item.user.name }}</td>
 
                                             <td class="whitespace-nowrap py-4 text-dm-heading-color text-base font-medium">
-                                              <span class="py-1.5 px-3 text-xs font-medium leading-none rounded inline-block" :class="item.status === 'rejected' ? 'text-red-500 bg-red-50' : 'bg-emerald-50 text-emerald-600'">
-                                                {{ item.status.charAt(0).toUpperCase() + item.status.slice(1) }}
+                                              <span
+	                                              class="py-1.5 px-3 text-xs text-center font-medium leading-none rounded w-20 inline-block capitalize"
+	                                              :class="{
+											        'text-red-500 bg-red-50': item.status === 'rejected',
+				                                    'text-emerald-600 bg-emerald-50': item.status === 'approved',
+				                                    'text-yellow-500 bg-yellow-50': item.status === 'draft',
+			                                      }">
+                                                {{ item.status === 'approved' ? 'Publish' : item.status }}
                                               </span>
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-left px-4">
@@ -105,7 +111,6 @@ function destroy(id) {
                                         </tr>
                                     </tbody>
                                 </table>
-
                             </div>
                           <Pagination :resources="resources" :links="resources.links"/>
                         </div>

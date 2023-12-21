@@ -3,6 +3,11 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import FilterButton from "@/Pages/Resources/FilterButton.vue";
 import {Head} from "@inertiajs/vue3";
+
+const props = defineProps({
+	resources: Object
+})
+
 </script>
 
 <template>
@@ -39,42 +44,49 @@ import {Head} from "@inertiajs/vue3";
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="px-5 py-[17px]">1</td>
+                        <tr v-for="(item, index) in resources.data" :key="index">
+                            <td class="px-5 py-[17px]">{{ index+1 }}</td>
                             <td class="px-5 py-[17px]">
-                                <p class="self-stretch text-gray-950 text-sm font-medium leading-tight mb-0">Practical UI Book</p>
-                                <p class="self-stretch text-slate-600 text-xs font-normal leading-none mb-0">https://www.practical-ui.com/</p>
+                                <p class="self-stretch text-gray-950 text-sm font-medium leading-tight mb-0">{{ item.title }}</p>
+                                <p class="self-stretch text-slate-600 text-xs font-normal leading-none mb-0">{{ item.url }}</p>
                             </td>
                             <td>
                                 <div class="w-[100px]">
-                                    <div class="text-center text-emerald-600 text-xs font-medium leading-none px-2 py-[6px] bg-emerald-50 rounded ">Approved</div>
+	                                <div :class="{
+		                                'text-red-500 bg-red-50': item.status === 'rejected',
+		                                'text-emerald-600 bg-emerald-50': item.status === 'approved',
+		                                'text-yellow-500 bg-yellow-50': item.status === 'draft',
+	                                }" class="text-center text-xs font-medium leading-none px-2 py-[6px] rounded capitalize">
+		                                {{ item.status === 'draft' ? 'Pending' : item.status }}
+	                                </div>
+
                                 </div>
                             </td>
                         </tr>
-                        <tr class="bg-stone-50 border-t border-neutral-200">
-                            <td class="px-5 py-[17px]">2</td>
-                            <td class="px-5 py-[17px]">
-                                <p class="self-stretch text-gray-950 text-sm font-medium leading-tight mb-0">UX Research</p>
-                                <p class="self-stretch text-slate-600 text-xs font-normal leading-none mb-0">https://careerfoundry.com/en/blog/ux-design/ux-resources/</p>
-                            </td>
-                            <td class="py-[17px]">
-                                <div class="w-[100px]">
-                                    <div class="text-center text-xs font-medium leading-none px-2  py-[6px] bg-rose-50 text-red-500 rounded ">Approved</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class=" border-t border-neutral-200">
-                            <td class="px-5 py-[17px]">3</td>
-                            <td class="px-5 py-[17px]">
-                                <p class="self-stretch text-gray-950 text-sm font-medium leading-tight mb-0">Practical UI Book</p>
-                                <p class="self-stretch text-slate-600 text-xs font-normal leading-none mb-0">https://www.practical-ui.com/</p>
-                            </td>
-                            <td>
-                                <div class="w-[100px]">
-                                    <div class="text-center text-emerald-600 text-xs font-medium leading-none px-2  py-[6px] bg-emerald-50 rounded ">Approved</div>
-                                </div>
-                            </td>
-                        </tr>
+<!--                        <tr class="bg-stone-50 border-t border-neutral-200">-->
+<!--                            <td class="px-5 py-[17px]">2</td>-->
+<!--                            <td class="px-5 py-[17px]">-->
+<!--                                <p class="self-stretch text-gray-950 text-sm font-medium leading-tight mb-0">UX Research</p>-->
+<!--                                <p class="self-stretch text-slate-600 text-xs font-normal leading-none mb-0">https://careerfoundry.com/en/blog/ux-design/ux-resources/</p>-->
+<!--                            </td>-->
+<!--                            <td class="py-[17px]">-->
+<!--                                <div class="w-[100px]">-->
+<!--                                    <div class="text-center text-xs font-medium leading-none px-2  py-[6px] bg-rose-50 text-red-500 rounded ">Approved</div>-->
+<!--                                </div>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr class=" border-t border-neutral-200">-->
+<!--                            <td class="px-5 py-[17px]">3</td>-->
+<!--                            <td class="px-5 py-[17px]">-->
+<!--                                <p class="self-stretch text-gray-950 text-sm font-medium leading-tight mb-0">Practical UI Book</p>-->
+<!--                                <p class="self-stretch text-slate-600 text-xs font-normal leading-none mb-0">https://www.practical-ui.com/</p>-->
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <div class="w-[100px]">-->
+<!--                                    <div class="text-center text-emerald-600 text-xs font-medium leading-none px-2  py-[6px] bg-emerald-50 rounded ">Approved</div>-->
+<!--                                </div>-->
+<!--                            </td>-->
+<!--                        </tr>-->
 
                     </tbody>
                 </table>

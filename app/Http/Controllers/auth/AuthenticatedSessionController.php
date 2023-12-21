@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,31 +26,19 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
-    public function adminCreate(): Response
-    {
-        return Inertia::render('Admin/Auth/Login', [
-            'canResetPassword' => Route::has('password.request'),
-            'status' => session('status'),
-        ]);
-    }
-
-
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request, User $user): RedirectResponse
     {
         $request->authenticate();
         $request->session()->regenerate();
-        $user = Auth::user();
+        $isLogin = auth()->user()->isFirstLogin;
 
+        if ($isLogin) {
+            // Set isFirstLogin to false after first login for a user
+            auth()->user()->update(['isFirstLogin' => 0]);
 
-
-//        if(Auth::user()->role == 'admin'){
-//            return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
-//        }
-
-        if ($user->wasRecentlyCreated) {
             // Redirect to a specific page for first-time login
             return redirect()->route('Onboarding');
         }
