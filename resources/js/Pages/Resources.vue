@@ -40,6 +40,20 @@ const handleTypeFilter = (selectedType) => {
 	const url = `${route('resources')}?${lessonQuery}${typeQuery}`;
 	router.replace(url);
 };
+
+const resetFilters = () => {
+	lessons.value = [];
+	type.value = '';
+
+	const checkboxes = document.querySelectorAll('.filter-checkbox');
+	checkboxes.forEach((checkbox) => {
+		checkbox.checked = false;
+	});
+
+	const url = `${route('resources')}`;
+	router.replace(url);
+};
+
 </script>
 
 <template>
@@ -56,6 +70,7 @@ const handleTypeFilter = (selectedType) => {
                     <div>
 <!--                        <FilterCheckbox value="all" label="All chapters" />-->
 <!--                        <FilterCheckbox :value="item.id" :label="item.title" v-for="(item, index) in props.lessons" @click="LessonFilterWithType"  />-->
+	                    <button class="text-blue-500 cursor-pointer underline" @click="resetFilters">Reset Filters</button>
 
 	                    <FilterCheckbox
 		                    :value="item.id"
