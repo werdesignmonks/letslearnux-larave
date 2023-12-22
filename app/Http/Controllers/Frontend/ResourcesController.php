@@ -14,22 +14,30 @@ class ResourcesController extends Controller
 {
     public function index(Request $request)
     {
-        $lessonIds = $request->get('lesson_ids');
-        $resourceTypes = $request->get('types');
+        $lessonIds = $request->get('lesson');
+        $resourceType = $request->get('type');
 
-        $resources = Resource::query()->when($lessonIds, function ($query) use ($lessonIds) {
-            $query->whereIn('lesson_id', $lessonIds);
-        })->when($resourceTypes, function ($query) use ($resourceTypes) {
-            $query->whereIn('type', $resourceTypes);
-        })->where('status', 'approved')->paginate(12);
+        if ($lessonIds) {
+            $lessonIds = explode(',', $lessonIds);
+        }
 
-        $lessons = Lesson::all();
+        $resources = Resource::query()
+            ->when($resourceType, function ($query, $resourceType) {
+                return $query->where('type', $resourceType);
+            })
+            ->when($lessonIds, function ($query, $lessonIds) {
+                return $query->whereIn('lesson_id', $lessonIds);
+            })
+            ->where('status', 'approved')
+            ->paginate(12);
+
+        $lessons = Lesson::query()->orderBy('id', 'desc')->get();
 
         return Inertia::render('Resources', [
             'resources' => $resources,
             'lessons' => $lessons,
             'selectedLessonIds' => $lessonIds,
-            'selectedResourceTypes' => $resourceTypes,
+            'selectedResourceTypes' => $resourceType,
         ]);
     }
 

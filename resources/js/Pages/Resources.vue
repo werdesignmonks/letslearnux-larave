@@ -1,28 +1,45 @@
 <script setup>
-// import Layout from "../Lauouts/Layout.vue";
-
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import {Head, router, Link} from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import FilterCheckbox from "@/Pages/Resources/FilterCheckbox.vue";
 import Card from "@/Pages/Roadmap/Card.vue";
 import FilterButton from "@/Pages/Resources/FilterButton.vue";
-
-import { ref} from "vue";
+import { ref, defineProps } from "vue";
 
 const active = ref(true);
+const lessons = ref([]);
+const type = ref('');
 
 const props = defineProps({
-	resources: Array
-})
+	resources: Object,
+	lessons: Object,
+});
 
+const handleCheckboxClick = (value) => {
+	const index = lessons.value.indexOf(value);
 
-const lessons = [];
-const type = '';
+	if (index === -1) {
+		lessons.value.push(value);
+	} else {
+		lessons.value.splice(index, 1);
+	}
 
-function filterByType(type) {
+	const lessonQuery = lessons.value.length > 0 ? `&lesson=${lessons.value.join(',')}` : '';
+	const typeQuery = type.value ? `&type=${type.value}` : '';
 
-}
+	const url = `${route('resources')}?${lessonQuery}${typeQuery}`;
+	router.replace(url);
+};
 
+const handleTypeFilter = (selectedType) => {
+	type.value = selectedType;
+
+	const lessonQuery = lessons.value.length > 0 ? `&lesson=${lessons.value.join(',')}` : '';
+	const typeQuery = type.value ? `&type=${type.value}` : '';
+
+	const url = `${route('resources')}?${lessonQuery}${typeQuery}`;
+	router.replace(url);
+};
 </script>
 
 <template>
@@ -37,28 +54,31 @@ function filterByType(type) {
                     <h3 class="font-bold text-[20px] leading-[28px] mb-3">Filter by topics</h3>
 
                     <div>
-                        <FilterCheckbox value="all" label="All chapters" />
-                        <FilterCheckbox value="basic" label="Getting started with basic" />
-                        <FilterCheckbox value="tool" label="Learn & practice the tool" />
-                        <FilterCheckbox value="design" label="Learn UI design" />
-                        <FilterCheckbox value="practice" label="Practice, prepare and apply" />
-                        <FilterCheckbox value="all" label="Getting started with basic" />
-                        <FilterCheckbox value="all" label="Learn & practice the tool" />
-                        <FilterCheckbox value="all" label="Learn UI design" />
-                        <FilterCheckbox value="all" label="Practice, prepare and apply" />
+<!--                        <FilterCheckbox value="all" label="All chapters" />-->
+<!--                        <FilterCheckbox :value="item.id" :label="item.title" v-for="(item, index) in props.lessons" @click="LessonFilterWithType"  />-->
+
+	                    <FilterCheckbox
+		                    :value="item.id"
+		                    :label="item.title"
+		                    v-for="(item, index) in props.lessons"
+		                    @click="() => handleCheckboxClick(item.id)"
+		                    :key="index"
+	                    />
                     </div>
                 </div>
 
                 <div class="px-4 basis-3/4">
                     <div class="mb-4 flex justify-between items-center mb-6">
                         <div class="flex jus gap-2">
-<!--	                        <Link :href="resources" class="underline font-bold text-dm-color-primary -tracking-[0.5px] ">All Resources</Link>-->
-<!--	                        <Link :href="`${route('resources')}/?type=article`" class="underline font-bold text-dm-color-primary -tracking-[0.5px]">Articles</Link>-->
-<!--	                        <Link :href="`${route('resources')}/?type=book`" class="underline font-bold text-dm-color-primary -tracking-[0.5px] ">Books</Link>-->
-<!--	                        <Link :href="`${route('resources')}/?type=video`" class="underline font-bold text-dm-color-primary -tracking-[0.5px] ">Video</Link>-->
-                            <FilterButton :href="`${route('resources')}/?type=article`" label="Books" :isActive=true />
-                            <FilterButton :href="`${route('resources')}/?type=book`" label="Articles"  />
-                            <FilterButton :href="`${route('resources')}/?type=video`" label="Video"  />
+<!--                            <FilterButton :url="`${route('resources')}`" label="All" :isActive="route().current('resources')" />-->
+<!--                            <FilterButton :url="`${route('resources')}/?type=article`" label="Books" />-->
+<!--                            <FilterButton :url="`${route('resources')}/?type=book`" label="Articles" />-->
+<!--                            <FilterButton :url="`${route('resources')}/?type=video`" label="Video" />-->
+
+	                        <FilterButton :url="`${route('resources')}`" label="All" :isActive="route().current('resources')" @click="() => handleTypeFilter('')" />
+	                        <FilterButton :url="`${route('resources')}/?type=article`" label="Books" @click="() => handleTypeFilter('article')" />
+	                        <FilterButton :url="`${route('resources')}/?type=book`" label="Articles" @click="() => handleTypeFilter('book')" />
+	                        <FilterButton :url="`${route('resources')}/?type=video`" label="Video" @click="() => handleTypeFilter('video')" />
                         </div>
 
                         <div>
@@ -70,26 +90,13 @@ function filterByType(type) {
                             </select>
                         </div>
                     </div>
-                    <p class="font-medium font-base -tracking-[-0.5px] mb-3">15,489+ Articles found</p>
+                    <p class="font-medium font-base -tracking-[-0.5px] mb-3">{{ props.resources.data.length }} Articles found</p>
                     <div class="grid grid-cols-3 gap-5">
-                        <Card :title="item.title" :src="item.image" :url="item.url" v-for="(item, index) in props.resources.data" />
-<!--                        <Card title="How Good Is Your Eye For UI Design Details?" src="../images/card-2.png" url="https://www.cambridgeenglish.org/test-your-english/" />-->
-<!--                        <Card title="How Good Is Your Eye For UI Design Details?" src="../images/card-2.png" url="https://www.cambridgeenglish.org/test-your-english/" />-->
-<!--                        <Card title="21 Google Search Tips You'll Want to Learn PCMag" src="../images/card-2.png" url="https://www.cambridgeenglish.org/test-your-english/" />-->
-<!--                        <Card title="21 Google Search Tips You'll Want to Learn PCMag" src="../images/card-2.png" url="https://www.cambridgeenglish.org/test-your-english/" />-->
-<!--                        <Card title="21 Google Search Tips You'll Want to Learn PCMag" src="../images/card-2.png" url="https://www.cambridgeenglish.org/test-your-english/" />-->
+                        <Card :title="item.title" :src="item.image" :url="item.url" v-for="(item, index) in props.resources.data" :key="index" />
                     </div>
                 </div>
 
             </div>
-
-
-
         </div>
     </AuthenticatedLayout>
-
 </template>
-
-<style scoped>
-
-</style>
