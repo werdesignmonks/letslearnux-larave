@@ -17,7 +17,7 @@ class LessonSeeder extends Seeder
             [
                 'custom_sl' => fake()->randomFloat(1, 1, 1),
                 'title' => 'Figma for Developers',
-                'description' => 'Learn how to use Figma to create better projects',
+                'description' => 'FigJam is a new online whiteboard tool that helps teams ideate, brainstorm, and iterate together.',
                 'chapter_id' => 1,
                 'like' => fake()->numberBetween(1, 1000),
                 'dislike' => fake()->numberBetween(1,20),
@@ -25,8 +25,8 @@ class LessonSeeder extends Seeder
             ],
             [
                 'custom_sl' => fake()->randomFloat(2, 1, 2),
-                'title' => 'Laravel 10 Fundamentals',
-                'description' => 'Learn the basics of Laravel 10',
+                'title' => 'UI Design Fundamentals',
+                'description' => 'UI design is a creative and ever-changing field that welcomes fresh ideas from new practitioners, but there are some foundational UI design principles that every new designer should understand.',
                 'chapter_id' => 1,
                 'like' => fake()->numberBetween(1, 1000),
                 'dislike' => fake()->numberBetween(1,20),
@@ -34,7 +34,7 @@ class LessonSeeder extends Seeder
             ],
             [
                 'custom_sl' => fake()->randomFloat(1, 1, 3),
-                'title' => 'Laravel 10 Authentication',
+                'title' => 'UI/UX Design with Figma',
                 'description' => 'Learn how to implement authentication in Laravel 10',
                 'chapter_id' => 1,
                 'like' => fake()->numberBetween(1, 1000),
@@ -43,8 +43,8 @@ class LessonSeeder extends Seeder
             ],
             [
                 'custom_sl' => fake()->randomFloat(1, 1, 1),
-                'title' => 'Laravel 10 Authorization',
-                'description' => 'Learn how to implement authorization in Laravel 10',
+                'title' => 'Product Design Roadmap',
+                'description' => 'Product design is the process of identifying a market opportunity, clearly defining the problem, developing a proper solution for that problem and validating the solution with real users.',
                 'chapter_id' => 2,
                 'like' => fake()->numberBetween(1, 1000),
                 'dislike' => fake()->numberBetween(1,20),
@@ -52,8 +52,8 @@ class LessonSeeder extends Seeder
             ],
             [
                 'custom_sl' => fake()->randomFloat(1, 1, 2),
-                'title' => 'Laravel 10 Advanced',
-                'description' => 'Learn advanced topics of Laravel 10',
+                'title' => 'How to get Remote Jobs',
+                'description' => 'Remote work is a working style that allows professionals to work outside of a traditional office environment. It is based on the concept that work does not need to be done in a specific place to be executed successfully.',
                 'chapter_id' => 2,
                 'like' => fake()->numberBetween(1, 1000),
                 'dislike' => fake()->numberBetween(1,20),
@@ -61,8 +61,8 @@ class LessonSeeder extends Seeder
             ],
             [
                 'custom_sl' => fake()->randomFloat(1, 1, 3),
-                'title' => 'Laravel 10 Testing',
-                'description' => 'Learn how to test Laravel 10 applications',
+                'title' => 'UX Job Interview Questions',
+                'description' => 'UX design is a creative and ever-changing field that welcomes fresh ideas from new practitioners, but there are some foundational UX design principles that every new designer should understand.',
                 'chapter_id' => 2,
                 'like' => fake()->numberBetween(1, 1000),
                 'dislike' => fake()->numberBetween(1,20),
