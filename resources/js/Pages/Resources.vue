@@ -91,8 +91,8 @@ const resetFilters = () => {
 <!--                            <FilterButton :url="`${route('resources')}/?type=video`" label="Video" />-->
 
 	                        <FilterButton :url="`${route('resources')}`" label="All" :isActive="route().current('resources')" @click="() => handleTypeFilter('')" />
-	                        <FilterButton :url="`${route('resources')}/?type=article`" label="Books" @click="() => handleTypeFilter('article')" />
-	                        <FilterButton :url="`${route('resources')}/?type=book`" label="Articles" @click="() => handleTypeFilter('book')" />
+	                        <FilterButton :url="`${route('resources')}/?type=article`" label="Article" @click="() => handleTypeFilter('article')" />
+	                        <FilterButton :url="`${route('resources')}/?type=book`" label="Book" @click="() => handleTypeFilter('book')" />
 	                        <FilterButton :url="`${route('resources')}/?type=video`" label="Video" @click="() => handleTypeFilter('video')" />
                         </div>
 

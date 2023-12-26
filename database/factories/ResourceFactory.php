@@ -21,11 +21,11 @@ class ResourceFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
-            'type' => $this->faker->randomElement(['video', 'article', 'book', 'other']),
+            'type' => $this->faker->randomElement(['video', 'article', 'book']),
             'url' => $this->faker->url,
             'user_id' => User::factory(),
             'lesson_id' => Lesson::factory(),
-            'status' => $this->faker->randomElement(['approved', 'pending', 'rejected']),
+            'status' => $this->faker->randomElement(['approved', 'draft', 'rejected']),
             'image' => 'https://picsum.photos/200/300',
         ];
     }

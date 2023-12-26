@@ -118,18 +118,18 @@ function submit() {
 				<div class="dm-input-field">
 					<InputLabel for="Position" value="Content Type*" class="mb-2"/>
 
-					<div class="form-check mr-2 inline-flex items-center gap-1">
-						<input type="radio" id="type_video" name="type" v-model="form.type" value="video" class="form-check-input">
-						<label for="type_video" class="form-check-label dmb-0">Video</label>
-					</div>
-					<div class="form-check mr-2 inline-flex items-center gap-1">
+					<div class="form-check mr-4 inline-flex items-center gap-1">
 						<input type="radio" id="type_article" name="type" v-model="form.type" value="article" class="form-check-input">
 						<label for="type_article" class="form-check-label dmb-0">Article</label>
 					</div>
-					<div class="form-check mr-2 inline-flex items-center gap-1">
+					<div class="form-check mr-4 inline-flex items-center gap-1">
 						<input type="radio" id="type_book" name="type" v-model="form.type" value="book" class="form-check-input">
 						<label for="type_book" class="form-check-label dmb-0">Book</label>
 					</div>
+                    <div class="form-check mr-4 inline-flex items-center gap-1">
+                        <input type="radio" id="type_video" name="type" v-model="form.type" value="video" class="form-check-input">
+                        <label for="type_video" class="form-check-label dmb-0">Video</label>
+                    </div>
 					<div class="text-red-500" v-if="errors.type">{{ errors.type }}</div>
 
 					<div class="dm-input-field mt-3">
@@ -175,7 +175,7 @@ function submit() {
 							<option value="">Select Status</option>
 							<option value="approved">Public</option>
 							<option value="draft">Draft</option>
-							<!--              <option value="rejected">Rejected</option>-->
+							<option value="rejected">Rejected</option>
 						</select>
 						<div class="text-red-500" v-if="errors.status">{{ errors.status }}</div>
 					</div>
