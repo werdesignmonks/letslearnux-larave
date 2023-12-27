@@ -19,8 +19,6 @@ class UserController extends Controller
 
     public function login()
     {
-        // Implement user login logic
-        // ...
 
         return redirect()->route('user.dashboard');
     }

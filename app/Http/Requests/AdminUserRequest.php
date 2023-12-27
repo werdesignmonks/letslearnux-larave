@@ -26,7 +26,7 @@ class AdminUserRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'email' => ['required', 'email', Rule::unique('admins')->ignore($this->id)],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($this->id)],
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'password' => 'required|min:8',
         ];

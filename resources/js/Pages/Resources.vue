@@ -41,6 +41,15 @@ const handleTypeFilter = (selectedType) => {
 	router.replace(url);
 };
 
+const handleSortChange = (selectedSort) => {
+    const lessonQuery = lessons.value.length > 0 ? `&lesson=${lessons.value.join(',')}` : '';
+    const typeQuery = type.value ? `&type=${type.value}` : '';
+    const sortQuery = selectedSort ? `&sort=${selectedSort}` : '';
+
+    const url = `${route('resources')}?${lessonQuery}${typeQuery}${sortQuery}`;
+    router.replace(url);
+};
+
 const resetFilters = () => {
 	lessons.value = [];
 	type.value = '';
@@ -97,13 +106,28 @@ const resetFilters = () => {
                         </div>
 
                         <div>
-                            <select class="border py-[11px] px-[15px] rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474] focus:outline-0">
-                                <option value="1">All Resources</option>
-                                <option value="2">A Two Z</option>
-                                <option value="3">Recent</option>
-                                <option value="4">Most Viewed</option>
+<!--                            <select class="border py-[11px] px-[15px] rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474] focus:outline-0">-->
+<!--                                <option value="1">All Resources</option>-->
+<!--                                <option value="2">A Two Z</option>-->
+<!--                                <option value="3">Recent</option>-->
+<!--                                <option value="4">Most Viewed</option>-->
+<!--                            </select>-->
+
+
+                            <select
+                                v-model="selectedSort"
+                                class="border py-[11px] px-[15px] rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474] focus:outline-0"
+                                @change="() => handleSortChange(selectedSort)"
+                            >
+                                <option value="select">Sort By</option>
+                                <option value="asc">Ascending</option>
+                                <option value="desc">Descending</option>
+<!--                                <option value="az">A-Z</option>-->
                             </select>
                         </div>
+
+
+
                     </div>
                     <p class="font-medium font-base -tracking-[-0.5px] mb-3">{{ props.resources.data.length }} Articles found</p>
                     <div class="grid grid-cols-3 gap-5">

@@ -112,7 +112,7 @@ function destroy(id) {
                                     </tbody>
                                 </table>
                             </div>
-                          <Pagination :resources="resources" :links="resources.links"/>
+                            <Pagination :resources="resources" :links="resources.links"/>
                         </div>
                     </div>
                 </div>

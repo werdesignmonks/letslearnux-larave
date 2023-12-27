@@ -16,12 +16,14 @@ class ResourcesController extends Controller
     {
         $lessonIds = $request->get('lesson');
         $resourceType = $request->get('type');
+        $shot = $request->get('sort') === 'asc';
 
         if ($lessonIds) {
             $lessonIds = explode(',', $lessonIds);
         }
 
         $resources = Resource::query()
+            ->orderBy('title', $shot ? 'asc' : 'desc')
             ->when($resourceType, function ($query, $resourceType) {
                 return $query->where('type', $resourceType);
             })

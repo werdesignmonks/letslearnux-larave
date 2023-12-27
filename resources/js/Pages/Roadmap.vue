@@ -53,7 +53,7 @@ const props = defineProps({
                                 <path d="M10 15H10.0083" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M13.3333 15H13.3417" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span class="text-dm-color-secondary text-base font-medium">{{ item.estimate_time }} days</span>
+                            <span class="text-dm-color-secondary text-base font-medium">{{ item.estimate_time }} </span>
                         </div>
                     </div>
                 </div>
@@ -101,7 +101,3 @@ const props = defineProps({
         </div>
     </AuthenticatedLayout>
 </template>
-
-<style scoped>
-
-</style>

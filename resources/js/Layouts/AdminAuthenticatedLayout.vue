@@ -43,10 +43,6 @@ const showingNavigationDropdown = ref(false);
                         Resource
                     </NavLink>
 
-<!--                    <NavLink :href="route('onboarding.index')" :active="route().current('onboarding.index')" class="block">-->
-<!--                        Feedback-->
-<!--                    </NavLink>-->
-
                     <NavLink :href="route('user.index')" :active="route().current('user.index')" class="block">
                         User Management
                     </NavLink>
@@ -61,22 +57,26 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Page Content -->
             <main class="w-[calc(100%_-_300px)] absolute left-[300px]">
-                <div class="container sm:px-6 lg:px-[60px]">
+                <div class="w-full">
                     <nav class="border-b border-gray-100">
                         <!-- Primary Navigation Menu -->
-                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div class="flex justify-end h-16">
+                        <div class="py-3">
+                            <div class="flex justify-end">
                                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                                     <!-- Settings Dropdown -->
-                                    <div class="ms-3 relative">
+                                    <div class="ms-3 relative flex items-center">
+                                        <div class="justify-start items-center gap-8 inline-flex">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6 8C6 6.4087 6.63214 4.88258 7.75736 3.75736C8.88258 2.63214 10.4087 2 12 2C13.5913 2 15.1174 2.63214 16.2426 3.75736C17.3679 4.88258 18 6.4087 18 8C18 15 21 17 21 17H3C3 17 6 15 6 8Z" stroke="#000913" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M10.3 21C10.4674 21.3044 10.7135 21.5583 11.0125 21.7352C11.3116 21.912 11.6526 22.0053 12 22.0053C12.3475 22.0053 12.6885 21.912 12.9876 21.7352C13.2866 21.5583 13.5327 21.3044 13.7 21" stroke="#000913" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+
+                                        </div>
                                         <Dropdown align="right" width="48">
                                             <template #trigger>
+
                                             <span class="inline-flex rounded-md">
-                                                <button
-                                                    type="button"
-                                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                                >
-                                                    {{ $page.props.auth.user.name }}
+                                                <button type="button" class="inline-flex items-center px-3 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                                     <img :src="$page.props.auth.user.avatar_path" class="h-12 w-12 rounded-full object-cover ml-4" alt="avatar">
                                                     <svg
                                                         class="ms-2 -me-0.5 h-4 w-4"
@@ -95,6 +95,7 @@ const showingNavigationDropdown = ref(false);
                                             </template>
 
                                             <template #content>
+                                                <DropdownLink :href="route('profile.profile')"> {{ $page.props.auth.user.name }}</DropdownLink>
                                                 <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
                                                 <DropdownLink :href="route('logout')" method="post" as="button">
                                                     Log Out
@@ -166,14 +167,16 @@ const showingNavigationDropdown = ref(false);
                         </div>
                     </nav>
 
-                    <!-- Page Heading -->
-                    <header v-if="$slots.header">
-                        <div class="pt-7">
-                            <slot name="header" />
-                        </div>
-                    </header>
+                    <div class="sm:px-6 lg:px-[60px]">
+                        <!-- Page Heading -->
+                        <header v-if="$slots.header">
+                            <div class="pt-7">
+                                <slot name="header" />
+                            </div>
+                        </header>
 
-                    <slot />
+                        <slot />
+                    </div>
                 </div>
             </main>
         </div>
