@@ -91,7 +91,7 @@ class LessonController extends Controller
     {
        // Validate the data
         $request->validate([
-            'title' => 'required|max:255|unique:topics,topic_name,' . $lesson->id,
+            'title' => 'required|max:255|unique:lessons,topic_name,' . $lesson->id,
             'chapter_id' => 'required',
             'description' => 'required',
             'custom_sl' => 'required|numeric',
