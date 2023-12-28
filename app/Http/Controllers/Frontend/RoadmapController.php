@@ -14,7 +14,7 @@ class RoadmapController extends Controller
     public function index()
     {
 
-        $chapers = Chapter::with('lesson')->orderBy('id', 'desc')->paginate(5);
+        $chapers = Chapter::with('lesson')->orderBy('id', 'asc')->paginate(10);
 
         return Inertia::render('Roadmap', [
             'chapters' => $chapers,

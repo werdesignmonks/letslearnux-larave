@@ -75,7 +75,7 @@ function submit() {
             //         background: 'linear-gradient(to right, #00b09b, #96c93d)',
             //     },
             // });
-            modalSubmitedResource.value = true;
+            // modalSubmitedResource.value = true;
         },
         onError: (errors) => {
             console.log(errors)
@@ -165,7 +165,7 @@ console.log(props.errors)
         </div>
     </div>
 
-    <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalComplete" @click="modalComplete = false">
+    <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalComplete">
 <!--        <div class="w-[512px] h-[512px] bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">-->
 <!--            <img :src="'../images/illistation.svg'" alt="cup" class="w-full absolute top-0 left-0 z-[-1]">-->
 <!--            <div class="mb-5 relative z-10">-->
@@ -213,7 +213,8 @@ console.log(props.errors)
     </div>
 
     <!-- Resource Popup -->
-    <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalSubmitedResource" >
+    <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalSubmitedResource">
+
         <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">
             <div class="mb-5 relative z-10">
                 <img :src="'../images/success-icon.svg'" alt="cup" class="mx-auto">
@@ -221,10 +222,11 @@ console.log(props.errors)
 
             <div class="text-center">
                 <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Your resources are under review</h1>
-                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px] ">Your diligent efforts and attention to detail are truly appreciated. We’ll check the information and you’ll get
-                    an email while approved.</p>
+                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px]">
+                    Your diligent efforts and attention to detail are truly appreciated. We’ll check the information and you’ll get an email while approved.
+                </p>
                 <div class="flex items-center gap-2 mt-5">
-                    <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150">
+                    <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150" @click="modalAddResource = false">
                         Close
                     </button>
 
@@ -240,12 +242,11 @@ console.log(props.errors)
         <div class="w-[512px] bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl p-[32px] opacity-1">
 
 	        <div class="absolute top-[20px] right-[20px] cursor-pointer" @click="modalAddResource = false">
-		        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#566474]" fill="none" viewBox="0 0 24 24"
-		             stroke="currentColor">
-			        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-			              d="M6 18L18 6M6 6l12 12"/>
+		        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#566474]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
 		        </svg>
 	        </div>
+
             <h1 class="text-[32px] leading-[38px] mb-[16px] font-bold text-gray-900 mb-[8px] -tracking-[2px] text-center">Add resources</h1>
 
             <div class="p-4 bg-violet-50 rounded-2xl border border-violet-100 flex-col justify-start items-start gap-1 inline-flex">
@@ -306,8 +307,10 @@ console.log(props.errors)
 
             <div class="text-center">
                 <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Your resources are under review</h1>
-                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px] ">Your diligent efforts and attention to detail are truly appreciated. We’ll check the information and you’ll get
-                    an email while approved.</p>
+                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px] ">
+                    Your diligent efforts and attention to detail are truly appreciated. We’ll check the information and you’ll get
+                    an email while approved.
+                </p>
                 <div class="flex items-center gap-2 mt-5">
                     <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150">
                         Close
@@ -321,14 +324,14 @@ console.log(props.errors)
         </div>
     </div>
 
-    <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalShareResource" >
+    <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalShareResource = false" >
         <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-3xl pb-[60px] opacity-1 overflow-hidden">
             <div class="mb-[32px] relative z-10 relative">
                 <img :src="'../images/share-image.png'" alt="cup" class="mx-auto w-full">
                 <h3 class="text-[20px] text-white font-bold mb-1 mt-4 absolute left-[20px] bottom-[15px]">Learn Figma Tool</h3>
             </div>
-
             <h2 class="text-[32px] font-bold mb-[24px] -tracking-[2px] text-center px-4 leading-[38px]">Share this with your social community</h2>
+
             <div class="flex justify-center">
                 <SocialShare :isShow="false" iconWidth="lg" class="mx-auto" iconBgColor="bg-[#E5E6E7] text-[#566474]" />
             </div>

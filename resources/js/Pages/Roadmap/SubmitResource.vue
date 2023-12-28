@@ -8,7 +8,6 @@ defineProps( {
 </script>
 
 <template>
-
     <div class="max-w-[1070px]  bg-violet-50 rounded-3xl justify-start items-center gap-8 inline-flex md:flex-row sm:flex-col ">
         <div class="lg:w-[410px] lg:h-[360px] px-4 flex items-center justify-center">
             <div class="relative">
