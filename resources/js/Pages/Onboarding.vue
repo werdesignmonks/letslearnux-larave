@@ -1,12 +1,16 @@
 <script setup>
 import {useForm, Head} from "@inertiajs/vue3";
 import {defineProps, ref} from "vue";
+import StepProgress from "../Components/StepProgress.vue";
+import Step1 from "@/Components/Steps/Step1.vue";
 
 
-defineProps({
+const props = defineProps({
     onboardings: Object,
     errors: Object,
 });
+
+console.log(props.onboardings);
 
 const form = useForm({
     profession: '',
@@ -30,6 +34,8 @@ function submit() {
 <template>
     <Head title="Onboarding"/>
 
+<!--    <StepProgress :step="1" :total="3" />-->
+
     <div class="py-[20px] h-screen  items-center w-full flex-col justify-center">
         <div class="lg:max-w-[1070px] sm:max-w-[600px] px-5 mx-auto mb-[48px]">
             <div class="w-full bg-[#F2F3F3] rounded-full h-3">
@@ -38,34 +44,35 @@ function submit() {
         </div>
         <div class="px-5">
             <form @submit.prevent="submit" method="POST">
-                <div class="border border-neutral-200 rounded-[48px] sm:max-w-[520px] sm:min-w-[520px] p-12 mb-10 mx-auto">
-                    <h2 class="text-[32px] leading-[38.40px] text-gray-950 text-center font-bold -tracking-[2px] mb-[24px]">
-                        Which describes you best?
-                    </h2>
-                    <div class="flex-col justify-start items-start gap-3 inline-flex">
-                        <label for="student" class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">
-                            <input type="radio" id="student" v-model="form.profession" value="student" class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">
-                            <span class="text-gray-950 text-base font-medium leading-relaxed">Student</span>
-                        </label>
+                <Step1 :form="form" :errors="errors" />
+<!--                <div class="border border-neutral-200 rounded-[48px] sm:max-w-[520px] sm:min-w-[520px] p-12 mb-10 mx-auto">-->
+<!--                    <h2 class="text-[32px] leading-[38.40px] text-gray-950 text-center font-bold -tracking-[2px] mb-[24px]">-->
+<!--                        Which describes you best?-->
+<!--                    </h2>-->
+<!--                    <div class="flex-col justify-start items-start gap-3 inline-flex">-->
+<!--                        <label for="student" class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">-->
+<!--                            <input type="radio" id="student" v-model="form.profession" value="student" class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">-->
+<!--                            <span class="text-gray-950 text-base font-medium leading-relaxed">Student</span>-->
+<!--                        </label>-->
 
-                        <label for="professional" class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">
-                            <input type="radio" id="professional" v-model="form.profession" value="professional" class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">
-                            <span class="text-gray-950 text-base font-medium leading-relaxed">Professional</span>
-                        </label>
+<!--                        <label for="professional" class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">-->
+<!--                            <input type="radio" id="professional" v-model="form.profession" value="professional" class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">-->
+<!--                            <span class="text-gray-950 text-base font-medium leading-relaxed">Professional</span>-->
+<!--                        </label>-->
 
-                        <label for="business" class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">
-                            <input type="radio" id="business" v-model="form.profession" value="business" class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">
-                            <span class="text-gray-950 text-base font-medium leading-relaxed">Manager or Business Owner</span>
-                        </label>
+<!--                        <label for="business" class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">-->
+<!--                            <input type="radio" id="business" v-model="form.profession" value="business" class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">-->
+<!--                            <span class="text-gray-950 text-base font-medium leading-relaxed">Manager or Business Owner</span>-->
+<!--                        </label>-->
 
-                        <label for="other" class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">
-                            <input type="radio" id="other" v-model="form.profession" value="other" class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">
-                            <span class="text-gray-950 text-base font-medium leading-relaxed">Other</span>
-                        </label>
+<!--                        <label for="other" class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">-->
+<!--                            <input type="radio" id="other" v-model="form.profession" value="other" class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">-->
+<!--                            <span class="text-gray-950 text-base font-medium leading-relaxed">Other</span>-->
+<!--                        </label>-->
 
-                        <div class="text-red-500" v-if="errors.profession">{{ errors.profession }} </div>
-                    </div>
-                </div>
+<!--                        <div class="text-red-500" v-if="errors.profession">{{ errors.profession }} </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
                 <div class="border border-dm-border-color rounded-3xl sm:max-w-[520px] sm:min-w-[520px] p-[48px] mb-10  mx-auto">
                     <h2 class="text-[32px] leading-[38.40px] text-gray-950 text-center font-bold -tracking-[2px] mb-[24px]">

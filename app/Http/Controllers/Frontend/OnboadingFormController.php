@@ -12,7 +12,7 @@ class OnboadingFormController extends Controller
 {
     public function index()
     {
-        $onboardings = Onboarding::with('options')->orderBy('id', 'desc')->get();
+        $onboardings = OnboardingQuestion::all();
         return Inertia::render('Onboarding', [
             'onboardings' => $onboardings,
         ]);
@@ -41,19 +41,22 @@ class OnboadingFormController extends Controller
     public function save(Request $request)
     {
 
+//        dd($request->profession);
+//
+
         $request->validate([
             'profession' => 'required|string',
             'experience' => 'required|string',
             'learning' => 'required|array',
         ]);
 
-        $onboarding = OnboardingQuestion::create([
-            'profession' => $request->profession, // json_encode($request->profession)
+       OnboardingQuestion::create([
+            'profession' => $request->profession,
             'experience' => $request->experience,
             'learning' => json_encode($request->learning),
             'user_id' => auth()->user()->id,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Onboarding created successfully.');
+        return redirect()->route('roadmap')->with('success', 'Onboarding created successfully.');
     }
 }

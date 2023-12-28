@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -73,7 +74,7 @@ class ProviderController extends Controller
             return redirect('/roadmap');
 
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::info($e->getMessage());
             return redirect('/login');
 
