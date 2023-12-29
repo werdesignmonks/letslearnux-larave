@@ -34,7 +34,7 @@ defineProps({
                 <span class="text-gray-950 text-base font-medium leading-relaxed">UX Jobs</span>
             </label>
 
-            <div class="text-red-500" v-if="errors.learning">{{ errors.learning }} </div>
+            <div class="text-red-500 text-center w-full" v-if="errors.learning">{{ errors.learning }} </div>
         </div>
     </div>
 </template>

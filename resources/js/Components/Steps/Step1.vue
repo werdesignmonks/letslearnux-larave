@@ -1,6 +1,6 @@
 <script setup>
 
-defineProps({
+const props = defineProps({
     form: Object,
     errors: Object,
 });
@@ -41,7 +41,7 @@ defineProps({
                 <span class="text-gray-950 text-base font-medium leading-relaxed">Other</span>
             </label>
 
-            <div class="text-red-500" v-if="errors.profession">{{ errors.profession }}</div>
+            <div class="text-red-500 text-center w-full" v-if="errors.profession">{{ errors.profession }}</div>
         </div>
     </div>
 </template>

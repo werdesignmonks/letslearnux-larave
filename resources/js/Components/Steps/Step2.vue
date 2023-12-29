@@ -28,7 +28,7 @@ defineProps({
                 <span class="text-gray-950 text-base font-medium leading-relaxed"><strong>Advanced</strong> (5+ years experience)</span>
             </label>
 
-            <div class="text-red-500" v-if="errors.experience">{{ errors.experience }} </div>
+            <div class="text-red-500 text-center w-full" v-if="errors.experience">{{ errors.experience }} </div>
         </div>
     </div>
 </template>

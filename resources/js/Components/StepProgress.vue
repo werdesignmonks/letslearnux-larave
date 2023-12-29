@@ -1,20 +1,19 @@
 <script setup>
 
-import { defineProps, ref, computed } from 'vue';
+import { defineProps, ref, computed, getCurrentInstance } from 'vue';
+
 
 const props = defineProps({
     formData: Object,
     errors: Object,
     from: Object,
+    ctx: Object,
 });
 
 props.formData.currentStep--;
 
 const data = ref(props.formData);
-
-// props.currentStep = computed(() => {
-//     return props.formData.currentStep;
-// });
+const { emit } = getCurrentInstance();
 
 const cssStyle = computed(() => {
     return {
@@ -23,38 +22,24 @@ const cssStyle = computed(() => {
     }
 });
 
-// Current step
-const currentStep = computed(() => {
-    return data.value.currentStep;
-});
-
-
-
-
 const nextStep = () => {
     if(data.value.currentStep < data.value.steps.length - 1) {
         data.value.currentStep++;
+        emit('step-change', data.value.currentStep);
     }
 }
 
 const prevStep = () => {
     if(data.value.currentStep > 0) {
         data.value.currentStep--;
+        emit('step-change', data.value.currentStep);
     }
 }
-
-// Current Step count
-const currentStepCount = computed(() => {
-    return data.value.currentStep + 1;
-});
-
 
 defineExpose({
     nextStep,
     prevStep,
 });
-
-
 
 </script>
 
@@ -161,7 +146,5 @@ defineExpose({
 .step-current .step__line-fill {
     width: 50%;
 }
-
-
 
 </style>

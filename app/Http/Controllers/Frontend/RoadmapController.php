@@ -24,7 +24,6 @@ class RoadmapController extends Controller
     // Show lesson with slug
     public function show($slug)
     {
-
         $lesson = Lesson::query()->where('slug', $slug)->firstOrFail();
         $book_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_BOOK)->where('status', 'approved')->get();
         $article_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_ARTICLE)->where('status', 'approved')->get();
