@@ -7,7 +7,7 @@ import Step2 from "@/Components/Steps/Step2.vue";
 import Step3 from "@/Components/Steps/Step3.vue";
 
 const stepProgress = ref(0);
-const isFormValid = ref(false);
+const isFormValid = ref(true);
 
 const props = defineProps({
     onboardings: Object,
@@ -48,6 +48,8 @@ const validateForm = () => {
     // isFormValid.value = form.profession !== '' && (form.experience !== '' && form.learning.length > 0);
 };
 
+// :disabled="!isFormValid"
+
 onMounted(validateForm);
 
 </script>
@@ -55,25 +57,31 @@ onMounted(validateForm);
 <template>
     <Head title="Onboarding"/>
 
-    <div class="py-[20px] h-screen  items-center w-full flex-col justify-center">
+    <div class="h-screen items-center w-full flex-col justify-center">
 
-        <div class="px-5">
-            <form @submit.prevent="submit" method="POST">
-                <StepProgress :formData="dataStep" :from="form" :errors="props.errors" ref="stepProgress" @step-change="handleStepChange" />
+        <div class="min-h-screen">
+            <form @submit.prevent="submit" method="POST" class="flex flex-col justify-between h-full min-h-screen">
+                <StepProgress :formData="dataStep" :from="form" :errors="props.errors" ref="stepProgress"
+                              @step-change="handleStepChange"/>
 
-                <div class="flex justify-center">
+                <div class="py-3 bg-violet-50">
+                    <div class="container mx-auto flex items-center justify-between">
+                        <button type="button" v-if="dataStep.currentStep > 0" @click="stepProgress.prevStep"
+                                class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold">
+                            Previous
+                        </button>
 
-                    <button type="button" v-if="dataStep.currentStep > 0" @click="stepProgress.prevStep"  class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold">
-                        Previous
-                    </button>
+                        <button type="button" v-if="dataStep.currentStep < dataStep.steps.length - 1"
+                                @click="stepProgress.nextStep"
+                                class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold disabled:opacity-25">
+                            Next
+                        </button>
 
-                    <button type="button" :disabled="!isFormValid" v-if="dataStep.currentStep < dataStep.steps.length - 1" @click="stepProgress.nextStep" class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold disabled:opacity-25">
-                        Next
-                    </button>
-
-                    <button type="submit" :disabled="!isFormValid" v-if="dataStep.currentStep === dataStep.steps.length - 1" class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold disabled:opacity-25">
-                        Submit
-                    </button>
+                        <button type="submit" v-if="dataStep.currentStep === dataStep.steps.length - 1"
+                                class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold disabled:opacity-25">
+                            Submit
+                        </button>
+                    </div>
                 </div>
 
             </form>

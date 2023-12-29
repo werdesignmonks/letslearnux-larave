@@ -47,13 +47,13 @@ defineExpose({
 
     <div class="step-container" :style="cssStyle">
         <ul class="steps">
-            <li class="step" v-for="(step, index) in data.steps" :key="index" :class="{
+            <li class="step" v-for="(step, index) in data.steps" v-if="index !== -1" :key="index" :class="{
                 'step-active': index === data.currentStep,
                 'step-complete': index < data.currentStep,
                 'step-current': index === 0 && index == data.currentStep,
                 }">
 <!--                <div class="step__bubble"></div>-->
-                <div class="step__line">
+                <div class="step__line" >
                     <div class="step__line-fill"></div>
                 </div>
             </li>
@@ -78,7 +78,9 @@ defineExpose({
     display: flex;
     list-style: none;
     padding: 0;
-    margin: 0;
+    justify-content: space-between;
+    max-width: 1070px;
+    margin: 0 auto;
 }
 
 .step {
@@ -127,6 +129,11 @@ defineExpose({
     height: 100%;
     background-color: var(--active-color);
     transition: transform 0.3s ease;
+
+}
+
+.step-active .step__line-fill {
+    border-radius: 0 10px 10px 0;
 }
 
 .step-complete .step__line-fill {
@@ -135,7 +142,7 @@ defineExpose({
 }
 
 .step:last-child .step__line {
-    display: none;
+    display: none !important;
 }
 
 .step-active .step__bubble,
