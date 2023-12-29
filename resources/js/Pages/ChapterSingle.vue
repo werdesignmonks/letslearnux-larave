@@ -43,6 +43,12 @@ const form = useForm({
     type: '',
 });
 
+const formStatus = useForm({
+    lesson_id: props.lesson.id,
+    is_completed: '',
+    progress: '',
+});
+
 const uploadImage = (event) => {
     const file = event.target.files[0];
     form.image = file;

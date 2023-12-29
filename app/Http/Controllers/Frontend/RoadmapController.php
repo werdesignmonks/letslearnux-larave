@@ -11,13 +11,21 @@ use Inertia\Inertia;
 
 class RoadmapController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
 
-        $chapers = Chapter::with('lesson')->orderBy('id', 'asc')->paginate(10);
+        $shortBy = $request->get('sort');
+        $allChapters = Chapter::all();
+
+        $chapers = Chapter::with('lesson')->orderBy('id', 'asc')
+            ->when($shortBy, function ($query, $shortBy) {
+                return $query->where('id', $shortBy);
+            })
+            ->paginate(10);
 
         return Inertia::render('Roadmap', [
             'chapters' => $chapers,
+            'allChapters' => $allChapters,
         ]);
     }
 

@@ -15,29 +15,31 @@ const props = defineProps({
         <div class="flex-col justify-start items-start gap-3 inline-flex">
             <label for="student"
                    class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">
-                <input type="radio" id="student" v-model="form.profession" value="student"
-                       class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">
-                <span class="text-gray-950 text-base font-medium leading-relaxed">Student</span>
+                <input
+                    type="radio" id="student" v-model="form.profession" value="student"
+                    class="before:content[''] peer relative h-5 w-5 bg-zinc-100 cursor-pointer appearance-none rounded-full border border-neutral-300 text-gray-900 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-dm-color-primary before:opacity-0 before:transition-opacity checked:border-[#643ef3] checked:bg-dm-color-primary checked:before:bg-dm-color-primary">
+
+                    <span class="text-gray-950 text-base font-medium leading-relaxed">Student</span>
             </label>
 
             <label for="professional"
                    class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">
                 <input type="radio" id="professional" v-model="form.profession" value="professional"
-                       class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">
+                       class="before:content[''] peer relative h-5 w-5 bg-zinc-100 cursor-pointer appearance-none rounded-full border border-neutral-300 text-gray-900 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-dm-color-primary before:opacity-0 before:transition-opacity checked:border-[#643ef3] checked:bg-dm-color-primary checked:before:bg-dm-color-primary">
                 <span class="text-gray-950 text-base font-medium leading-relaxed">Professional</span>
             </label>
 
             <label for="business"
                    class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">
                 <input type="radio" id="business" v-model="form.profession" value="business"
-                       class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">
+                       class="before:content[''] peer relative h-5 w-5 bg-zinc-100 cursor-pointer appearance-none rounded-full border border-neutral-300 text-gray-900 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-dm-color-primary before:opacity-0 before:transition-opacity checked:border-[#643ef3] checked:bg-dm-color-primary checked:before:bg-dm-color-primary">
                 <span class="text-gray-950 text-base font-medium leading-relaxed">Manager or Business Owner</span>
             </label>
 
             <label for="other"
                    class="w-[424px] h-[66px] p-5 bg-stone-50 rounded-3xl border border-neutral-200 justify-start items-center gap-2.5 inline-flex">
                 <input type="radio" id="other" v-model="form.profession" value="other"
-                       class="w-5 h-5 bg-zinc-100 rounded-[100px] border border-neutral-300">
+                       class="before:content[''] peer relative h-5 w-5 bg-zinc-100 cursor-pointer appearance-none rounded-full border border-neutral-300 text-gray-900 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-dm-color-primary before:opacity-0 before:transition-opacity checked:border-[#643ef3] checked:bg-dm-color-primary checked:before:bg-dm-color-primary">
                 <span class="text-gray-950 text-base font-medium leading-relaxed">Other</span>
             </label>
 

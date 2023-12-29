@@ -61,25 +61,31 @@ onMounted(validateForm);
 
         <div class="min-h-screen">
             <form @submit.prevent="submit" method="POST" class="flex flex-col justify-between h-full min-h-screen">
-                <StepProgress :formData="dataStep" :from="form" :errors="props.errors" ref="stepProgress"
-                              @step-change="handleStepChange"/>
+                <StepProgress
+                    :formData="dataStep"
+                    :from="form"
+                    :errors="props.errors" ref="stepProgress"
+                    @step-change="handleStepChange"/>
 
                 <div class="py-3 bg-violet-50">
-                    <div class="container mx-auto flex items-center justify-between">
-                        <button type="button" v-if="dataStep.currentStep > 0" @click="stepProgress.prevStep"
-                                class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold">
-                            Previous
+                    <div class="max-w-5xl mx-auto flex items-center " :class="dataStep.currentStep === 0 ? 'justify-end' : 'justify-between' ">
+                        <button
+                            type="button" v-if="dataStep.currentStep > 0" @click="stepProgress.prevStep"
+                            class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold">
+                            Back
                         </button>
 
-                        <button type="button" v-if="dataStep.currentStep < dataStep.steps.length - 1"
-                                @click="stepProgress.nextStep"
-                                class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold disabled:opacity-25">
+                        <button
+                            type="button" v-if="dataStep.currentStep < dataStep.steps.length - 1"
+                            @click="stepProgress.nextStep"
+                            class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold disabled:opacity-25">
                             Next
                         </button>
 
-                        <button type="submit" v-if="dataStep.currentStep === dataStep.steps.length - 1"
-                                class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold disabled:opacity-25">
-                            Submit
+                        <button
+                            type="submit" v-if="dataStep.currentStep === dataStep.steps.length - 1"
+                            class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold disabled:opacity-25">
+                            Let’s Start
                         </button>
                     </div>
                 </div>

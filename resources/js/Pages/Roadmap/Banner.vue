@@ -39,8 +39,6 @@ const banner = "/images/roadmap-banner.png";
         </div>
 
         <div class="flex items-center justify-between mt-5">
-            <Link href="#" class="dm-btn">Close This Section</Link>
-
             <SocialShare />
         </div>
     </div>

@@ -5,10 +5,22 @@ import Banner from "@/Pages/Roadmap/Banner.vue";
 import {Head, Link, router} from '@inertiajs/vue3';
 import Pagination from "@/Components/Pagination.vue";
 
+import {defineProps, ref} from "vue";
+
+const selectedSort = ref('');
 
 const props = defineProps({
     chapters: Array,
+    allChapters: Array,
 });
+
+const handleSortChange = (selectedSort) => {
+    const sortQuery = selectedSort ? `&sort=${selectedSort}` : '';
+
+    const url = `${route('roadmap')}?${sortQuery}`;
+    router.replace(url);
+
+}
 
 
 </script>
@@ -22,12 +34,9 @@ const props = defineProps({
             <Banner />
 
             <div class="flex justify-end mt-5">
-                <select class="border rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474]">
-                    <option value="1">All Chapter</option>
-                    <option value="2">Planned</option>
-                    <option value="3">In Progress</option>
-                    <option value="4">Live</option>
-                    <option value="5">Closed</option>
+                <select class="border rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474]" v-model="selectedSort"  @change="() => handleSortChange(selectedSort)">
+                    <option value="">All Chapter</option>
+                    <option :value="item.id" v-for="(item, index) in props.allChapters"> {{ item.title }}</option>
                 </select>
             </div>
 
@@ -67,33 +76,6 @@ const props = defineProps({
                             {{ lesson.title}}
                         </Link>
                     </div>
-
-<!--                    <div class="group border border-dm-border-color bg-dm-bg-color py-[19px] px-[20px] flex items-center gap-4 rounded-3xl mb-[12px] hover:border-dm-color-primary hover:bg-[#F7F5FE] transition ease-in-out delay-150">-->
-<!--                        <div class="border border-dm-border-color text-base font-bold rounded-full w-[32px] h-[32px] flex items-center justify-center group-hover:border-dm-color-primary group-hover:text-dm-color-primary transition ease-in-out delay-150">-->
-<!--                            1.2-->
-<!--                        </div>-->
-<!--                        <Link href="#" class="text-base font-bold text-dm-heading-color tracking-[-0.5px] group-hover:text-dm-color-primary transition ease-in-out delay-150">-->
-<!--                            Read some UX articles-->
-<!--                        </Link>-->
-<!--                    </div>-->
-
-<!--                    <div class="group border border-dm-border-color bg-dm-bg-color py-[19px] px-[20px] flex items-center gap-4 rounded-3xl mb-[12px] hover:border-dm-color-primary hover:bg-[#F7F5FE] transition ease-in-out delay-150">-->
-<!--                        <div class="border border-dm-border-color text-base font-bold rounded-full w-[32px] h-[32px] flex items-center justify-center group-hover:border-dm-color-primary group-hover:text-dm-color-primary transition ease-in-out delay-150">-->
-<!--                            1.3-->
-<!--                        </div>-->
-<!--                        <Link href="#" class="text-base font-bold text-dm-heading-color tracking-[-0.5px] group-hover:text-dm-color-primary transition ease-in-out delay-150">-->
-<!--                            Watch some YouTube videos-->
-<!--                        </Link>-->
-<!--                    </div>-->
-
-<!--                    <div class="group border border-dm-border-color bg-dm-bg-color py-[19px] px-[20px] flex items-center gap-4 rounded-3xl mb-[12px] hover:border-dm-color-primary hover:bg-[#F7F5FE] transition ease-in-out delay-150">-->
-<!--                        <div class="border border-dm-border-color text-base font-bold rounded-full w-[32px] h-[32px] flex items-center justify-center group-hover:border-dm-color-primary group-hover:text-dm-color-primary transition ease-in-out delay-150">-->
-<!--                            1.4-->
-<!--                        </div>-->
-<!--                        <Link href="#" class="text-base font-bold text-dm-heading-color tracking-[-0.5px] group-hover:text-dm-color-primary transition ease-in-out delay-150">-->
-<!--                            Start exploring Dribbble and Behance daily for 3 months-->
-<!--                        </Link>-->
-<!--                    </div>-->
                 </div>
             </div>
             <Pagination :links="chapters.links" />

@@ -35,7 +35,12 @@ const publishedBooksMessage = computed(() => {
 </script>
 
 <template>
-    <Link :href="url" class="p-3 text-base hover:bg-dm-color-primary hover:border-dm-color-primary hover:text-white rounded-lg transition duration-300 ease-in-out" :class="publishedBooksMessage">
+    <Link :href="url"
+          class="p-3 text-base hover:bg-dm-color-primary hover:border-dm-color-primary hover:text-white rounded-lg transition duration-300 ease-in-out"
+
+          :class="{ 'active': isActive }"
+          @click="$emit('click')"
+    >
         {{ label }}
     </Link>
 </template>

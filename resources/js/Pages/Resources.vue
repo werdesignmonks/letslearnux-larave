@@ -9,6 +9,7 @@ import { ref, defineProps } from "vue";
 const active = ref(true);
 const lessons = ref([]);
 const type = ref('');
+const selectedSort = ref('');
 
 const props = defineProps({
 	resources: Object,
@@ -39,6 +40,7 @@ const handleTypeFilter = (selectedType) => {
 
 	const url = `${route('resources')}?${lessonQuery}${typeQuery}`;
 	router.replace(url);
+
 };
 
 const handleSortChange = (selectedSort) => {
@@ -94,35 +96,38 @@ const resetFilters = () => {
                 <div class="px-4 basis-3/4">
                     <div class="mb-4 flex justify-between items-center mb-6">
                         <div class="flex jus gap-2">
-<!--                            <FilterButton :url="`${route('resources')}`" label="All" :isActive="route().current('resources')" />-->
-<!--                            <FilterButton :url="`${route('resources')}/?type=article`" label="Books" />-->
-<!--                            <FilterButton :url="`${route('resources')}/?type=book`" label="Articles" />-->
-<!--                            <FilterButton :url="`${route('resources')}/?type=video`" label="Video" />-->
+<!--	                        <FilterButton :url="`${route('resources')}`" label="All" :isActive="route().current('resources')" @click="() => handleTypeFilter('')" />-->
+	                        <FilterButton
+                                :url="`${route('resources')}/?type=article`"
+                                label="Article"
+                                @click="() => handleTypeFilter('article')"
+                                :isActive="type.value === 'article'"
+                            />
+	                        <FilterButton
+                                :url="`${route('resources')}/?type=book`"
+                                label="Book"
+                                @click="() => handleTypeFilter('book')"
+                                :isActive="type.value === 'book'"
+                            />
+	                        <FilterButton
+                                :url="`${route('resources')}/?type=video`"
+                                label="Video"
+                                @click="() => handleTypeFilter('video')"
+                                :isActive="type.value === 'video'"
 
-	                        <FilterButton :url="`${route('resources')}`" label="All" :isActive="route().current('resources')" @click="() => handleTypeFilter('')" />
-	                        <FilterButton :url="`${route('resources')}/?type=article`" label="Article" @click="() => handleTypeFilter('article')" />
-	                        <FilterButton :url="`${route('resources')}/?type=book`" label="Book" @click="() => handleTypeFilter('book')" />
-	                        <FilterButton :url="`${route('resources')}/?type=video`" label="Video" @click="() => handleTypeFilter('video')" />
+                            />
                         </div>
 
                         <div>
-<!--                            <select class="border py-[11px] px-[15px] rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474] focus:outline-0">-->
-<!--                                <option value="1">All Resources</option>-->
-<!--                                <option value="2">A Two Z</option>-->
-<!--                                <option value="3">Recent</option>-->
-<!--                                <option value="4">Most Viewed</option>-->
-<!--                            </select>-->
-
 
                             <select
                                 v-model="selectedSort"
                                 class="border py-[11px] px-[15px] rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474] focus:outline-0"
                                 @change="() => handleSortChange(selectedSort)"
                             >
-                                <option value="select">Sort By</option>
+                                <option value="">Sort By</option>
                                 <option value="asc">Ascending</option>
                                 <option value="desc">Descending</option>
-<!--                                <option value="az">A-Z</option>-->
                             </select>
                         </div>
 
