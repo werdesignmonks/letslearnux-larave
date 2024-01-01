@@ -6,8 +6,24 @@ use App\Models\LearnStatus;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
 
-class LearnStatusController extends Controller
+class LearnStatusControllerCopy extends Controller
 {
+
+    // Get learn status
+    public function index(Request $request)
+    {
+        $learnStatus = LearnStatus::query()->where('user_id', $request->user_id)->where('lesson_id', $request->lesson_id)->first();
+
+        // Get maximum value of Progress Percentage from learn_statuses table
+        $maxProgress = LearnStatus::query()->where('user_id', $request->user_id)->max('progress');
+
+
+        return response()->json([
+            'learn_status' => $learnStatus,
+            'max_progress' => $maxProgress,
+        ]);
+    }
+
     // Update learn status
     public function store(Request $request)
     {
@@ -17,16 +33,24 @@ class LearnStatusController extends Controller
         // Get lesson count in chapter
         $lessonCount = Lesson::query()->where('chapter_id', $request->chapter_id)->count();
 
-        // Calculate progress percentage with is_completed count status
-        $progress = LearnStatus::query() ->where('user_id', $request->user_id)->where('chapter_id', $request->chapter_id)->where('is_completed', true)->count();
+        // Calculate progress
+//        if($lessonCount == 0) {
+//            $progress = 0;
+//        } else {
+//            $progress = ($request->lesson_id / $lessonCount) * 100;
+//        }
+//        $progress = ($request->lesson_id / $lessonCount) * 100;
 
-//        dd($progress);
 
-        $progress += 1;
-        $progress = ($progress / $lessonCount) * 100;
+        // Calculate progress percentage with is_completed count status with first() method
+        $progress = LearnStatus::query()
+                ->where('user_id', $request->user_id)
+                ->where('chapter_id', $request->chapter_id)
+                ->where('lesson_id', $request->lesson_id)
+                ->where('is_completed', true)
+                ->count() / $lessonCount * 100;
 
 
-        // Merge progress to request
         $request->merge([
             'progress' => $progress,
         ]);

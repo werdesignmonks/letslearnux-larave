@@ -59,8 +59,7 @@ class ProviderController extends Controller
             }
 
             Auth::login($user);
-
-
+            // Check if user is first time login
             $isLogin = auth()->user()->isFirstLogin;
 
             if ($isLogin) {
@@ -77,7 +76,6 @@ class ProviderController extends Controller
         } catch (Exception $e) {
             Log::info($e->getMessage());
             return redirect('/login');
-
         }
     }
 }

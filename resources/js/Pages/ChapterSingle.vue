@@ -23,6 +23,7 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 
 const $toast = useToast();
 const previewUrl = ref('../../images/placeholder-image.jpg');
+const isCompleted = ref(false);
 
 
 const props = defineProps({
@@ -31,9 +32,15 @@ const props = defineProps({
 	video_resource: Array,
 	book_resource: Array,
     errors: Object,
+    user: Object,
+    learnStatus: Object,
 });
 
-console.log(props.lesson.id)
+if(props.learnStatus) {
+    isCompleted.value = props.learnStatus.is_completed;
+} else {
+    isCompleted.value = false;
+}
 
 const form = useForm({
     title: '',
@@ -44,10 +51,13 @@ const form = useForm({
 });
 
 const formStatus = useForm({
+    user_id: props.user.id,
+    chapter_id: props.lesson.chapter_id,
     lesson_id: props.lesson.id,
-    is_completed: '',
-    progress: '',
+    is_completed: isCompleted,
 });
+
+console.log(props.learnStatus)
 
 const uploadImage = (event) => {
     const file = event.target.files[0];
@@ -101,7 +111,6 @@ function submit() {
     })
 
     // Clearing the form after submit
-
     form.title = '';
     form.url = '';
     form.image = '';
@@ -109,8 +118,30 @@ function submit() {
     form.type = '';
 }
 
+function statusUpdate() {
+    formStatus.post(route('lesson.status.update', props.lesson.id), {
+        preserveScroll: true,
 
-console.log(props.errors)
+        onSuccess: (page) => {
+            // modalComplete.value = true;
+            console.log(page)
+        },
+        onError: (errors) => {
+            console.log(errors)
+
+            $toast.open({
+                message: 'Please fill all the fields',
+                type: 'warning',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #FF0000, #FF6347)',
+                },
+            });
+        }
+    })
+}
+
 
 </script>
 
@@ -151,7 +182,7 @@ console.log(props.errors)
                 </div>
             </div>
 
-            <hr class="mt-9 mb-6 block">
+<!--            <hr class="mt-9 mb-6 block">-->
 
             <SocialShare  />
 
@@ -163,13 +194,27 @@ console.log(props.errors)
 
     <div class="bg-dm-bg-color py-4">
         <div class="max-w-[1100px] px-[15px] mx-auto flex justify-end">
-          <button class="border border-[#CCCED0] rounded-4xl flex items-center gap-2 py-[11px] px-5 font-medium text-base text-[#000913] hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150" @click="modalComplete = true">
-              <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect y="0.5" width="20" height="20" rx="10" fill="#08A965"/>
-                  <path d="M15.3337 6.5L8.00033 13.8333L4.66699 10.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              Mark as Complete
-          </button>
+
+            <div class="flex">
+                <input type="checkbox" id="choose-me" class="peer hidden" v-model="formStatus.is_completed" v-if="!formStatus.is_completed" @change="statusUpdate" />
+                    <label for="choose-me" class="block">
+
+                        <span v-if="!formStatus.is_completed" class="border border-[#CCCED0] rounded-4xl flex items-center gap-2 py-[11px] px-5 font-medium text-base text-[#000913] hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150 cursor-pointer  peer-checked:text-gray-900 peer-checked:border-gray-200">
+                            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect y="0.5" width="20" height="20" rx="10" fill="#08A965"/>
+                                <path d="M15.3337 6.5L8.00033 13.8333L4.66699 10.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Mark as Complete
+                        </span>
+                        <span v-else class="text-center text-violet-600 text-base font-medium leading-relaxed flex items-center gap-2 py-[11px] px-5">
+                            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect y="0.5" width="20" height="20" rx="10" fill="#643EF3"/>
+                                <path d="M15.3337 6.5L8.00033 13.8333L4.66699 10.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Lesson Completed
+                        </span>
+                    </label>
+            </div>
         </div>
     </div>
 
@@ -195,34 +240,33 @@ console.log(props.errors)
 <!--            </div>-->
 <!--        </div>-->
 
-<!--        <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">-->
-<!--            <div class="text-center">-->
-<!--                <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Help us to improve!</h1>-->
-<!--                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px]">-->
-<!--                    Your insights are crucial. Tell us how we can enhance your learning experience on this topic.-->
-<!--                </p>-->
-<!--                <form>-->
-<!--                    <div class="text-left text-base font-medium tracking[-0.5px] mb-[4px]">-->
-<!--                        Your Feedback <span class="text-[#F87171]">*</span>-->
-<!--                    </div>-->
-<!--                    <textarea v-model="feebback" placeholder="Write your feedback" class="w-full h-[120px]  border-[#E5E6E7] rounded-md "></textarea>-->
-<!--                    <div class="flex items-center gap-2 mt-5">-->
-<!--                        <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150">-->
-<!--                            Cancel-->
-<!--                        </button>-->
+        <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">
+            <div class="text-center">
+                <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Help us to improve!</h1>
+                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px]">
+                    Your insights are crucial. Tell us how we can enhance your learning experience on this topic.
+                </p>
+                <form>
+                    <div class="text-left text-base font-medium tracking[-0.5px] mb-[4px]">
+                        Your Feedback <span class="text-[#F87171]">*</span>
+                    </div>
+                    <textarea v-model="feebback" placeholder="Write your feedback" class="w-full h-[120px]  border-[#E5E6E7] rounded-md "></textarea>
+                    <div class="flex items-center gap-2 mt-5">
+                        <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150">
+                            Cancel
+                        </button>
 
-<!--                        <button class="dm-btn w-[219px] px-4 text-center">-->
-<!--                            Submit-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
+                        <button class="dm-btn w-[219px] px-4 text-center">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Resource Popup -->
     <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalSubmitedResource">
-
         <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">
             <div class="mb-5 relative z-10">
                 <img :src="'../images/success-icon.svg'" alt="cup" class="mx-auto">

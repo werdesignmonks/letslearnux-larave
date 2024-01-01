@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Chapter;
+use App\Models\LearnStatus;
 use App\Models\Lesson;
 use App\Models\Resource;
 use Illuminate\Http\Request;
@@ -16,16 +17,19 @@ class RoadmapController extends Controller
 
         $shortBy = $request->get('sort');
         $allChapters = Chapter::all();
+        $lessonStatus = LearnStatus::query()->where('user_id', auth()->user()->id)->get();
 
         $chapers = Chapter::with('lesson')->orderBy('id', 'asc')
             ->when($shortBy, function ($query, $shortBy) {
                 return $query->where('id', $shortBy);
             })
+            ->with('learnStatus')
             ->paginate(10);
 
         return Inertia::render('Roadmap', [
             'chapters' => $chapers,
             'allChapters' => $allChapters,
+            'lessonStatus' => $lessonStatus,
         ]);
     }
 
@@ -36,12 +40,17 @@ class RoadmapController extends Controller
         $book_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_BOOK)->where('status', 'approved')->get();
         $article_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_ARTICLE)->where('status', 'approved')->get();
         $video_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_VIDEO)->where('status', 'approved')->get();
+        $lessonStatus = LearnStatus::query()->where('user_id', auth()->user()->id)->where('lesson_id', $lesson->id)->first();
+
+        $user = auth()->user();
 
         return Inertia::render('ChapterSingle', [
             'lesson' => $lesson,
             'book_resource' => $book_resource,
             'article_resource' => $article_resource,
             'video_resource' => $video_resource,
+            'user' => $user,
+            'learnStatus' => $lessonStatus,
         ]);
     }
 

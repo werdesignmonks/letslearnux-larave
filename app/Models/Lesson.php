@@ -34,5 +34,14 @@ class Lesson extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function learnStatus()
+    {
+        return $this->hasMany(LearnStatus::class);
+    }
+
+    public function getLikeAttribute($value)
+    {
+        return $value ?? 0;
+    }
 
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Frontend\OnboadingFormController;
 use App\Http\Controllers\Frontend\ResourcesController;
 use App\Http\Controllers\Frontend\RoadmapController;
+use App\Http\Controllers\LearnStatusController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,9 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Learn Status
+    Route::post('/learn-status/{id}', [LearnStatusController::class, 'store'])->name('lesson.status.update');
 });
 
 

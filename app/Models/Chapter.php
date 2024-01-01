@@ -21,4 +21,10 @@ class Chapter extends Model
     {
         return $this->hasMany(Lesson::class);
     }
+
+    public function learnStatus()
+    {
+        return $this->hasMany(LearnStatus::class);
+    }
+
 }

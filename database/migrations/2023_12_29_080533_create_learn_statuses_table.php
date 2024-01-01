@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('learn_statuses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('learn_id');
-            $table->boolean('is_learned')->nullable()->default(false);
+            $table->unsignedBigInteger('lesson_id');
+            $table->unsignedBigInteger('chapter_id');
+            $table->boolean('is_completed')->nullable()->default(false);
             $table->string('progress')->nullable()->default('0');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade');
+            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
             $table->timestamps();
         });
     }
