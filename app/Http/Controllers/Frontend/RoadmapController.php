@@ -12,12 +12,16 @@ use Inertia\Inertia;
 
 class RoadmapController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, Lesson $lesson)
     {
 
         $shortBy = $request->get('sort');
         $allChapters = Chapter::all();
-        $lessonStatus = LearnStatus::query()->where('user_id', auth()->user()->id)->get();
+        $lessonStatus = LearnStatus::where('user_id', auth()->user()->id)->get();
+
+//        dd($lessonStatus);
+
+//        dd($lessonStatus);
 
         $chapers = Chapter::with('lesson')->orderBy('id', 'asc')
             ->when($shortBy, function ($query, $shortBy) {

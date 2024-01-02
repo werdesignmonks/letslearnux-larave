@@ -95,4 +95,9 @@ class User extends Authenticatable implements HasMedia
             ->width(100)
             ->height(100);
     }
+
+    public function learnStatus()
+    {
+        return $this->hasMany(LearnStatus::class);
+    }
 }

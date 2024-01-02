@@ -22,8 +22,7 @@ const handleSortChange = (selectedSort) => {
     router.replace(url);
 }
 
-console.log(props.chapters)
-
+// console.log( props.lessonStatus )
 
 </script>
 
@@ -47,10 +46,6 @@ console.log(props.chapters)
                     <h3 class="text-dm-color-secondary font-bold text-[16px]">{{ item.chapter_name }}</h3>
                     <h2 class="font-bold text-dm-heading-color text-[32px]">{{ item.title }}</h2>
                 </div>
-
-<!--                {{-->
-<!--                    console.log(item.learn_status)-->
-<!--                }}-->
 
                 <div class="flex justify-between items-center">
 
@@ -81,7 +76,13 @@ console.log(props.chapters)
                 </div>
 
                 <div class="mt-6">
-                    <div class="group border border-dm-border-color bg-dm-bg-color py-[19px] px-[20px] flex items-center gap-4 rounded-3xl mb-[12px] hover:border-dm-color-primary hover:bg-[#F7F5FE] transition ease-in-out delay-150" v-for="(lesson, index) in item.lesson" :key="lesson.id">
+                    <div class="group border border-dm-border-color bg-dm-bg-color py-[19px] px-[20px] flex items-center gap-4 rounded-3xl mb-[12px] hover:border-dm-color-primary hover:bg-[#F7F5FE] transition ease-in-out delay-150"
+                         v-for="(lesson, lessonIndex) in item.lesson" :key="lesson.id"
+                         :class="props.lessonStatus[lessonIndex]?.is_completed && props.lessonStatus[lessonIndex]?.lesson_id === lesson.id ? 'border-dm-color-primary text- bg-[#F7F5FE]' : ''"
+
+                    >
+
+
                         <div class="border border-dm-border-color text-base font-bold rounded-full w-[32px] h-[32px] flex items-center justify-center group-hover:border-dm-color-primary group-hover:text-dm-color-primary transition ease-in-out delay-150">
                             {{ lesson.custom_sl }}
                         </div>
