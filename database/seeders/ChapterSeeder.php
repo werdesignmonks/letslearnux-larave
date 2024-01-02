@@ -28,20 +28,20 @@ class ChapterSeeder extends Seeder
                 'estimate_time' => 10,
                 'slug' => 'laravel-10-fundamentals',
             ],
-            [
-                'chapter_name' => 'Milestone 3',
-                'title' => 'Learn UI design with Figma',
-                'sub_title' => 'Expected Learning Outcomes: Learn how to use Figma to create better projects',
-                'estimate_time' => 10,
-                'slug' => 'laravel-10-authentication',
-            ],
-            [
-                'chapter_name' => 'Milestone 4',
-                'title' => 'Practice, prepare and apply',
-                'sub_title' => 'Expected Learning Outcomes: Learn how to implement authentication in Laravel 10',
-                'estimate_time' => 10,
-                'slug' => 'laravel-10-authorization',
-            ]
+//            [
+//                'chapter_name' => 'Milestone 3',
+//                'title' => 'Learn UI design with Figma',
+//                'sub_title' => 'Expected Learning Outcomes: Learn how to use Figma to create better projects',
+//                'estimate_time' => 10,
+//                'slug' => 'laravel-10-authentication',
+//            ],
+//            [
+//                'chapter_name' => 'Milestone 4',
+//                'title' => 'Practice, prepare and apply',
+//                'sub_title' => 'Expected Learning Outcomes: Learn how to implement authentication in Laravel 10',
+//                'estimate_time' => 10,
+//                'slug' => 'laravel-10-authorization',
+//            ]
         ];
 
         foreach ($chapters as $chapter) {

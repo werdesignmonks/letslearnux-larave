@@ -15,7 +15,7 @@ const form = useForm({
     title: '',
     sub_title: '',
     estimate_time: '',
-    custom_sl: '',
+    serial: '',
 });
 
 function submit() {
@@ -79,8 +79,8 @@ function submit() {
 
                     <div class="dm-input-field">
                         <label for="radio-1" class="dm-input-field__label block">Custom SL</label>
-                        <input type="text" id="custom_sl" v-model="form.custom_sl" class="dm-input-field__input w-full">
-                        <div class="text-red-500" v-if="errors.custom_sl">{{ errors.custom_sl }}</div>
+                        <input type="text" id="serial" v-model="form.serial" class="dm-input-field__input w-full">
+                        <div class="text-red-500" v-if="errors.serial">{{ errors.serial }}</div>
                     </div>
 
                     <div class="flex justify-start mt-6">

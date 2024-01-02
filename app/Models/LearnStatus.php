@@ -13,6 +13,8 @@ class LearnStatus extends Model
         'user_id',
         'chapter_id', // 'lesson_id' => 'chapter_id'
         'lesson_id',
+        'likes',
+        'dislikes',
         'is_completed',
         'progress',
     ];

@@ -19,7 +19,7 @@ const form = useForm({
     title: props.chapter.title,
     sub_title: props.chapter.sub_title,
     estimate_time: props.chapter.estimate_time,
-    custom_sl: props.chapter.custom_sl,
+    serial: props.chapter.serial,
 });
 
 function submit(id) {

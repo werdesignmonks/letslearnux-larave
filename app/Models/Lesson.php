@@ -11,12 +11,12 @@ class Lesson extends Model
 
     protected $fillable = [
         'chapter_id',
-        'custom_sl',
+        'serial',
         'title',
         'description',
         'slug',
-        'like',
-        'dislike',
+        'likes',
+        'dislikes',
     ];
 
     public function chapter()
@@ -34,14 +34,22 @@ class Lesson extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function learnStatus()
+    public function likes()
     {
-        return $this->hasMany(LearnStatus::class);
+        return $this->hasMany(User::class, 'lesson_id', 'id');
     }
 
-    public function getLikeAttribute($value)
+    public function dislikes()
     {
-        return $value ?? 0;
+        return $this->hasMany(User::class, 'lesson_id', 'id');
     }
+
+
+
+    public function learnStatus()
+    {
+        return $this->hasMany(LearnStatus::class, 'lesson_id', 'id');
+    }
+
 
 }

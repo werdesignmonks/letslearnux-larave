@@ -19,13 +19,13 @@ class LessonFactory extends Factory
     public function definition(): array
     {
         return [
-            'custom_sl' => fake()->randomFloat(2, 1, 5),
+            'serial' => fake()->randomFloat(2, 1, 5),
             'title' => $this->faker->sentence(5),
             'description' => $this->faker->paragraph(4),
             'chapter_id' => Chapter::factory(),
-            'like' => fake()->numberBetween(1, 1000),
-            'dislike' => fake()->numberBetween(1,20),
             'slug' => fake()->slug(),
+            'likes' => fake()->numberBetween(1, 1000),
+            'dislikes' => fake()->numberBetween(1, 100),
         ];
     }
 }

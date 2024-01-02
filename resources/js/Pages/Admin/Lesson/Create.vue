@@ -21,7 +21,7 @@ const form = useForm({
     title: '',
     chapter_id: '',
     description: '',
-    custom_sl: '',
+    serial: '',
 });
 
 function submit() {
@@ -63,7 +63,7 @@ function submit() {
     form.title = '';
     form.chapter_id = '';
     form.description = '';
-    form.custom_sl = '';
+    form.serial = '';
 }
 
 </script>
@@ -110,8 +110,8 @@ function submit() {
 
                 <div class="dm-input-field">
                     <label for="radio-1" class="dm-input-field__label block">Lesson Serial Number</label>
-                    <input type="text" id="custom_sl" v-model="form.custom_sl" class="dm-input-field__input w-full">
-                    <div class="text-red-500" v-if="errors.custom_sl">{{ errors.custom_sl }}</div>
+                    <input type="text" id="serial" v-model="form.serial" class="dm-input-field__input w-full">
+                    <div class="text-red-500" v-if="errors.serial">{{ errors.serial }}</div>
                 </div>
 
                 <div class="dm-input-field">

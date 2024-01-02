@@ -47,7 +47,7 @@ class LessonController extends Controller
             'title' => 'required|max:255',
             'chapter_id' => 'required',
             'description' => 'required',
-            'custom_sl' => 'required|numeric',
+            'serial' => 'required|numeric',
         ]);
 
         //Store the data
@@ -55,7 +55,7 @@ class LessonController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'chapter_id' => $request->chapter_id,
-            'custom_sl' => $request->custom_sl,
+            'serial' => $request->serial,
             'slug' => Str::slug($request->title),
         ]);
 
@@ -94,7 +94,7 @@ class LessonController extends Controller
             'title' => 'required|max:255|unique:lessons,title,' . $lesson->id,
             'chapter_id' => 'required',
             'description' => 'required',
-            'custom_sl' => 'required|numeric',
+            'serial' => 'required|numeric',
         ]);
 
         //Store the data
@@ -102,7 +102,7 @@ class LessonController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'chapter_id' => $request->chapter_id,
-            'custom_sl' => $request->custom_sl,
+            'serial' => $request->serial,
             'slug' => Str::slug($request->title),
         ]);
 

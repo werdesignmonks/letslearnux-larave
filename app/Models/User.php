@@ -96,8 +96,10 @@ class User extends Authenticatable implements HasMedia
             ->height(100);
     }
 
-    public function learnStatus()
+    public function likes()
     {
-        return $this->hasMany(LearnStatus::class);
+        return $this->belongsToMany(Lesson::class, 'lessons', 'user_id', 'lesson_id');
     }
+
+
 }

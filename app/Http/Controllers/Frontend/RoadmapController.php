@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Chapter;
 use App\Models\LearnStatus;
 use App\Models\Lesson;
+use App\Models\Like;
 use App\Models\Resource;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,8 +19,6 @@ class RoadmapController extends Controller
         $shortBy = $request->get('sort');
         $allChapters = Chapter::all();
         $lessonStatus = LearnStatus::where('user_id', auth()->user()->id)->get();
-
-//        dd($lessonStatus);
 
 //        dd($lessonStatus);
 
@@ -45,6 +44,7 @@ class RoadmapController extends Controller
         $article_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_ARTICLE)->where('status', 'approved')->get();
         $video_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_VIDEO)->where('status', 'approved')->get();
         $lessonStatus = LearnStatus::query()->where('user_id', auth()->user()->id)->where('lesson_id', $lesson->id)->first();
+
 
         $user = auth()->user();
 
@@ -83,5 +83,11 @@ class RoadmapController extends Controller
         }
 
         return redirect()->back()->with('success', 'Resource Added Successfully');
+    }
+
+    // Like Lesson
+    public function like(Request $request)
+    {
+        // Lesson like by user id
     }
 }

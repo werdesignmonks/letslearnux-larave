@@ -34,13 +34,8 @@ const props = defineProps({
     errors: Object,
     user: Object,
     learnStatus: Object,
+    likes: Object,
 });
-
-if(props.learnStatus) {
-    isCompleted.value = props.learnStatus.is_completed;
-} else {
-    isCompleted.value = false;
-}
 
 const form = useForm({
     title: '',
@@ -57,13 +52,11 @@ const formStatus = useForm({
     is_completed: isCompleted,
 });
 
-console.log(props.learnStatus)
 
 const uploadImage = (event) => {
     const file = event.target.files[0];
     form.image = file;
 
-    // const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
 
@@ -142,6 +135,37 @@ function statusUpdate() {
     })
 }
 
+const fromLike = useForm({
+    lesson_id: props.lesson.id,
+    user_id: props.user.id,
+    likes: '',
+    dislikes: '',
+});
+
+const likeHandaler = () => {
+    fromLike.post(route('likes', props.lesson.id), {
+        preserveScroll: true,
+
+        onSuccess: (page) => {
+            // modalComplete.value = true;
+            console.log(page)
+        },
+        onError: (errors) => {
+            console.log(errors)
+
+            $toast.open({
+                message: 'Please fill all the fields',
+                type: 'warning',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #FF0000, #FF6347)',
+                },
+            });
+        }
+    })
+}
+
 
 </script>
 
@@ -149,8 +173,43 @@ function statusUpdate() {
     <Head title="1.1 - Evaluate your English language skill, IQ, mindset" />
     <AuthenticatedLayout>
         <div class="max-w-[1100px] px-[15px] mx-auto">
-            <h1 class="font-bold text-[32px] leading-[38px] mb-6">
-                {{  lesson.custom_sl }} - {{  lesson.title }}
+            <h1 class="font-bold text-[32px] leading-[38px] mb-6 flex justify-between">
+                {{  lesson.serial }} - {{  lesson.title }}
+
+                <div class="w-32 h-10 px-4 bg-zinc-100 rounded-lg justify-center items-center gap-3 inline-flex">
+                    <div class="pr-3 border-r border-neutral-300 justify-center items-center gap-1 flex">
+                        <input type="checkbox" id="like" class="peer hidden" v-model="fromLike.likes" />
+                        <label for="like" class="text-slate-600 text-base font-bold leading-none flex items-center gap-1" @click="likeHandaler">
+                            <span class="w-5 h-5 relative inline-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <g clip-path="url(#clip0_356_933)">
+                                        <path d="M5.83337 8.33337V18.3334" stroke="#643EF3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12.5 4.89996L11.6666 8.33329H16.525C16.7837 8.33329 17.0389 8.39353 17.2703 8.50925C17.5017 8.62496 17.703 8.79297 17.8583 8.99996C18.0135 9.20695 18.1185 9.44725 18.1647 9.70182C18.211 9.95638 18.1974 10.2182 18.125 10.4666L16.1833 17.1333C16.0823 17.4795 15.8718 17.7836 15.5833 18C15.2948 18.2163 14.9439 18.3333 14.5833 18.3333H3.33329C2.89127 18.3333 2.46734 18.1577 2.15478 17.8451C1.84222 17.5326 1.66663 17.1087 1.66663 16.6666V9.99996C1.66663 9.55793 1.84222 9.13401 2.15478 8.82145C2.46734 8.50889 2.89127 8.33329 3.33329 8.33329H5.63329C5.94336 8.33313 6.24724 8.24647 6.51076 8.08306C6.77427 7.91965 6.98698 7.68597 7.12496 7.40829L9.99996 1.66663C10.3929 1.67149 10.7797 1.7651 11.1315 1.94046C11.4832 2.11581 11.7907 2.36838 12.0311 2.67929C12.2715 2.99021 12.4386 3.35143 12.5197 3.73596C12.6009 4.1205 12.5942 4.51841 12.5 4.89996Z" stroke="#643EF3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_356_933">
+                                            <rect width="20" height="20" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </span>
+                            {{ props.lesson?.likes ? props.lesson.likes : 0 }}
+                        </label>
+                    </div>
+                    <div class="w-5 h-5 relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <g clip-path="url(#clip0_356_935)">
+                                <path d="M14.1666 11.6666V1.66663" stroke="#999DA1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7.50002 15.1L8.33335 11.6666H3.47502C3.21627 11.6666 2.96109 11.6064 2.72966 11.4907C2.49823 11.375 2.29693 11.207 2.14168 11C1.98644 10.793 1.88152 10.5527 1.83523 10.2981C1.78895 10.0435 1.80257 9.78168 1.87502 9.53329L3.81668 2.86663C3.91766 2.52043 4.12819 2.21633 4.41668 1.99996C4.70518 1.78359 5.05607 1.66663 5.41668 1.66663H16.6667C17.1087 1.66663 17.5326 1.84222 17.8452 2.15478C18.1578 2.46734 18.3333 2.89127 18.3333 3.33329V9.99996C18.3333 10.442 18.1578 10.8659 17.8452 11.1785C17.5326 11.491 17.1087 11.6666 16.6667 11.6666H14.3667C14.0566 11.6668 13.7527 11.7534 13.4892 11.9169C13.2257 12.0803 13.013 12.3139 12.875 12.5916L10 18.3333C9.60704 18.3284 9.22023 18.2348 8.86851 18.0595C8.51679 17.8841 8.20924 17.6315 7.96885 17.3206C7.72845 17.0097 7.56142 16.6485 7.48024 16.264C7.39905 15.8794 7.40581 15.4815 7.50002 15.1Z" stroke="#999DA1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_356_935">
+                                    <rect width="20" height="20" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
             </h1>
 
             <div class="mb-10" v-html="lesson.description"></div>

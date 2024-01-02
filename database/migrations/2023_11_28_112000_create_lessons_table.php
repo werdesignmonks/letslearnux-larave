@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('chapter_id');
-            $table->float('custom_sl');
+            $table->float('serial');
             $table->string('title');
             $table->longText('description')->nullable();
-            $table->integer('like')->default(0);
-            $table->integer('dislike')->default(0);
-            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
+            $table->unsignedBigInteger('likes')->default(0);
+            $table->unsignedBigInteger('dislikes')->default(0);
+            $table->unsignedBigInteger('chapter_id');
             $table->string('slug');
+            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
             $table->timestamps();
         });
     }
