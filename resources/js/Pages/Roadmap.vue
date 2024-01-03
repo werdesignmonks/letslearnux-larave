@@ -50,21 +50,21 @@ const handleSortChange = (selectedSort) => {
                 <div class="flex justify-between items-center">
                     <div v-html="item.sub_title"></div>
 
-                    <div class="flex items-center gap-3 border border-dm-color-secondary px-[10px] py-[7px] bg-[#FDF1E5] rounded-4xl">
+                    <div class="flex items-center gap-3 border border-[#31008B] px-[10px] py-[7px] bg-[#EAE5F3] rounded-4xl">
                         <div class="flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M15.8333 3.33325H4.16667C3.24619 3.33325 2.5 4.07944 2.5 4.99992V16.6666C2.5 17.5871 3.24619 18.3333 4.16667 18.3333H15.8333C16.7538 18.3333 17.5 17.5871 17.5 16.6666V4.99992C17.5 4.07944 16.7538 3.33325 15.8333 3.33325Z" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M13.3333 1.66675V5.00008" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6.66666 1.66675V5.00008" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M2.5 8.33325H17.5" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6.66666 11.6667H6.67499" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10 11.6667H10.0083" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M13.3333 11.6667H13.3417" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6.66666 15H6.67499" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10 15H10.0083" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M13.3333 15H13.3417" stroke="#EA7600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M15.8333 3.33325H4.16667C3.24619 3.33325 2.5 4.07944 2.5 4.99992V16.6666C2.5 17.5871 3.24619 18.3333 4.16667 18.3333H15.8333C16.7538 18.3333 17.5 17.5871 17.5 16.6666V4.99992C17.5 4.07944 16.7538 3.33325 15.8333 3.33325Z" stroke="#31008B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M13.3333 1.66675V5.00008" stroke="#31008B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6.66666 1.66675V5.00008" stroke="#31008B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2.5 8.33325H17.5" stroke="#31008B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6.66666 11.6667H6.67499" stroke="#31008B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 11.6667H10.0083" stroke="#31008B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M13.3333 11.6667H13.3417" stroke="#31008B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6.66666 15H6.67499" stroke="#31008B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 15H10.0083" stroke="#31008B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M13.3333 15H13.3417" stroke="#31008B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span class="text-dm-color-secondary text-base font-medium">{{ item.estimate_time }} </span>
+                            <span class="text-[#31008B] text-base font-medium">{{ item.estimate_time }} </span>
                         </div>
                     </div>
                 </div>

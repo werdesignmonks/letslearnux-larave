@@ -22,15 +22,10 @@ trait Likeable
     public function like($user = null, $liked = true)
     {
         $this->likes()->updateOrCreate([
-            'user_id' => $user ? $user->id : auth()->id,
+            'user_id' => $user ? $user->id : auth()->user()->id,
         ], [
             'liked' => $liked,
         ]);
-
-        // Unliking
-        if ($liked == false) {
-            $this->likes()->where('user_id', $user ? $user->id : auth()->id)->delete();
-        }
     }
 
     public function disLike($user = null)
@@ -58,5 +53,7 @@ trait Likeable
     {
         return $this->hasMany(Like::class);
     }
+
+
 
 }

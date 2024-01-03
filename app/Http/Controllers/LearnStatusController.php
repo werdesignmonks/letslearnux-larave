@@ -33,7 +33,7 @@ class LearnStatusController extends Controller
 
         // If learn status exists, update it.
         if ($learnStatus) {
-            $learnStatus->update($request->all());
+            $learnStatus->updateOrCreate($request->all());
         } else {
             LearnStatus::create($request->all());
         }

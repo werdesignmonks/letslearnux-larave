@@ -35,11 +35,24 @@ const props = defineProps({
     user: Object,
     learnStatus: Object,
     liked: Object,
+    lessonStatus: Object
 });
 
+// if(props.learnStatus) {
+//     isCompleted.value = props.learnStatus.is_completed;
+// } else {
+//     isCompleted.value = false;
+// }
+
+console.log(props.lessonStatus)
 
 
-console.log(props.user.id == props.liked.user_id)
+if(props.lessonStatus) {
+    isCompleted.value = props.lessonStatus.is_completed;
+} else {
+    isCompleted.value = false;
+}
+
 
 const form = useForm({
     title: '',
@@ -50,10 +63,10 @@ const form = useForm({
 });
 
 const formStatus = useForm({
-    user_id: props.user.id,
-    chapter_id: props.lesson.chapter_id,
-    lesson_id: props.lesson.id,
-    is_completed: isCompleted,
+	lesson_id: props.lesson.id,
+	user_id: props.user.id,
+	chapter_id: props.lesson.chapter_id,
+	is_completed: '',
 });
 
 
@@ -115,7 +128,7 @@ function submit() {
     form.type = '';
 }
 
-function statusUpdate() {
+function statusComplete() {
     formStatus.post(route('lesson.status.update', props.lesson.id), {
         preserveScroll: true,
 
@@ -139,14 +152,37 @@ function statusUpdate() {
     })
 }
 
+// Status Uncomplete
+function statusUnComplete() {
+	formStatus.post(route('lesson.status.uncomplete', props.lesson.id), {
+		preserveScroll: true,
+
+		onSuccess: (page) => {
+			// modalComplete.value = true;
+			console.log(page)
+		},
+		onError: (errors) => {
+			console.log(errors)
+
+			$toast.open({
+				message: 'Please fill all the fields',
+				type: 'warning',
+				position: 'top-right',
+				duration: 5000,
+				style: {
+					background: 'linear-gradient(to right, #FF0000, #FF6347)',
+				},
+			});
+		}
+	})
+}
+
 const fromLike = useForm({
     lesson_id: props.lesson.id,
     user_id: props.user.id,
-    likes: '',
-    dislikes: '',
 });
 
-const likeHandaler = () => {
+const likeHandler = () => {
     fromLike.post(route('likes', props.lesson.id), {
         preserveScroll: true,
 
@@ -170,7 +206,7 @@ const likeHandaler = () => {
     })
 }
 
-const dislikeHandaler = () => {
+const dislikeHandler = () => {
     fromLike.post(route('dislikes', props.lesson.id), {
         preserveScroll: true,
 
@@ -194,8 +230,6 @@ const dislikeHandaler = () => {
     })
 }
 
-console.log(props.lesson.user_id )
-
 </script>
 
 <template>
@@ -208,11 +242,11 @@ console.log(props.lesson.user_id )
                 <div class="w-32 h-10 px-4 bg-zinc-100 rounded-lg justify-center items-center gap-3 inline-flex">
                     <div class="pr-3 border-r border-neutral-300 justify-center items-center gap-1 flex" :class="red">
                         <div class="text-slate-600 text-base font-bold leading-none flex items-center gap-1"
-                             :class="props.user.id == props.liked.user_id ? 'text-red-500' : 'text-slate-600'"
-                             @click="likeHandaler">
+                             :class="props.user.id == props.liked?.user_id ? 'text-red-500' : 'text-slate-600'"
+                             @click="likeHandler">
                             <span class="w-5 h-5 relative inline-block cursor-pointer">
 
-                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none" v-if="props.user.id == (props.liked.user_id && props.lesson?.likes) ">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none" v-if="props.user.id == (props.liked?.user_id && props.lesson?.likes) ">
                                     <path d="M11.0001 3.90002L10.1667 7.33335H15.0251C15.2838 7.33335 15.539 7.3936 15.7704 7.50931C16.0019 7.62502 16.2032 7.79303 16.3584 8.00002C16.5137 8.20701 16.6186 8.44731 16.6649 8.70188C16.7111 8.95645 16.6975 9.2183 16.6251 9.46669L14.6834 16.1334C14.5824 16.4795 14.3719 16.7836 14.0834 17C13.7949 17.2164 13.444 17.3334 13.0834 17.3334H1.83341C1.39139 17.3334 0.967464 17.1578 0.654903 16.8452C0.342343 16.5326 0.166748 16.1087 0.166748 15.6667V9.00002C0.166748 8.55799 0.342343 8.13407 0.654903 7.82151C0.967464 7.50895 1.39139 7.33335 1.83341 7.33335H4.13341C4.44348 7.33319 4.74736 7.24653 5.01088 7.08312C5.27439 6.91971 5.4871 6.68603 5.62508 6.40835L8.50008 0.666687C8.89306 0.671553 9.27986 0.765161 9.63159 0.940517C9.98331 1.11587 10.2909 1.36844 10.5313 1.67936C10.7716 1.99027 10.9387 2.35149 11.0199 2.73602C11.101 3.12056 11.0943 3.51847 11.0001 3.90002Z" fill="#7A49FF"/>
                                 </svg>
 
@@ -227,8 +261,8 @@ console.log(props.lesson.user_id )
                     </div>
                     <div class="w-5 h-5 relative">
                         <div class="text-slate-600 text-base font-bold leading-none flex items-center gap-1"
-                             :class="props.user.id == props.liked.user_id ? 'text-red-500' : 'text-slate-600'"
-                             @click="dislikeHandaler">
+                             :class="props.user.id == props.liked?.user_id ? 'text-red-500' : 'text-slate-600'"
+                             @click="dislikeHandler">
                             <span class="w-5 h-5 relative inline-block cursor-pointer">
                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <g clip-path="url(#clip0_356_935)">
@@ -290,25 +324,42 @@ console.log(props.lesson.user_id )
     <div class="bg-dm-bg-color py-4">
         <div class="max-w-[1100px] px-[15px] mx-auto flex justify-end">
 
-            <div class="flex">
-                <input type="checkbox" id="choose-me" class="peer hidden" v-model="formStatus.is_completed" v-if="!formStatus.is_completed" @change="statusUpdate" />
-                    <label for="choose-me" class="block">
+<!--            <div class="flex">-->
+<!--&lt;!&ndash;                <input type="checkbox" id="choose-me" class="peer hidden" v-model="formStatus.is_completed" v-if="!formStatus.is_completed" @change="statusComplete" />&ndash;&gt;-->
+<!--                <div class="block" @click="statusComplete">-->
+<!--                    <span v-if="formStatus.is_completed" class="border border-[#CCCED0] rounded-4xl flex items-center gap-2 py-[11px] px-5 font-medium text-base text-[#000913] hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150 cursor-pointer  peer-checked:text-gray-900 peer-checked:border-gray-200">-->
+<!--                        Mark as Incomplete-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </div>-->
 
-                        <span v-if="!formStatus.is_completed" class="border border-[#CCCED0] rounded-4xl flex items-center gap-2 py-[11px] px-5 font-medium text-base text-[#000913] hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150 cursor-pointer  peer-checked:text-gray-900 peer-checked:border-gray-200">
-                            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect y="0.5" width="20" height="20" rx="10" fill="#08A965"/>
-                                <path d="M15.3337 6.5L8.00033 13.8333L4.66699 10.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            Mark as Complete
-                        </span>
-                        <span v-else class="text-center text-violet-600 text-base font-medium leading-relaxed flex items-center gap-2 py-[11px] px-5">
-                            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect y="0.5" width="20" height="20" rx="10" fill="#643EF3"/>
-                                <path d="M15.3337 6.5L8.00033 13.8333L4.66699 10.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            Lesson Completed
-                        </span>
-                    </label>
+            <div class="flex">
+<!--                <input type="checkbox" id="choose-me" class="peer hidden" v-model="formStatus.is_completed" v-if="!formStatus.is_completed" @change="statusComplete" />-->
+                <div class="block">
+                    <div
+	                    @click="statusComplete"
+						v-if="!props.lessonStatus?.completed"
+	                    class="border border-[#CCCED0] rounded-4xl flex items-center gap-2 py-[11px] px-5 font-medium text-base text-[#000913] hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150 cursor-pointer  peer-checked:text-gray-900 peer-checked:border-gray-200">
+                        <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect y="0.5" width="20" height="20" rx="10" fill="#08A965"/>
+                            <path d="M15.3337 6.5L8.00033 13.8333L4.66699 10.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Mark as Complete
+
+                    </div>
+                    <div
+	                    @click="statusUnComplete"
+	                    v-else
+	                    class="text-center text-violet-600 text-base font-medium leading-relaxed flex items-center gap-2 py-[11px] px-5">
+                        <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect y="0.5" width="20" height="20" rx="10" fill="#643EF3"/>
+                            <path d="M15.3337 6.5L8.00033 13.8333L4.66699 10.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Lesson Completed
+
+	                    {{ props.lesson.completed }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Chapter;
 use App\Models\LearnStatus;
 use App\Models\Lesson;
+use App\Models\LessonStatus;
 use App\Models\Like;
 use App\Models\Resource;
 use Illuminate\Http\Request;
@@ -45,6 +46,9 @@ class RoadmapController extends Controller
         $video_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_VIDEO)->where('status', 'approved')->get();
         $lessonStatus = LearnStatus::query()->where('user_id', auth()->user()->id)->where('lesson_id', $lesson->id)->first();
         $liked = Like::query()->where('user_id', auth()->user()->id)->where('lesson_id', $lesson->id)->first();
+        $lessonStatus = LessonStatus::query()->where('user_id', auth()->user()->id)->where('lesson_id', $lesson->id)->first();
+
+//        dd($lessonStatus);
 
 
         $user = auth()->user();
@@ -57,6 +61,7 @@ class RoadmapController extends Controller
             'user' => $user,
             'learnStatus' => $lessonStatus,
             'liked' => $liked,
+            'lessonStatus' => $lessonStatus
         ]);
     }
 

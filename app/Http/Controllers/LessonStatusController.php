@@ -5,23 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
 
-class LikeController extends Controller
+class LessonStatusController extends Controller
 {
-    function like(Request $request)
+    public function complete(Request $request)
     {
+
 //        dd($request->all());
 
         $lesson = Lesson::find($request->lesson_id);
-        $lesson->like(auth()->user());
-
+        $lesson->statusComplete(auth()->user());
 
         return back();
     }
 
-    function dislike(Request $request)
+    public function unComplete(Request $request)
     {
         $lesson = Lesson::find($request->lesson_id);
-        $lesson->dislike();
+        $lesson->statusUnComplete(auth()->user());
+
         return back();
     }
 }

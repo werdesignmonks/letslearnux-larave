@@ -4,6 +4,7 @@ use App\Http\Controllers\Frontend\OnboadingFormController;
 use App\Http\Controllers\Frontend\ResourcesController;
 use App\Http\Controllers\Frontend\RoadmapController;
 use App\Http\Controllers\LearnStatusController;
+use App\Http\Controllers\LessonStatusController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -50,7 +51,9 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::post('/roadmap/unlike/{id}', [LikeController::class, 'dislike'])->name('dislikes');
 
     // Learn Status
-    Route::post('/learn-status/{id}', [LearnStatusController::class, 'store'])->name('lesson.status.update');
+//    Route::post('/learn-status/{id}', [LearnStatusController::class, 'store'])->name('lesson.status.update');
+    Route::post('/lesson-status/{id}', [LessonStatusController::class, 'complete'])->name('lesson.status.update');
+    Route::post('/lesson-status/uncomplete/{id}', [LessonStatusController::class, 'unComplete'])->name('lesson.status.uncomplete');
 });
 
 
