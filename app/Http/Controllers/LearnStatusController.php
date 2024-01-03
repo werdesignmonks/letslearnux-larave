@@ -23,8 +23,6 @@ class LearnStatusController extends Controller
             ->where('chapter_id', $request->chapter_id)
             ->where('is_completed', true)->count();
 
-//        dd($progress);
-
         $progress += 1;
         $progress = ($progress / $lessonCount) * 100;
 

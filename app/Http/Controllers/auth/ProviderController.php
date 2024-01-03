@@ -56,11 +56,18 @@ class ProviderController extends Controller
                     'email_verified_at' => now(),
                     'avatar_path' =>  $socialUser->getAvatar(),
                 ]);
+
+                auth()->user()->update(['isFirstLogin' => 0]);
+
+                // Redirect to a specific page for first-time login
+                return redirect()->route('Onboarding');
             }
 
             Auth::login($user);
+
+
             // Check if user is first time login
-            $isLogin = auth()->user()->isFirstLogin;
+            $isLogin = auth()->user()->refresh()->isFirstLogin;
 
             if ($isLogin) {
                 // Set isFirstLogin to false after first login for a user

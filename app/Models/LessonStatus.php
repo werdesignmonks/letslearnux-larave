@@ -15,4 +15,29 @@ class LessonStatus extends Model
         'chapter_id',
         'completed'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function lesson()
+    {
+        return $this->belongsTo(Lesson::class, 'lesson_id', 'id');
+    }
+
+    public function chapter()
+    {
+        return $this->belongsTo(Chapter::class, 'chapter_id', 'id');
+    }
+
+    function completionPercentage( $chapterId) {
+        $lessonCount = Lesson::query()->where('chapter_id', $chapterId)->count();
+        $completedLessonCount = LessonStatus::query()
+            ->where('user_id', auth()->user()->id)
+            ->where('chapter_id', $chapterId)
+            ->where('completed', true)->count();
+
+        return ($completedLessonCount / $lessonCount) * 100;
+    }
 }

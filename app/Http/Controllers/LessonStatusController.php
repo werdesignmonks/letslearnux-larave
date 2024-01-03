@@ -9,7 +9,6 @@ class LessonStatusController extends Controller
 {
     public function complete(Request $request)
     {
-
         $lesson = Lesson::find($request->lesson_id);
         $lesson->statusComplete(auth()->user());
         return back();

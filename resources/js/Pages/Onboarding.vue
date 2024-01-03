@@ -8,6 +8,7 @@ import Step3 from "@/Components/Steps/Step3.vue";
 
 const stepProgress = ref(0);
 const isFormValid = ref(true);
+const inputFilled = ref(false);
 
 const props = defineProps({
     onboardings: Object,
@@ -20,12 +21,19 @@ const form = useForm({
     learning: []
 });
 
+const handleInputFilled = () => {
+    inputFilled.value = true;
+};
+
+console.log(inputFilled);
+
 const dataStep = reactive({
     steps: ['Step1', 'Step2', 'Step3'],
     currentStep: 1,
     stepTemplate: [Step1, Step2, Step3],
     activeCurrentColor: "#643ef3",
     passiveColor: "#F2F3F3",
+    handleInputFilled,
 });
 
 function submit() {
@@ -42,10 +50,9 @@ function submit() {
 console.log(form.profession);
 
 const validateForm = () => {
-    // Add your validation logic here for radio buttons and checkboxes
-
-    isFormValid.value = form.profession !== '';
-    // isFormValid.value = form.profession !== '' && (form.experience !== '' && form.learning.length > 0);
+    if (form.profession === '') {
+        isFormValid.value = false;
+    }
 };
 
 // :disabled="!isFormValid"

@@ -14,40 +14,40 @@ use Inertia\Inertia;
 
 class RoadmapController extends Controller
 {
-    public function index(Request $request, Lesson $lesson)
+    public function index(Request $request)
     {
-
         $shortBy = $request->get('sort');
-
         $allChapters = Chapter::all();
         $lessonStatus = LessonStatus::query()->where('user_id', auth()->user()->id)->get();
-
-//        dd($lessonStatus);
+        $user = auth()->user();
 
         $chapers = Chapter::with('lesson')->orderBy('id', 'asc')
             ->when($shortBy, function ($query, $shortBy) {
                 return $query->where('id', $shortBy);
-            })
-            ->paginate(10);
+            })->paginate(10);
+
 
         return Inertia::render('Roadmap', [
             'chapters' => $chapers,
             'allChapters' => $allChapters,
+            'lessonStatus' => $lessonStatus,
+            'user' => $user,
         ]);
+
     }
 
     // Show lesson with slug
     public function show($slug)
     {
+        // Lesson with likes
         $lesson = Lesson::query()->where('slug', $slug)->withLikes()->firstOrFail();
         $book_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_BOOK)->where('status', 'approved')->get();
         $article_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_ARTICLE)->where('status', 'approved')->get();
         $video_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_VIDEO)->where('status', 'approved')->get();
-        $lessonStatus = LearnStatus::query()->where('user_id', auth()->user()->id)->where('lesson_id', $lesson->id)->first();
         $liked = Like::query()->where('user_id', auth()->user()->id)->where('lesson_id', $lesson->id)->first();
+//        $lessonStatus = LearnStatus::query()->where('user_id', auth()->user()->id)->where('lesson_id', $lesson->id)->first();
         $lessonStatus = LessonStatus::query()->where('user_id', auth()->user()->id)->where('lesson_id', $lesson->id)->first();
-
-//        dd($lessonStatus);
+//        $lessonStatus = LessonStatus::where('user_id', auth()->user()->id)->where('chapter_id', $lesson->chapter_id)->where('lesson_id', $lesson->id)->first();
 
 
         $user = auth()->user();
@@ -58,7 +58,7 @@ class RoadmapController extends Controller
             'article_resource' => $article_resource,
             'video_resource' => $video_resource,
             'user' => $user,
-            'learnStatus' => $lessonStatus,
+//            'learnStatus' => $lessonStatus,
             'liked' => $liked,
             'lessonStatus' => $lessonStatus
         ]);

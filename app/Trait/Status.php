@@ -14,6 +14,7 @@ trait Status
     {
         $this->completed()->updateOrCreate([
             'user_id' => $user ? $user->id : auth()->user()->id,
+            'chapter_id' => $this->chapter_id,
         ], [
             'completed' => $completed,
         ]);
@@ -27,6 +28,7 @@ trait Status
     public function isCompletedBy(User $user)
     {
         return (bool) $user->completed
+            ->where('chapter_id', $this->chapter_id)
             ->where('lesson_id', $this->id)
             ->where('completed', true)
             ->count();
@@ -35,6 +37,7 @@ trait Status
     public function isUnCompletedBy(User $user)
     {
         return (bool) $user->completed
+            ->where('chapter_id', $this->chapter_id)
             ->where('lesson_id', $this->id)
             ->where('completed', false)
             ->count();

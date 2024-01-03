@@ -39,4 +39,9 @@ class Lesson extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function lessonStatus()
+    {
+        return $this->hasOne(LessonStatus::class);
+    }
+
 }

@@ -12,7 +12,7 @@ const props = defineProps(
     {
         isShow: {
             type: Boolean,
-            required: true,
+            required: false,
             default: true,
         },
         iconWidth: {

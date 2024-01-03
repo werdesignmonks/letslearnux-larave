@@ -5,7 +5,7 @@ import {Link} from "@inertiajs/vue3";
 defineProps({
     src: {
         type: String,
-        required: true,
+        required: false,
     },
     image: {
         type: String,

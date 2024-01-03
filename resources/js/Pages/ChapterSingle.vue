@@ -1,17 +1,13 @@
 <script setup>
 import {ref} from 'vue';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import Image from "@/Components/Image.vue";
+import { Head, useForm } from '@inertiajs/vue3';
 import Card from "@/Pages/Roadmap/Card.vue";
 import SocialShare from "@/Components/SocialShare.vue";
 import VideoCard from "@/Pages/Roadmap/VideoCard.vue";
 import Book from "@/Pages/Roadmap/Book.vue";
 import SubmitResource from "@/Pages/Roadmap/SubmitResource.vue";
-import ContributorList from "@/Pages/Roadmap/ContributorList.vue";
-import TextInput from "@/Components/TextInput.vue";
-import RadioInput from "@/Components/RadioInput.vue";
-import InputLabel from "@/Components/InputLabel.vue";
+
 
 const img = ref('images/youtube-1.png');
 const modalComplete = ref(false);
@@ -27,7 +23,7 @@ const isCompleted = ref(false);
 
 
 const props = defineProps({
-    lesson: Array,
+    lesson: Object,
 	article_resource: Array,
 	video_resource: Array,
 	book_resource: Array,
@@ -48,7 +44,7 @@ console.log(props.lessonStatus)
 
 
 if(props.lessonStatus) {
-    isCompleted.value = props.lessonStatus.is_completed;
+    isCompleted.value = props.lessonStatus.completed;
 } else {
     isCompleted.value = false;
 }
@@ -236,11 +232,12 @@ const dislikeHandler = () => {
     <Head title="1.1 - Evaluate your English language skill, IQ, mindset" />
     <AuthenticatedLayout>
         <div class="max-w-[1100px] px-[15px] mx-auto">
+
             <h1 class="font-bold text-[32px] leading-[38px] mb-6 flex justify-between">
                 {{  lesson.serial }} - {{  lesson.title }}
 
                 <div class="w-32 h-10 px-4 bg-zinc-100 rounded-lg justify-center items-center gap-3 inline-flex">
-                    <div class="pr-3 border-r border-neutral-300 justify-center items-center gap-1 flex" :class="red">
+                    <div class="pr-3 border-r border-neutral-300 justify-center items-center gap-1 flex">
                         <div class="text-slate-600 text-base font-bold leading-none flex items-center gap-1"
                              :class="props.user.id == props.liked?.user_id ? 'text-red-500' : 'text-slate-600'"
                              @click="likeHandler">
@@ -313,7 +310,7 @@ const dislikeHandler = () => {
 
 <!--            <hr class="mt-9 mb-6 block">-->
 
-            <SocialShare  />
+            <SocialShare :isShow=true  />
 
             <div class="mt-[48px]">
                 <SubmitResource @click="modalAddResource = true" />
@@ -344,8 +341,7 @@ const dislikeHandler = () => {
                             <rect y="0.5" width="20" height="20" rx="10" fill="#08A965"/>
                             <path d="M15.3337 6.5L8.00033 13.8333L4.66699 10.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        Mark as Complete
-
+                        <span>Mark as Complete</span>
                     </div>
                     <div
 	                    v-else
@@ -354,8 +350,7 @@ const dislikeHandler = () => {
                             <rect y="0.5" width="20" height="20" rx="10" fill="#643EF3"/>
                             <path d="M15.3337 6.5L8.00033 13.8333L4.66699 10.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        Lesson Completed
-
+                        <span>Lesson Completed</span>
 	                    {{ props.lesson.completed }}
                     </div>
                 </div>
