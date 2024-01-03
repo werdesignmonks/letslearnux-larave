@@ -31,13 +31,16 @@ class LessonStatus extends Model
         return $this->belongsTo(Chapter::class, 'chapter_id', 'id');
     }
 
-    function completionPercentage( $chapterId) {
+    function completionPercentage($chapterId)
+    {
         $lessonCount = Lesson::query()->where('chapter_id', $chapterId)->count();
         $completedLessonCount = LessonStatus::query()
             ->where('user_id', auth()->user()->id)
             ->where('chapter_id', $chapterId)
             ->where('completed', true)->count();
 
-        return ($completedLessonCount / $lessonCount) * 100;
+        $progress = ($completedLessonCount / $lessonCount) * 100;
+
+        return $progress;
     }
 }

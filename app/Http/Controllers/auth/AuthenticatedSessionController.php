@@ -34,7 +34,9 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
         $request->session()->regenerate();
-        $isLogin = auth()->user()->isFirstLogin;
+        $isLogin = auth()->user()->refresh()->isFirstLogin;
+
+//        dd($isLogin);
 
         if ($isLogin) {
             // Set isFirstLogin to false after first login for a user
@@ -43,6 +45,12 @@ class AuthenticatedSessionController extends Controller
             // Redirect to a specific page for first-time login
             return redirect()->route('Onboarding');
         }
+
+//        if (auth()->user()->isFirstLogin == 1) {
+//            return redirect()->route('admin.dashboard');
+//        } else {
+//            return redirect()->route('roadmap');
+//        }
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

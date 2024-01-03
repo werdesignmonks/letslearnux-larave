@@ -26,12 +26,23 @@ class RoadmapController extends Controller
                 return $query->where('id', $shortBy);
             })->paginate(10);
 
+        $lessonCount = Lesson::query()->where('chapter_id', 1)->count();
+        $completedLessonCount = LessonStatus::query()
+            ->where('user_id', auth()->user()->id)
+            ->where('chapter_id', 1)
+            ->where('completed', true)->count();
+
+        $progress = ($completedLessonCount / $lessonCount) * 100;
+
+//        dd($progress);
+
 
         return Inertia::render('Roadmap', [
             'chapters' => $chapers,
             'allChapters' => $allChapters,
             'lessonStatus' => $lessonStatus,
             'user' => $user,
+            'lessonProgress' => $progress
         ]);
 
     }

@@ -15,11 +15,12 @@ const props = defineProps({
     allChapters: Array,
     lessonStatus: Object,
     user: Object,
+    lessonProgress: Object,
 });
 
 
 console.log( props.lessonStatus )
-console.log( props.user.id )
+console.log( props.lessonProgress )
 
 // Show the lesson status of the user in lesson card
 const lessonStatus = props.lessonStatus.filter((item) => {
@@ -27,8 +28,12 @@ const lessonStatus = props.lessonStatus.filter((item) => {
 });
 
 
+
+
+
 const handleSortChange = (selectedSort) => {
     const sortQuery = selectedSort ? `&sort=${selectedSort}` : '';
+
 
     const url = `${route('roadmap')}?${sortQuery}`;
     router.replace(url);
@@ -62,7 +67,14 @@ const handleSortChange = (selectedSort) => {
 
                     <div class="flex items-center gap-2">
                         <div class="w-[100px] bg-gray-200 rounded-full dark:bg-purple-100">
-                            <div class="bg-violet-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style="width: 45%"> 45%</div>
+                            <div class="bg-violet-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" :style="{ width: Math.round((lessonStatus.filter((lesson) => lesson.chapter_id === item.id && lesson.completed === 1).length / item.lesson.length) * 100) + '%' }">
+                                {{
+                                    Math.round((lessonStatus.filter((lesson) => {
+                                        return lesson.chapter_id === item.id && lesson.completed === 1;
+                                    }).length / item.lesson.length) * 100)
+
+                                }}%
+                            </div>
                         </div>
                         <div class="flex items-center gap-3 border border-[#31008B] px-[10px] py-[7px] bg-[#EAE5F3] rounded-4xl">
                             <div class="flex items-center gap-2">
@@ -81,7 +93,7 @@ const handleSortChange = (selectedSort) => {
                 <div class="mt-6">
                     <div class="group border border-dm-border-color  py-[19px] px-[20px] flex items-center gap-4 rounded-3xl mb-[12px] hover:border-violet-300 hover:bg-purple-50 transition ease-in-out delay-150"
                          v-for="(lesson, lessonIndex) in item.lesson" :key="lesson.id"
-                         :class="lessonStatus[lessonIndex].completed && ( item.id === props.lessonStatus[lessonIndex]?.chapter_id) ? 'border-violet-300 bg-purple-50 text-dm-color-primary' : 'border-dm-border-color bg-dm-bg-color'">
+                         :class="props.lessonStatus[lessonIndex]?.completed && ( item.id === props.lessonStatus[lessonIndex]?.chapter_id) ? 'border-violet-300 bg-purple-50 text-dm-color-primary' : 'border-dm-border-color bg-dm-bg-color'">
 
                         <div v-if="props.lessonStatus[lessonIndex]?.completed && (item.id === props.lessonStatus[lessonIndex]?.chapter_id)" class="w-8 h-8 p-5 bg-violet-600 rounded-[100px] border border-violet-600 flex-col justify-center items-center gap-2.5 inline-flex">
                             <div class="w-5 h-5">
