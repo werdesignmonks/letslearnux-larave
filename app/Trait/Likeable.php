@@ -1,39 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Trait;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Like;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
-
-class Lesson extends Model
+trait Likeable
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'chapter_id',
-        'serial',
-        'title',
-        'description',
-        'slug',
-        'likes',
-        'dislikes',
-    ];
-
-    public function chapter()
-    {
-        return $this->belongsTo(Chapter::class, 'chapter_id', 'id');
-    }
-
-    public function resource()
-    {
-        return $this->hasMany(Resource::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
 
     public function scopeWithLikes($query)
     {
@@ -48,10 +22,15 @@ class Lesson extends Model
     public function like($user = null, $liked = true)
     {
         $this->likes()->updateOrCreate([
-            'user_id' => $user ? $user->id : auth()->user()->id,
+            'user_id' => $user ? $user->id : auth()->id,
         ], [
             'liked' => $liked,
         ]);
+
+        // Unliking
+        if ($liked == false) {
+            $this->likes()->where('user_id', $user ? $user->id : auth()->id)->delete();
+        }
     }
 
     public function disLike($user = null)

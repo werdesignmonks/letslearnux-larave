@@ -16,8 +16,8 @@ return new class extends Migration
             $table->float('serial');
             $table->string('title');
             $table->longText('description')->nullable();
-            $table->unsignedBigInteger('likes')->default(0);
-            $table->unsignedBigInteger('dislikes')->default(0);
+//            $table->unsignedBigInteger('likes')->default(0);
+//            $table->unsignedBigInteger('dislikes')->default(0);
             $table->unsignedBigInteger('chapter_id');
             $table->string('slug');
             $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');

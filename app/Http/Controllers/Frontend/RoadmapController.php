@@ -39,11 +39,12 @@ class RoadmapController extends Controller
     // Show lesson with slug
     public function show($slug)
     {
-        $lesson = Lesson::query()->where('slug', $slug)->firstOrFail();
+        $lesson = Lesson::query()->where('slug', $slug)->withLikes()->firstOrFail();
         $book_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_BOOK)->where('status', 'approved')->get();
         $article_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_ARTICLE)->where('status', 'approved')->get();
         $video_resource = Resource::query()->where('lesson_id', $lesson->id)->where('type', Resource::TYPE_VIDEO)->where('status', 'approved')->get();
         $lessonStatus = LearnStatus::query()->where('user_id', auth()->user()->id)->where('lesson_id', $lesson->id)->first();
+        $liked = Like::query()->where('user_id', auth()->user()->id)->where('lesson_id', $lesson->id)->first();
 
 
         $user = auth()->user();
@@ -55,6 +56,7 @@ class RoadmapController extends Controller
             'video_resource' => $video_resource,
             'user' => $user,
             'learnStatus' => $lessonStatus,
+            'liked' => $liked,
         ]);
     }
 
@@ -83,11 +85,5 @@ class RoadmapController extends Controller
         }
 
         return redirect()->back()->with('success', 'Resource Added Successfully');
-    }
-
-    // Like Lesson
-    public function like(Request $request)
-    {
-        // Lesson like by user id
     }
 }

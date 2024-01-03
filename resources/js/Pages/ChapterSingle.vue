@@ -34,8 +34,12 @@ const props = defineProps({
     errors: Object,
     user: Object,
     learnStatus: Object,
-    likes: Object,
+    liked: Object,
 });
+
+
+
+console.log(props.user.id == props.liked.user_id)
 
 const form = useForm({
     title: '',
@@ -166,6 +170,31 @@ const likeHandaler = () => {
     })
 }
 
+const dislikeHandaler = () => {
+    fromLike.post(route('dislikes', props.lesson.id), {
+        preserveScroll: true,
+
+        onSuccess: (page) => {
+            // modalComplete.value = true;
+            console.log(page)
+        },
+        onError: (errors) => {
+            console.log(errors)
+
+            $toast.open({
+                message: 'Please fill all the fields',
+                type: 'warning',
+                position: 'top-right',
+                duration: 5000,
+                style: {
+                    background: 'linear-gradient(to right, #FF0000, #FF6347)',
+                },
+            });
+        }
+    })
+}
+
+console.log(props.lesson.user_id )
 
 </script>
 
@@ -177,37 +206,44 @@ const likeHandaler = () => {
                 {{  lesson.serial }} - {{  lesson.title }}
 
                 <div class="w-32 h-10 px-4 bg-zinc-100 rounded-lg justify-center items-center gap-3 inline-flex">
-                    <div class="pr-3 border-r border-neutral-300 justify-center items-center gap-1 flex">
-                        <input type="checkbox" id="like" class="peer hidden" v-model="fromLike.likes" />
-                        <label for="like" class="text-slate-600 text-base font-bold leading-none flex items-center gap-1" @click="likeHandaler">
-                            <span class="w-5 h-5 relative inline-block">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <g clip-path="url(#clip0_356_933)">
-                                        <path d="M5.83337 8.33337V18.3334" stroke="#643EF3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M12.5 4.89996L11.6666 8.33329H16.525C16.7837 8.33329 17.0389 8.39353 17.2703 8.50925C17.5017 8.62496 17.703 8.79297 17.8583 8.99996C18.0135 9.20695 18.1185 9.44725 18.1647 9.70182C18.211 9.95638 18.1974 10.2182 18.125 10.4666L16.1833 17.1333C16.0823 17.4795 15.8718 17.7836 15.5833 18C15.2948 18.2163 14.9439 18.3333 14.5833 18.3333H3.33329C2.89127 18.3333 2.46734 18.1577 2.15478 17.8451C1.84222 17.5326 1.66663 17.1087 1.66663 16.6666V9.99996C1.66663 9.55793 1.84222 9.13401 2.15478 8.82145C2.46734 8.50889 2.89127 8.33329 3.33329 8.33329H5.63329C5.94336 8.33313 6.24724 8.24647 6.51076 8.08306C6.77427 7.91965 6.98698 7.68597 7.12496 7.40829L9.99996 1.66663C10.3929 1.67149 10.7797 1.7651 11.1315 1.94046C11.4832 2.11581 11.7907 2.36838 12.0311 2.67929C12.2715 2.99021 12.4386 3.35143 12.5197 3.73596C12.6009 4.1205 12.5942 4.51841 12.5 4.89996Z" stroke="#643EF3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_356_933">
-                                            <rect width="20" height="20" fill="white"/>
-                                        </clipPath>
-                                    </defs>
+                    <div class="pr-3 border-r border-neutral-300 justify-center items-center gap-1 flex" :class="red">
+                        <div class="text-slate-600 text-base font-bold leading-none flex items-center gap-1"
+                             :class="props.user.id == props.liked.user_id ? 'text-red-500' : 'text-slate-600'"
+                             @click="likeHandaler">
+                            <span class="w-5 h-5 relative inline-block cursor-pointer">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none" v-if="props.user.id == (props.liked.user_id && props.lesson?.likes) ">
+                                    <path d="M11.0001 3.90002L10.1667 7.33335H15.0251C15.2838 7.33335 15.539 7.3936 15.7704 7.50931C16.0019 7.62502 16.2032 7.79303 16.3584 8.00002C16.5137 8.20701 16.6186 8.44731 16.6649 8.70188C16.7111 8.95645 16.6975 9.2183 16.6251 9.46669L14.6834 16.1334C14.5824 16.4795 14.3719 16.7836 14.0834 17C13.7949 17.2164 13.444 17.3334 13.0834 17.3334H1.83341C1.39139 17.3334 0.967464 17.1578 0.654903 16.8452C0.342343 16.5326 0.166748 16.1087 0.166748 15.6667V9.00002C0.166748 8.55799 0.342343 8.13407 0.654903 7.82151C0.967464 7.50895 1.39139 7.33335 1.83341 7.33335H4.13341C4.44348 7.33319 4.74736 7.24653 5.01088 7.08312C5.27439 6.91971 5.4871 6.68603 5.62508 6.40835L8.50008 0.666687C8.89306 0.671553 9.27986 0.765161 9.63159 0.940517C9.98331 1.11587 10.2909 1.36844 10.5313 1.67936C10.7716 1.99027 10.9387 2.35149 11.0199 2.73602C11.101 3.12056 11.0943 3.51847 11.0001 3.90002Z" fill="#7A49FF"/>
                                 </svg>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" v-else>
+                                  <path d="M6.33325 8.33331V18.3333" stroke="#566474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M13.0001 4.90002L12.1667 8.33335H17.0251C17.2838 8.33335 17.539 8.3936 17.7704 8.50931C18.0019 8.62502 18.2032 8.79303 18.3584 9.00002C18.5137 9.20701 18.6186 9.44731 18.6649 9.70188C18.7111 9.95645 18.6975 10.2183 18.6251 10.4667L16.6834 17.1334C16.5824 17.4795 16.3719 17.7837 16.0834 18C15.7949 18.2164 15.444 18.3334 15.0834 18.3334H3.83341C3.39139 18.3334 2.96746 18.1578 2.6549 17.8452C2.34234 17.5326 2.16675 17.1087 2.16675 16.6667V10C2.16675 9.55799 2.34234 9.13407 2.6549 8.82151C2.96746 8.50895 3.39139 8.33335 3.83341 8.33335H6.13341C6.44348 8.33319 6.74736 8.24653 7.01088 8.08312C7.27439 7.91971 7.4871 7.68603 7.62508 7.40835L10.5001 1.66669C10.8931 1.67155 11.2799 1.76516 11.6316 1.94052C11.9833 2.11587 12.2909 2.36844 12.5313 2.67936C12.7716 2.99027 12.9387 3.35149 13.0199 3.73602C13.101 4.12056 13.0943 4.51847 13.0001 4.90002Z" stroke="#566474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+
                             </span>
                             {{ props.lesson?.likes ? props.lesson.likes : 0 }}
-                        </label>
+                        </div>
                     </div>
                     <div class="w-5 h-5 relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <g clip-path="url(#clip0_356_935)">
-                                <path d="M14.1666 11.6666V1.66663" stroke="#999DA1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M7.50002 15.1L8.33335 11.6666H3.47502C3.21627 11.6666 2.96109 11.6064 2.72966 11.4907C2.49823 11.375 2.29693 11.207 2.14168 11C1.98644 10.793 1.88152 10.5527 1.83523 10.2981C1.78895 10.0435 1.80257 9.78168 1.87502 9.53329L3.81668 2.86663C3.91766 2.52043 4.12819 2.21633 4.41668 1.99996C4.70518 1.78359 5.05607 1.66663 5.41668 1.66663H16.6667C17.1087 1.66663 17.5326 1.84222 17.8452 2.15478C18.1578 2.46734 18.3333 2.89127 18.3333 3.33329V9.99996C18.3333 10.442 18.1578 10.8659 17.8452 11.1785C17.5326 11.491 17.1087 11.6666 16.6667 11.6666H14.3667C14.0566 11.6668 13.7527 11.7534 13.4892 11.9169C13.2257 12.0803 13.013 12.3139 12.875 12.5916L10 18.3333C9.60704 18.3284 9.22023 18.2348 8.86851 18.0595C8.51679 17.8841 8.20924 17.6315 7.96885 17.3206C7.72845 17.0097 7.56142 16.6485 7.48024 16.264C7.39905 15.8794 7.40581 15.4815 7.50002 15.1Z" stroke="#999DA1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </g>
+                        <div class="text-slate-600 text-base font-bold leading-none flex items-center gap-1"
+                             :class="props.user.id == props.liked.user_id ? 'text-red-500' : 'text-slate-600'"
+                             @click="dislikeHandaler">
+                            <span class="w-5 h-5 relative inline-block cursor-pointer">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <g clip-path="url(#clip0_356_935)">
+                                    <path d="M14.1666 11.6666V1.66663" stroke="#999DA1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7.50002 15.1L8.33335 11.6666H3.47502C3.21627 11.6666 2.96109 11.6064 2.72966 11.4907C2.49823 11.375 2.29693 11.207 2.14168 11C1.98644 10.793 1.88152 10.5527 1.83523 10.2981C1.78895 10.0435 1.80257 9.78168 1.87502 9.53329L3.81668 2.86663C3.91766 2.52043 4.12819 2.21633 4.41668 1.99996C4.70518 1.78359 5.05607 1.66663 5.41668 1.66663H16.6667C17.1087 1.66663 17.5326 1.84222 17.8452 2.15478C18.1578 2.46734 18.3333 2.89127 18.3333 3.33329V9.99996C18.3333 10.442 18.1578 10.8659 17.8452 11.1785C17.5326 11.491 17.1087 11.6666 16.6667 11.6666H14.3667C14.0566 11.6668 13.7527 11.7534 13.4892 11.9169C13.2257 12.0803 13.013 12.3139 12.875 12.5916L10 18.3333C9.60704 18.3284 9.22023 18.2348 8.86851 18.0595C8.51679 17.8841 8.20924 17.6315 7.96885 17.3206C7.72845 17.0097 7.56142 16.6485 7.48024 16.264C7.39905 15.8794 7.40581 15.4815 7.50002 15.1Z" stroke="#999DA1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
                             <defs>
                                 <clipPath id="clip0_356_935">
                                     <rect width="20" height="20" fill="white"/>
                                 </clipPath>
                             </defs>
                         </svg>
+                            </span>
+                            {{ props.lesson?.dislikes ? props.lesson.dislikes : 0 }}
+                        </div>
                     </div>
                 </div>
             </h1>

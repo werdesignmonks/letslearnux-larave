@@ -46,8 +46,8 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Lesson Like
-    Route::post('/roadmap/like/{id}', [RoadmapController::class, 'like'])->name('likes');
-    Route::post('/roadmap/unlike/{id}', [RoadmapController::class, 'unlike'])->name('unlikes');
+    Route::post('/roadmap/like/{id}', [LikeController::class, 'like'])->name('likes');
+    Route::post('/roadmap/unlike/{id}', [LikeController::class, 'dislike'])->name('dislikes');
 
     // Learn Status
     Route::post('/learn-status/{id}', [LearnStatusController::class, 'store'])->name('lesson.status.update');
