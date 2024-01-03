@@ -10,9 +10,9 @@ import {defineProps, ref} from "vue";
 const selectedSort = ref('');
 
 const props = defineProps({
-    chapters: Array,
+    chapters: Object,
     allChapters: Array,
-    lessonStatus: Array,
+    // lessonStatus: Object,
 });
 
 const handleSortChange = (selectedSort) => {

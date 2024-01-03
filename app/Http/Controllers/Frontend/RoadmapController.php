@@ -18,6 +18,7 @@ class RoadmapController extends Controller
     {
 
         $shortBy = $request->get('sort');
+
         $allChapters = Chapter::all();
         $lessonStatus = LessonStatus::query()->where('user_id', auth()->user()->id)->get();
 

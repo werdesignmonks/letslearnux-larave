@@ -18,7 +18,10 @@ class LearnStatusController extends Controller
         $lessonCount = Lesson::query()->where('chapter_id', $request->chapter_id)->count();
 
         // Calculate progress percentage with is_completed count status
-        $progress = LearnStatus::query() ->where('user_id', $request->user_id)->where('chapter_id', $request->chapter_id)->where('is_completed', true)->count();
+        $progress = LearnStatus::query()
+            ->where('user_id', $request->user_id)
+            ->where('chapter_id', $request->chapter_id)
+            ->where('is_completed', true)->count();
 
 //        dd($progress);
 
