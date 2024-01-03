@@ -9,11 +9,12 @@ class LessonStatusController extends Controller
 {
     public function complete(Request $request)
     {
-
-//        dd($request->all());
-
         $lesson = Lesson::find($request->lesson_id);
         $lesson->statusComplete(auth()->user());
+
+        // Calculate percentage of chapter
+        $chapter = $lesson->chapter;
+        $chapter->calculatePercentage();
 
         return back();
     }

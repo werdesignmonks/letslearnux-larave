@@ -28,6 +28,7 @@ trait Status
     {
         return (bool) $user->completed
             ->where('lesson_id', $this->id)
+            ->where('chapter_id', $this->chapter_id)
             ->where('completed', true)
             ->count();
     }
@@ -36,6 +37,7 @@ trait Status
     {
         return (bool) $user->completed
             ->where('lesson_id', $this->id)
+            ->where('chapter_id', $this->chapter_id)
             ->where('completed', false)
             ->count();
     }
@@ -44,4 +46,5 @@ trait Status
     {
         return $this->hasMany(LessonStatus::class);
     }
+
 }

@@ -12,6 +12,7 @@ class LessonStatus extends Model
     protected $fillable = [
         'user_id',
         'lesson_id',
+        'chapter_id',
         'completed'
     ];
 }

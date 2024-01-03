@@ -66,7 +66,7 @@ const formStatus = useForm({
 	lesson_id: props.lesson.id,
 	user_id: props.user.id,
 	chapter_id: props.lesson.chapter_id,
-	is_completed: '',
+	completed: '',
 });
 
 
