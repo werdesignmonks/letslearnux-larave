@@ -153,7 +153,7 @@ function statusComplete() {
 }
 
 // Status Uncomplete
-function statusUnComplete() {
+function statusInComplete() {
 	formStatus.post(route('lesson.status.uncomplete', props.lesson.id), {
 		preserveScroll: true,
 
@@ -322,19 +322,19 @@ const dislikeHandler = () => {
     </AuthenticatedLayout>
 
     <div class="bg-dm-bg-color py-4">
-        <div class="max-w-[1100px] px-[15px] mx-auto flex justify-end">
+        <div class="max-w-[1100px] px-[15px] mx-auto flex items-center"
+             :class="props.lessonStatus?.completed ? 'justify-between' : 'justify-end'"
+        >
 
-<!--            <div class="flex">-->
-<!--&lt;!&ndash;                <input type="checkbox" id="choose-me" class="peer hidden" v-model="formStatus.is_completed" v-if="!formStatus.is_completed" @change="statusComplete" />&ndash;&gt;-->
-<!--                <div class="block" @click="statusComplete">-->
-<!--                    <span v-if="formStatus.is_completed" class="border border-[#CCCED0] rounded-4xl flex items-center gap-2 py-[11px] px-5 font-medium text-base text-[#000913] hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150 cursor-pointer  peer-checked:text-gray-900 peer-checked:border-gray-200">-->
-<!--                        Mark as Incomplete-->
-<!--                    </span>-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="flex" @click="statusInComplete" v-if="props.lessonStatus?.completed">
+                <div class="block">
+                    <span class="border border-[#CCCED0] rounded-4xl flex items-center gap-2 py-[11px] px-5 font-medium text-base text-[#000913] hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150 cursor-pointer  peer-checked:text-gray-900 peer-checked:border-gray-200">
+                        Mark as Incomplete
+                    </span>
+                </div>
+            </div>
 
             <div class="flex">
-<!--                <input type="checkbox" id="choose-me" class="peer hidden" v-model="formStatus.is_completed" v-if="!formStatus.is_completed" @change="statusComplete" />-->
                 <div class="block">
                     <div
 	                    @click="statusComplete"
@@ -348,7 +348,6 @@ const dislikeHandler = () => {
 
                     </div>
                     <div
-	                    @click="statusUnComplete"
 	                    v-else
 	                    class="text-center text-violet-600 text-base font-medium leading-relaxed flex items-center gap-2 py-[11px] px-5">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -19,7 +19,6 @@ class RoadmapController extends Controller
 
         $shortBy = $request->get('sort');
         $allChapters = Chapter::all();
-//        $lessonStatus = LearnStatus::where('user_id', auth()->user()->id)->get();
         $lessonStatus = LessonStatus::query()->where('user_id', auth()->user()->id)->get();
 
 //        dd($lessonStatus);
@@ -28,13 +27,11 @@ class RoadmapController extends Controller
             ->when($shortBy, function ($query, $shortBy) {
                 return $query->where('id', $shortBy);
             })
-            ->with('lessonStatus')
             ->paginate(10);
 
         return Inertia::render('Roadmap', [
             'chapters' => $chapers,
             'allChapters' => $allChapters,
-            'lessonStatus' => $lessonStatus,
         ]);
     }
 

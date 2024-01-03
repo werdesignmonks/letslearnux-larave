@@ -22,21 +22,21 @@ class Chapter extends Model
         return $this->hasMany(Lesson::class);
     }
 
-    public function lessonStatus()
-    {
-        return $this->hasMany(LessonStatus::class);
-    }
+//    public function lessonStatus()
+//    {
+//        return $this->hasMany(LessonStatus::class);
+//    }
 
-    public function calculatePercentage()
-    {
-        $totalLesson = $this->lesson->count();
-        $totalLearnedLesson = $this->lessonStatus->where('completed', 1)->count();
-
-        if ($totalLesson == 0) {
-            return 0;
-        }
-
-        return round(($totalLearnedLesson / $totalLesson) * 100);
-    }
+//    public function calculatePercentage()
+//    {
+//        $totalLesson = $this->lesson->count();
+//        $totalLearnedLesson = $this->lessonStatus->where('completed', 1)->count();
+//
+//        if ($totalLesson == 0) {
+//            return 0;
+//        }
+//
+//        return round(($totalLearnedLesson / $totalLesson) * 100);
+//    }
 
 }

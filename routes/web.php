@@ -53,7 +53,7 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     // Learn Status
 //    Route::post('/learn-status/{id}', [LearnStatusController::class, 'store'])->name('lesson.status.update');
     Route::post('/lesson-status/{id}', [LessonStatusController::class, 'complete'])->name('lesson.status.update');
-    Route::post('/lesson-status/uncomplete/{id}', [LessonStatusController::class, 'unComplete'])->name('lesson.status.uncomplete');
+    Route::post('/lesson-status/incomplete/{id}', [LessonStatusController::class, 'inComplete'])->name('lesson.status.uncomplete');
 });
 
 
