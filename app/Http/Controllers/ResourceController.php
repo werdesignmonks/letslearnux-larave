@@ -13,14 +13,13 @@ class ResourceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index( Request $request )
+    public function index(Request $request)
     {
-        $resources = Resource::with( ['user', 'lesson'] )->orderBy( 'id', 'desc' )->paginate( 5 );
+        $resources = Resource::with(['user', 'lesson'])->orderBy('id', 'desc')->paginate(12);
 
-
-        return Inertia::render( 'Admin/Resource/Index', [
+        return Inertia::render('Admin/Resource/Index', [
             'resources' => $resources,
-        ] );
+        ]);
     }
 
     /**
@@ -30,9 +29,9 @@ class ResourceController extends Controller
     {
         $lessons = Lesson::all();
 
-        return Inertia::render( 'Admin/Resource/Create', [
+        return Inertia::render('Admin/Resource/Create', [
             'lessons' => $lessons,
-        ] );
+        ]);
     }
 
     /**
@@ -51,7 +50,7 @@ class ResourceController extends Controller
             'image' => $request->hasFile('image') ? $request->file('image')->store('images') : null, // Image upload (if any
         ]);
 
-        if($request->image){
+        if ($request->image) {
             $resource->addMedia($request->image)->toMediaCollection();
         }
 
@@ -98,7 +97,7 @@ class ResourceController extends Controller
             'image' => $request->hasFile('image') ? $request->file('image')->store('images') : null, // Image upload (if any
         ]);
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $resource->media()->delete();
             $resource->addMedia($request->image)->toMediaCollection();
         }

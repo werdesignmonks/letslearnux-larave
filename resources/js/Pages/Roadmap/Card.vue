@@ -1,8 +1,9 @@
 <script setup>
 import Image from "@/Components/Image.vue";
-import {Link} from "@inertiajs/vue3";
+import { Link } from '@inertiajs/vue3'
+import {ref, onMounted} from "vue";
 
-defineProps({
+const props =defineProps({
     src: {
         type: String,
         required: true,
@@ -13,7 +14,7 @@ defineProps({
     },
     url: {
         type: String,
-        default: '#',
+		required: true,
     },
 });
 

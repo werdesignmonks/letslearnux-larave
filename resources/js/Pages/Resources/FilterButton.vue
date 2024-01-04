@@ -23,14 +23,14 @@ const publishedBooksMessage = computed(() => {
             'bg-[#F7F8F8] text-[#566474] border border-[#E5E6E7]': !props.isActive,
         }
     )
-
-
 })
 
-// const classes = computed(() =>
-//     props.isActive
-//         ? 'bg-dm-color-primary border-dm-color-primary text-white'
-//         : 'bg-[#F7F8F8] text-[#566474] border border-[#E5E6E7]');
+const classes = computed(() =>
+    props.isActive
+        ? 'bg-dm-color-primary border-dm-color-primary text-white'
+        : 'bg-[#F7F8F8] text-[#566474] border border-[#E5E6E7]');
+
+console.log(props.isActive);
 
 </script>
 

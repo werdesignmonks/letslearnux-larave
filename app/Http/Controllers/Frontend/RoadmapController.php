@@ -20,29 +20,28 @@ class RoadmapController extends Controller
         $allChapters = Chapter::all();
         $lessonStatus = LessonStatus::query()->where('user_id', auth()->user()->id)->get();
         $user = auth()->user();
+        $lessons = Lesson::query()->with('likes')->get();
 
-        $chapers = Chapter::with('lesson')->orderBy('id', 'asc')
+
+        $chapers = Chapter::with(['lesson', 'lessonStatus' ])->orderBy('id', 'asc')
             ->when($shortBy, function ($query, $shortBy) {
                 return $query->where('id', $shortBy);
             })->paginate(10);
-
-        $lessonCount = Lesson::query()->where('chapter_id', 1)->count();
-        $completedLessonCount = LessonStatus::query()
-            ->where('user_id', auth()->user()->id)
-            ->where('chapter_id', 1)
-            ->where('completed', true)->count();
-
-        $progress = ($completedLessonCount / $lessonCount) * 100;
-
-//        dd($progress);
-
+//
+//        $lessonCount = Lesson::query()->where('chapter_id', 1)->count();
+//        $completedLessonCount = LessonStatus::query()
+//            ->where('user_id', auth()->user()->id)
+//            ->where('chapter_id', 1)
+//            ->where('completed', true)->count();
+//
+//        $progress = ($completedLessonCount / $lessonCount) * 100;
 
         return Inertia::render('Roadmap', [
             'chapters' => $chapers,
             'allChapters' => $allChapters,
             'lessonStatus' => $lessonStatus,
             'user' => $user,
-            'lessonProgress' => $progress
+            'lessons' => $lessons
         ]);
 
     }

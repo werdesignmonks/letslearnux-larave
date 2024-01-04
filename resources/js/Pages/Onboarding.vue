@@ -1,6 +1,6 @@
 <script setup>
 import {useForm, Head} from "@inertiajs/vue3";
-import {defineProps, ref, reactive, onMounted} from "vue";
+import {defineProps, ref, reactive, onMounted, computed} from "vue";
 import StepProgress from "../Components/StepProgress.vue";
 import Step1 from "@/Components/Steps/Step1.vue";
 import Step2 from "@/Components/Steps/Step2.vue";
@@ -25,7 +25,6 @@ const handleInputFilled = () => {
     inputFilled.value = true;
 };
 
-console.log(inputFilled);
 
 const dataStep = reactive({
     steps: ['Step1', 'Step2', 'Step3'],
@@ -36,28 +35,40 @@ const dataStep = reactive({
     handleInputFilled,
 });
 
+// function submit() {
+//     form.post(route('onboardingStore'), {
+//         onSuccess: () => {
+//             console.log('success');
+//         },
+//         onError: (error) => {
+//             console.log(error);
+//         },
+//     });
+// }
+
+
 function submit() {
-    form.post(route('onboardingStore'), {
-        onSuccess: () => {
-            console.log('success');
-        },
-        onError: (error) => {
-            console.log(error);
-        },
-    });
+	// Check if the form is valid
+	form.validate().then(() => {
+		// Form is valid, proceed with submission
+		form.post(route('onboardingStore'), {
+			onSuccess: () => {
+				console.log('success');
+			},
+			onError: (error) => {
+				console.log(error);
+			},
+		});
+	}).catch(() => {
+		// Form is not valid, set a flag or handle accordingly
+		isFormValid.value = false;
+	});
 }
 
-console.log(form.profession);
-
-const validateForm = () => {
-    if (form.profession === '') {
-        isFormValid.value = false;
-    }
-};
-
-// :disabled="!isFormValid"
-
-onMounted(validateForm);
+// Computed property to check if the form is valid
+const isNextButtonDisabled = computed(() => {
+	return !isFormValid.value || !form.profession || !form.experience || form.learning.length === 0;
+});
 
 </script>
 

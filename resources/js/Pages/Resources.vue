@@ -8,13 +8,15 @@ import { ref, defineProps } from "vue";
 
 const active = ref(true);
 const lessons = ref([]);
-const type = ref('');
+const type = ref('article');
 const selectedSort = ref('');
 
 const props = defineProps({
 	resources: Object,
 	lessons: Object,
 });
+
+console.log(type.value);
 
 const handleCheckboxClick = (value) => {
 	const index = lessons.value.indexOf(value);
@@ -79,10 +81,7 @@ const resetFilters = () => {
                     <h3 class="font-bold text-[20px] leading-[28px] mb-3">Filter by topics</h3>
 
                     <div>
-<!--                        <FilterCheckbox value="all" label="All chapters" />-->
-<!--                        <FilterCheckbox :value="item.id" :label="item.title" v-for="(item, index) in props.lessons" @click="LessonFilterWithType"  />-->
 	                    <button class="text-blue-500 cursor-pointer underline" @click="resetFilters">Reset Filters</button>
-
 	                    <FilterCheckbox
 		                    :value="item.id"
 		                    :label="item.title"
@@ -94,9 +93,9 @@ const resetFilters = () => {
                 </div>
 
                 <div class="px-4 basis-3/4">
-                    <div class="mb-4 flex justify-between items-center mb-6">
+                    <div class="flex justify-between items-center mb-6">
                         <div class="flex jus gap-2">
-<!--	                        <FilterButton :url="`${route('resources')}`" label="All" :isActive="route().current('resources')" @click="() => handleTypeFilter('')" />-->
+
 	                        <FilterButton
                                 :url="`${route('resources')}/?type=article`"
                                 label="Article"
@@ -114,12 +113,10 @@ const resetFilters = () => {
                                 label="Video"
                                 @click="() => handleTypeFilter('video')"
                                 :isActive="type.value === 'video'"
-
                             />
                         </div>
 
                         <div>
-
                             <select
                                 v-model="selectedSort"
                                 class="border py-[11px] px-[15px] rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474] focus:outline-0"
@@ -130,8 +127,6 @@ const resetFilters = () => {
                                 <option value="desc">Descending</option>
                             </select>
                         </div>
-
-
 
                     </div>
                     <p class="font-medium font-base -tracking-[-0.5px] mb-3">{{ props.resources.data.length }} Articles found</p>
