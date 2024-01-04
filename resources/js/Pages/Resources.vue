@@ -4,19 +4,17 @@ import { Head, router } from '@inertiajs/vue3';
 import FilterCheckbox from "@/Pages/Resources/FilterCheckbox.vue";
 import Card from "@/Pages/Roadmap/Card.vue";
 import FilterButton from "@/Pages/Resources/FilterButton.vue";
-import { ref, defineProps } from "vue";
+import {ref, defineProps, computed} from "vue";
 
 const active = ref(true);
 const lessons = ref([]);
-const type = ref('article');
+const type = ref('');
 const selectedSort = ref('');
 
 const props = defineProps({
 	resources: Object,
 	lessons: Object,
 });
-
-console.log(type.value);
 
 const handleCheckboxClick = (value) => {
 	const index = lessons.value.indexOf(value);
@@ -31,27 +29,16 @@ const handleCheckboxClick = (value) => {
 	const typeQuery = type.value ? `&type=${type.value}` : '';
 
 	const url = `${route('resources')}?${lessonQuery}${typeQuery}`;
-	router.replace(url);
+	router.get(url);
 };
-
-const handleTypeFilter = (selectedType) => {
-	type.value = selectedType;
-
-	const lessonQuery = lessons.value.length > 0 ? `&lesson=${lessons.value.join(',')}` : '';
-	const typeQuery = type.value ? `&type=${type.value}` : '';
-
-	const url = `${route('resources')}?${lessonQuery}${typeQuery}`;
-	router.replace(url);
-
-};
-
 const handleSortChange = (selectedSort) => {
     const lessonQuery = lessons.value.length > 0 ? `&lesson=${lessons.value.join(',')}` : '';
     const typeQuery = type.value ? `&type=${type.value}` : '';
     const sortQuery = selectedSort ? `&sort=${selectedSort}` : '';
 
+
     const url = `${route('resources')}?${lessonQuery}${typeQuery}${sortQuery}`;
-    router.replace(url);
+    router.get(url);
 };
 
 const resetFilters = () => {
@@ -64,7 +51,19 @@ const resetFilters = () => {
 	});
 
 	const url = `${route('resources')}`;
-	router.replace(url);
+	router.get(url);
+};
+
+
+const handleTypeFilter = (selectedType) => {
+	type.value = selectedType;
+
+	const lessonQuery = lessons.value.length > 0 ? `&lesson=${lessons.value.join(',')}` : '';
+	const typeQuery = type.value ? `&type=${type.value}` : '';
+	const sortQuery = selectedSort.value ? `&sort=${selectedSort.value}` : '';
+
+	const url = `${route('resources')}?${lessonQuery}${typeQuery}${sortQuery}`;
+	router.get(url);
 };
 
 </script>
@@ -82,6 +81,7 @@ const resetFilters = () => {
 
                     <div>
 	                    <button class="text-blue-500 cursor-pointer underline" @click="resetFilters">Reset Filters</button>
+
 	                    <FilterCheckbox
 		                    :value="item.id"
 		                    :label="item.title"
@@ -95,38 +95,38 @@ const resetFilters = () => {
                 <div class="px-4 basis-3/4">
                     <div class="flex justify-between items-center mb-6">
                         <div class="flex jus gap-2">
-
 	                        <FilterButton
                                 :url="`${route('resources')}/?type=article`"
                                 label="Article"
                                 @click="() => handleTypeFilter('article')"
-                                :isActive="type.value === 'article'"
+
                             />
 	                        <FilterButton
                                 :url="`${route('resources')}/?type=book`"
                                 label="Book"
                                 @click="() => handleTypeFilter('book')"
-                                :isActive="type.value === 'book'"
                             />
 	                        <FilterButton
                                 :url="`${route('resources')}/?type=video`"
                                 label="Video"
                                 @click="() => handleTypeFilter('video')"
-                                :isActive="type.value === 'video'"
                             />
                         </div>
 
                         <div>
+
                             <select
                                 v-model="selectedSort"
-                                class="border py-[11px] px-[15px] rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474] focus:outline-0"
                                 @change="() => handleSortChange(selectedSort)"
+                                class="border py-[11px] px-[15px] rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474] focus:outline-0"
                             >
                                 <option value="">Sort By</option>
                                 <option value="asc">Ascending</option>
                                 <option value="desc">Descending</option>
                             </select>
                         </div>
+
+
 
                     </div>
                     <p class="font-medium font-base -tracking-[-0.5px] mb-3">{{ props.resources.data.length }} Articles found</p>

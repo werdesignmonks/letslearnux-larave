@@ -33,10 +33,8 @@ const lessonStatus = props.lessonStatus.filter((item) => {
 
 const handleSortChange = (selectedSort) => {
 	const sortQuery = selectedSort ? `&sort=${selectedSort}` : '';
-
-
 	const url = `${route('roadmap')}?${sortQuery}`;
-	router.replace(url);
+	router.get(url);
 }
 
 </script>
@@ -72,14 +70,15 @@ const handleSortChange = (selectedSort) => {
 					<div class="flex items-center gap-2">
 						<div class="w-[100px] bg-gray-200 rounded-full dark:bg-purple-100">
 							<div
-								class="bg-violet-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+								class="bg-violet-600 text-xs font-medium text-blue-100 text-center leading-none rounded-full"
 								:style="{ width: Math.round((lessonStatus.filter((lesson) => lesson.chapter_id === item.id && lesson.completed === 1).length / item.lesson.length) * 100) + '%' }">
+								<span class="p-0.5">
 								{{
 									Math.round((lessonStatus.filter((lesson) => {
 										return lesson.chapter_id === item.id && lesson.completed === 1;
 									}).length / item.lesson.length) * 100)
 
-								}}%
+								}}%</span>
 							</div>
 						</div>
 						<div
