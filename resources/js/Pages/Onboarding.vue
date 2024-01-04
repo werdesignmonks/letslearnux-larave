@@ -35,39 +35,33 @@ const dataStep = reactive({
     handleInputFilled,
 });
 
-// function submit() {
-//     form.post(route('onboardingStore'), {
-//         onSuccess: () => {
-//             console.log('success');
-//         },
-//         onError: (error) => {
-//             console.log(error);
-//         },
-//     });
-// }
-
-
 function submit() {
-	// Check if the form is valid
-	form.validate().then(() => {
-		// Form is valid, proceed with submission
-		form.post(route('onboardingStore'), {
-			onSuccess: () => {
-				console.log('success');
-			},
-			onError: (error) => {
-				console.log(error);
-			},
-		});
-	}).catch(() => {
-		// Form is not valid, set a flag or handle accordingly
-		isFormValid.value = false;
-	});
+    form.post(route('onboardingStore'), {
+        onSuccess: () => {
+            console.log('success');
+        },
+        onError: (error) => {
+            console.log(error);
+        },
+    });
 }
 
-// Computed property to check if the form is valid
+// Modify isNextButtonDisabled computed property
 const isNextButtonDisabled = computed(() => {
-	return !isFormValid.value || !form.profession || !form.experience || form.learning.length === 0;
+	if (dataStep.currentStep === 0) {
+		return !form.profession || !isFormValid.value;
+	} else if (dataStep.currentStep === 1) {
+		return !form.experience || !isFormValid.value;
+	} else if (dataStep.currentStep === 2) {
+		return form.learning.length === 0 || !isFormValid.value;
+	}
+	return !isFormValid.value;
+});
+
+// Modify isLetsStartButtonDisabled computed property
+const isLetsStartButtonDisabled = computed(() => {
+	// Add any additional checks if needed
+	return !isFormValid.value;
 });
 
 </script>
@@ -96,6 +90,7 @@ const isNextButtonDisabled = computed(() => {
                         <button
                             type="button" v-if="dataStep.currentStep < dataStep.steps.length - 1"
                             @click="stepProgress.nextStep"
+                            :disabled="isNextButtonDisabled"
                             class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold disabled:opacity-25">
                             Next
                         </button>
