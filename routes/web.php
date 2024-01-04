@@ -28,7 +28,7 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/onboarding', [OnboadingFormController::class, 'index'])->name('Onboarding');
+    Route::get('/onboarding', [OnboadingFormController::class, 'index'])->name('onboarding');
     Route::post('/onboarding/store', [RoadmapController::class, 'addResource'])->name('addresource.store');
     Route::post('/onboarding/save', [OnboadingFormController::class, 'save'])->name('onboardingStore');
     Route::get('/resources', [ResourcesController::class, 'index'])->name('resources');

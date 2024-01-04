@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('lesson_id')->constrained()->onDelete('cascade');
             $table->boolean('liked');
+            $table->string('feedback')->nullable();
             $table->timestamps();
 
             $table->unique(['user_id', 'lesson_id']);

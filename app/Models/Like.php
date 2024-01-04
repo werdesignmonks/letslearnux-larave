@@ -13,6 +13,7 @@ class Like extends Model
         'lesson_id',
         'user_id',
         'liked',
+        'feedback'
     ];
 
 

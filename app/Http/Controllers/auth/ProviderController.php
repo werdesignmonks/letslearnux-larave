@@ -57,28 +57,20 @@ class ProviderController extends Controller
                     'avatar_path' =>  $socialUser->getAvatar(),
                 ]);
 
-//                auth()->user()->update(['isFirstLogin' => 0]);
-//
-//                // Redirect to a specific page for first-time login
-//                return redirect()->route('Onboarding');
             }
 
             Auth::login($user);
-
 
             // Check if user is first time login
             $isLogin = auth()->user()->refresh()->isFirstLogin;
 
             if ($isLogin) {
-                // Set isFirstLogin to false after first login for a user
                 auth()->user()->update(['isFirstLogin' => 0]);
 
-                // Redirect to a specific page for first-time login
-                return redirect()->route('Onboarding');
+                return redirect()->route('onboarding');
             }
 
             return redirect('/roadmap');
-
 
         } catch (Exception $e) {
             Log::info($e->getMessage());

@@ -7,15 +7,20 @@ import SocialShare from "@/Components/SocialShare.vue";
 import VideoCard from "@/Pages/Roadmap/VideoCard.vue";
 import Book from "@/Pages/Roadmap/Book.vue";
 import SubmitResource from "@/Pages/Roadmap/SubmitResource.vue";
-
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+import DislikeForm from "@/Components/Popups/DislikeForm.vue";
+import SuccessSubmitedResource from "@/Components/Popups/SuccessSubmitedResource.vue";
+import AddResource from "@/Components/Popups/AddResource.vue";
+import Incomplete from "@/Components/Popups/Incomplete.vue";
 
 const img = ref('images/youtube-1.png');
 const modalComplete = ref(false);
 const modalAddResource = ref(false);
 const modalSubmitedResource = ref(false);
 const modalShareResource = ref(false);
-import {useToast} from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
+const disLikeForm = ref(false);
+const modalInComplete = ref(false);
 
 const $toast = useToast();
 const previewUrl = ref('../../images/placeholder-image.jpg');
@@ -40,15 +45,11 @@ const props = defineProps({
 //     isCompleted.value = false;
 // }
 
-console.log(props.lessonStatus)
-
-
 if(props.lessonStatus) {
     isCompleted.value = props.lessonStatus.completed;
 } else {
     isCompleted.value = false;
 }
-
 
 const form = useForm({
     title: '',
@@ -66,44 +67,16 @@ const formStatus = useForm({
 });
 
 
-const uploadImage = (event) => {
-    const file = event.target.files[0];
-    form.image = file;
-
-    if (file) {
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-            previewUrl.value = e.target.result;
-        };
-
-        reader.readAsDataURL(file);
-    } else {
-        previewUrl.value = '';
-    }
-};
-
+// Resources Submit
 function submit() {
     form.post(route('addresource.store'), {
         preserveScroll: true,
         onSuccess: (page) => {
-	        // modalAddResource.value = false;
-            //
-            // $toast.open({
-            //     message: 'User Created Successfully!',
-            //     type: 'success',
-            //     position: 'top-right',
-            //     duration: 5000,
-            //     style: {
-            //         background: 'linear-gradient(to right, #00b09b, #96c93d)',
-            //     },
-            // });
-            modalSubmitedResource.value = true;
-            modalAddResource.value = false;
+	        modalAddResource.value = false;
+	        modalSubmitedResource.value = true;
         },
         onError: (errors) => {
-            console.log(errors)
-
+			console.log(errors)
             $toast.open({
                 message: 'Please fill all the fields',
                 type: 'warning',
@@ -119,11 +92,12 @@ function submit() {
     // Clearing the form after submit
     form.title = '';
     form.url = '';
-    form.image = '';
     form.lesson_id = '';
     form.type = '';
 }
 
+
+/* Status Complete */
 function statusComplete() {
     formStatus.post(route('lesson.status.update', props.lesson.id), {
         preserveScroll: true,
@@ -148,7 +122,7 @@ function statusComplete() {
     })
 }
 
-// Status Uncomplete
+// Status Incomplete
 function statusInComplete() {
 	formStatus.post(route('lesson.status.uncomplete', props.lesson.id), {
 		preserveScroll: true,
@@ -156,6 +130,8 @@ function statusInComplete() {
 		onSuccess: (page) => {
 			// modalComplete.value = true;
 			console.log(page)
+
+			modalInComplete.value = false;
 		},
 		onError: (errors) => {
 			console.log(errors)
@@ -176,8 +152,10 @@ function statusInComplete() {
 const fromLike = useForm({
     lesson_id: props.lesson.id,
     user_id: props.user.id,
+    feedback: '',
 });
 
+// Like Handler
 const likeHandler = () => {
     fromLike.post(route('likes', props.lesson.id), {
         preserveScroll: true,
@@ -202,13 +180,23 @@ const likeHandler = () => {
     })
 }
 
+// Dislike Handler
 const dislikeHandler = () => {
     fromLike.post(route('dislikes', props.lesson.id), {
         preserveScroll: true,
 
         onSuccess: (page) => {
-            // modalComplete.value = true;
-            console.log(page)
+            $toast.open({
+				message: 'Feedback submitted successfully',
+				type: 'success',
+				position: 'top-right',
+				duration: 5000,
+				style: {
+					background: 'linear-gradient(to right, #08A965, #08A965)',
+				},
+			});
+
+			disLikeForm.value = false;
         },
         onError: (errors) => {
             console.log(errors)
@@ -233,9 +221,10 @@ const dislikeHandler = () => {
     <AuthenticatedLayout>
         <div class="max-w-[1100px] px-[15px] mx-auto">
 
-            <h1 class="font-bold text-[32px] leading-[38px] mb-6 flex justify-between">
-                {{  lesson.serial }} - {{  lesson.title }}
-
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="font-bold text-[32px] leading-[38px]">
+                    {{  lesson.serial }} - {{  lesson.title }}
+                </h1>
                 <div class="w-32 h-10 px-4 bg-zinc-100 rounded-lg justify-center items-center gap-3 inline-flex">
                     <div class="pr-3 border-r border-neutral-300 justify-center items-center gap-1 flex">
                         <div class="text-slate-600 text-base font-bold leading-none flex items-center gap-1"
@@ -259,7 +248,7 @@ const dislikeHandler = () => {
                     <div class="w-5 h-5 relative">
                         <div class="text-slate-600 text-base font-bold leading-none flex items-center gap-1"
                              :class="props.user.id == props.liked?.user_id ? 'text-red-500' : 'text-slate-600'"
-                             @click="dislikeHandler">
+                             @click="disLikeForm = true">
                             <span class="w-5 h-5 relative inline-block cursor-pointer">
                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <g clip-path="url(#clip0_356_935)">
@@ -277,7 +266,7 @@ const dislikeHandler = () => {
                         </div>
                     </div>
                 </div>
-            </h1>
+            </div>
 
             <div class="mb-10" v-html="lesson.description"></div>
 
@@ -310,7 +299,7 @@ const dislikeHandler = () => {
 
 <!--            <hr class="mt-9 mb-6 block">-->
 
-            <SocialShare :isShow=true  />
+            <SocialShare :isShow=true />
 
             <div class="mt-[48px]">
                 <SubmitResource @click="modalAddResource = true" />
@@ -318,12 +307,11 @@ const dislikeHandler = () => {
         </div>
     </AuthenticatedLayout>
 
+	<!-- Main Content -->
     <div class="bg-dm-bg-color py-4">
-        <div class="max-w-[1100px] px-[15px] mx-auto flex items-center"
-             :class="props.lessonStatus?.completed ? 'justify-between' : 'justify-end'"
-        >
+        <div class="max-w-[1100px] px-[15px] mx-auto flex items-center" :class="props.lessonStatus?.completed ? 'justify-between' : 'justify-end'">
 
-            <div class="flex" @click="statusInComplete" v-if="props.lessonStatus?.completed">
+            <div class="flex" @click="modalInComplete = true" v-if="props.lessonStatus?.completed">
                 <div class="block">
                     <span class="border border-[#CCCED0] rounded-4xl flex items-center gap-2 py-[11px] px-5 font-medium text-base text-[#000913] hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150 cursor-pointer  peer-checked:text-gray-900 peer-checked:border-gray-200">
                         Mark as Incomplete
@@ -358,144 +346,121 @@ const dislikeHandler = () => {
         </div>
     </div>
 
+	<!-- Lesson Complete Modal -->
     <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalComplete">
-<!--        <div class="w-[512px] h-[512px] bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">-->
-<!--            <img :src="'../images/illistation.svg'" alt="cup" class="w-full absolute top-0 left-0 z-[-1]">-->
-<!--            <div class="mb-5 relative z-10">-->
-<!--                <img :src="'../images/cup.svg'" alt="cup" class="mx-auto">-->
-<!--            </div>-->
-
-<!--            <div class="text-center">-->
-<!--                <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Chapter 1 completed</h1>-->
-<!--                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px] ">Your diligent efforts and attention to detail are truly appreciated. We’ll check the information and updated to the lessons.</p>-->
-<!--                <div class="flex items-center gap-2 mt-5">-->
-<!--                    <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150">-->
-<!--                        Back to Home-->
-<!--                    </button>-->
-
-<!--                    <button class="dm-btn w-[219px] px-4 text-center">-->
-<!--                        Share Your Achievement-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-        <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">
-            <div class="text-center">
-                <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Help us to improve!</h1>
-                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px]">
-                    Your insights are crucial. Tell us how we can enhance your learning experience on this topic.
-                </p>
-                <form>
-                    <div class="text-left text-base font-medium tracking[-0.5px] mb-[4px]">
-                        Your Feedback <span class="text-[#F87171]">*</span>
-                    </div>
-                    <textarea v-model="feebback" placeholder="Write your feedback" class="w-full h-[120px]  border-[#E5E6E7] rounded-md "></textarea>
-                    <div class="flex items-center gap-2 mt-5">
-                        <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150">
-                            Cancel
-                        </button>
-
-                        <button class="dm-btn w-[219px] px-4 text-center">
-                            Submit
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Resource Popup -->
-    <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalSubmitedResource">
-        <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">
+        <div class="w-[512px] h-[512px] bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">
+            <img :src="'../images/illistation.svg'" alt="cup" class="w-full absolute top-0 left-0 z-[-1]">
             <div class="mb-5 relative z-10">
-                <img :src="'../images/success-icon.svg'" alt="cup" class="mx-auto">
+                <img :src="'../images/cup.svg'" alt="cup" class="mx-auto">
             </div>
 
             <div class="text-center">
-                <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Your resources are under review</h1>
-                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px]">
-                    Your diligent efforts and attention to detail are truly appreciated. We’ll check the information and you’ll get an email while approved.
-                </p>
+                <h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Chapter 1 completed</h1>
+                <p class="text-gray-700 tracking-[-0.5px] text-base leading-[25.5px] mb-[24px] ">Your diligent efforts and attention to detail are truly appreciated. We’ll check the information and updated to the lessons.</p>
                 <div class="flex items-center gap-2 mt-5">
-                    <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150" @click="modalSubmitedResource = false">
-                        Close
+                    <button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150">
+                        Back to Home
                     </button>
 
                     <button class="dm-btn w-[219px] px-4 text-center">
-                        Submit Another
+                        Share Your Achievement
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalAddResource" >
-        <div class="w-[512px] bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl p-[32px] opacity-1">
+	<!-- Add Resource Popup-->
+	<div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalAddResource" >
+		<div class="w-[512px] bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl p-[32px] opacity-1">
+			<div class="absolute top-[20px] right-[20px] cursor-pointer" @click="modalAddResource = false">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#566474]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+				</svg>
+			</div>
 
-	        <div class="absolute top-[20px] right-[20px] cursor-pointer" @click="modalAddResource = false">
-		        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#566474]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-		        </svg>
-	        </div>
+			<h1 class="text-[32px] leading-[38px] mb-[16px] font-bold text-gray-900 mb-[8px] -tracking-[2px] text-center">Add resources</h1>
 
-            <h1 class="text-[32px] leading-[38px] mb-[16px] font-bold text-gray-900 mb-[8px] -tracking-[2px] text-center">Add resources</h1>
+			<div class="p-4 bg-violet-50 rounded-2xl border border-violet-100 flex-col justify-start items-start gap-1 inline-flex">
+				<h3 class="text-gray-950 text-sm font-bold leading-tight">Guidelines</h3>
+				<ul class="list-disc ml-4 text-sm text-[#566474] mt-3">
+					<li>Content should only be in English.</li>
+					<li>Do not add things you have not evaluated personally.</li>
+					<li>It should strictly be relevant to the topic.</li>
+					<li>It should not be paid or behind a signup.</li>
+					<li>Quality over quantity. Smaller set of quality links is preferred.</li>
+				</ul>
+			</div>
 
-            <div class="p-4 bg-violet-50 rounded-2xl border border-violet-100 flex-col justify-start items-start gap-1 inline-flex">
-                <h3 class="text-gray-950 text-sm font-bold leading-tight">Guidelines</h3>
-               <ul class="list-disc ml-4 text-sm text-[#566474] mt-3">
-                    <li>Content should only be in English.</li>
-                    <li>Do not add things you have not evaluated personally.</li>
-                    <li>It should strictly be relevant to the topic.</li>
-                    <li>It should not be paid or behind a signup.</li>
-                    <li>Quality over quantity. Smaller set of quality links is preferred.</li>
-               </ul>
-            </div>
+			<form @submit.prevent="submit">
+				<div class="dm-input-field mt-3">
+					<label for="title" class="text-base text-[#566474] font-medium mb-1">Resource Title <span class="text-red-300">*</span></label>
+					<input type="text" id="title" v-model="form.title" class="dm-input-field__input">
+					<div class="text-red-500" v-if="errors.title">{{ errors.title }}</div>
+				</div>
 
-            <form @submit.prevent="submit">
-                <div class="dm-input-field mt-3">
-                    <label for="title" class="text-base text-[#566474] font-medium mb-1">Resource Title <span class="text-red-300">*</span></label>
-                    <input type="text" id="title" v-model="form.title" class="dm-input-field__input">
-                    <div class="text-red-500" v-if="errors.title">{{ errors.title }}</div>
-                </div>
+				<h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Resource Type</h3>
+				<div class="flex gap-[8px]">
+					<div class="form-check mr-2 inline-flex items-center gap-1">
+						<input type="radio" id="type_video" name="type" v-model="form.type" value="video" class="form-check-input">
+						<label for="type_video" class="form-check-label dmb-0">Video</label>
+					</div>
+					<div class="form-check mr-2 inline-flex items-center gap-1">
+						<input type="radio" id="type_article" name="type" v-model="form.type" value="article"
+						       class="form-check-input">
+						<label for="type_article" class="form-check-label dmb-0">Article</label>
+					</div>
+					<div class="form-check mr-2 inline-flex items-center gap-1">
+						<input type="radio" id="type_book" name="type" v-model="form.type" value="book" class="form-check-input">
+						<label for="type_book" class="form-check-label dmb-0">Book</label>
+					</div>
+					<div class="text-red-500" v-if="errors.type">{{ errors.type }}</div>
+				</div>
 
-                <h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Resource Type</h3>
-                <div class="flex gap-[8px]">
-                    <div class="form-check mr-2 inline-flex items-center gap-1">
-                        <input type="radio" id="type_video" name="type" v-model="form.type" value="video" class="form-check-input">
-                        <label for="type_video" class="form-check-label dmb-0">Video</label>
-                    </div>
-                    <div class="form-check mr-2 inline-flex items-center gap-1">
-                        <input type="radio" id="type_article" name="type" v-model="form.type" value="article"
-                               class="form-check-input">
-                        <label for="type_article" class="form-check-label dmb-0">Article</label>
-                    </div>
-                    <div class="form-check mr-2 inline-flex items-center gap-1">
-                        <input type="radio" id="type_book" name="type" v-model="form.type" value="book" class="form-check-input">
-                        <label for="type_book" class="form-check-label dmb-0">Book</label>
-                    </div>
-                    <div class="text-red-500" v-if="errors.type">{{ errors.type }}</div>
-                </div>
+				<h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Resource Link</h3>
+				<div class="dm-input-field mt-3">
+					<label for="url" class="dm-input-field__label block">URL <span class="text-red-300">*</span></label>
+					<input type="text" name="url" id="url" v-model="form.url" class="dm-input-field__input">
+					<div class="text-red-500" v-if="errors.url">{{ errors.url }}</div>
+				</div>
 
-                <h3 class="text-base text-[#566474] font-medium mb-1 mt-4">Resource Link</h3>
-                <div class="dm-input-field mt-3">
-                    <label for="url" class="dm-input-field__label block">URL <span class="text-red-300">*</span></label>
-                    <input type="text" name="url" id="url" v-model="form.url" class="dm-input-field__input">
-                    <div class="text-red-500" v-if="errors.url">{{ errors.url }}</div>
-                </div>
+				<div class="text-center mt-5">
+					<button class="dm-btn px-4 text-center w-full" type="submit">
+						Submit Resources
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- Resorces Submited Popup-->
+	<SuccessSubmitedResource :isShow="modalSubmitedResource" />
 
-                <div class="text-center mt-5">
-                    <button class="dm-btn px-4 text-center w-full" type="submit">
-                        Submit Resources
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+	<!-- Incomplete Popup-->
+	<div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalInComplete" >
+		<div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl px-[32px] py-[60px] opacity-1">
+			<div class="mb-5 relative z-10">
+				<img :src="'../images/success-icon.svg'" alt="cup" class="mx-auto">
+			</div>
 
+			<div class="text-center">
+				<h1 class="text-[32px] font-bold text-gray-900 mb-[8px] -tracking-[2px]">Are your sure?</h1>
+				<div class="flex items-center gap-2 mt-5">
+					<button class="border border-[#CCCED0] rounded-4xl py-[11px] px-5 font-medium text-base text-[#000913] w-[219px] text-center hover:bg-dm-color-primary hover:text-white hover:border-dm-color-primary transition ease-in-out delay-150" @click="modalInComplete = false">
+						Cancel
+					</button>
+
+					<button class="dm-btn w-[219px] px-4 text-center" @click="statusInComplete" >
+						Yes, I'm sure
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Share Resource Popup-->
     <div class="fixed top-0 left-0 w-full h-full bg-[rgba(0,9,19,0.9)] transition ease-in-out delay-150" v-if="modalShareResource = false" >
         <div class="w-[512px] h-auto bg-white absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 rounded-3xl pb-[60px] opacity-1 overflow-hidden">
-            <div class="mb-[32px] relative z-10 relative">
+            <div class="mb-[32px] z-10 relative">
                 <img :src="'../images/share-image.png'" alt="cup" class="mx-auto w-full">
                 <h3 class="text-[20px] text-white font-bold mb-1 mt-4 absolute left-[20px] bottom-[15px]">Learn Figma Tool</h3>
             </div>
@@ -506,5 +471,8 @@ const dislikeHandler = () => {
             </div>
         </div>
     </div>
+
+	<!-- Dislike Form Popup-->
+    <DislikeForm :isShow="disLikeForm" :form="fromLike" :dislike="dislikeHandler" />
 
 </template>

@@ -49,6 +49,15 @@ trait Likeable
             ->count();
     }
 
+    function feedback($feedback)
+    {
+        $this->likes()->updateOrCreate([
+            'user_id' => auth()->user()->id,
+        ], [
+            'feedback' => $feedback,
+        ]);
+    }
+
     public function likes()
     {
         return $this->hasMany(Like::class);

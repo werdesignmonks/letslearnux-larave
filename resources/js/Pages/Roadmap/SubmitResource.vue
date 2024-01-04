@@ -2,7 +2,7 @@
 import { Link} from "@inertiajs/vue3";
 
 defineProps( {
-    modalAddResource: Boolean,
+    isShow: Boolean,
 })
 
 </script>
@@ -20,7 +20,7 @@ defineProps( {
                 <p class="self-stretch">Efforts to bolster the platform through the provision of valuable resources are paramount. By contributing strategically, we can elevate the platform's efficacy and overall standing, fostering an environment of growth and progress. Checkout the <Link href="#" class="text-violet-600 text-base font-normal underline leading-relaxed">Contributor</Link> leaderboard.</p>
             </div>
             <div class="sm:text-center md:text-left w-full">
-                <button class="dm-btn px-8" @click="modalAddResource = true">Submit Resources</button>
+                <button class="dm-btn px-8" @click="isShow = true">Submit Resources</button>
             </div>
         </div>
     </div>
