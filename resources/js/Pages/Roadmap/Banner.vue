@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-<div class="border flex-col md:flex gap-11  items-center border-dm-border-color rounded-[48px] p-[40px] bg-dm-bg-color">
+<div class="border flex flex-col md:flex-row gap-11  items-center border-dm-border-color rounded-[48px] p-[40px] bg-dm-bg-color">
     <div>
         <Image alt="banner" src="images/banner-element.svg" classes="min-w-[280px]" />
     </div>
