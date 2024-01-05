@@ -30,7 +30,7 @@ const dataStep = reactive({
     steps: ['Step1', 'Step2', 'Step3'],
     currentStep: 1,
     stepTemplate: [Step1, Step2, Step3],
-    activeCurrentColor: "#643ef3",
+    activeCurrentColor: "#7A49FF",
     passiveColor: "#F2F3F3",
     handleInputFilled,
 });
@@ -80,7 +80,7 @@ const isLetsStartButtonDisabled = computed(() => {
                     @step-change="handleStepChange"/>
 
                 <div class="py-3 bg-violet-50">
-                    <div class="max-w-5xl mx-auto flex items-center " :class="dataStep.currentStep === 0 ? 'justify-end' : 'justify-between' ">
+                    <div class="max-w-5xl mx-auto flex items-center px-4" :class="dataStep.currentStep === 0 ? 'justify-end' : 'justify-between' ">
                         <button
                             type="button" v-if="dataStep.currentStep > 0" @click="stepProgress.prevStep"
                             class="bg-dm-color-primary text-white rounded-full px-10 py-3 text-[18px] leading-[21px] line font-bold">

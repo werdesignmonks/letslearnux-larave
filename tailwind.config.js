@@ -31,7 +31,7 @@ export default {
                 serif: ['Merriweather', 'serif'],
             },
             colors: {
-                'dm-color-primary': '#643EF3',
+                'dm-color-primary': '#7A49FF',
                 'dm-color-secondary': '#EA7600',
                 'dm-color-primary-light': '#F7F5FE',
                 'dm-color-primary-light-border': '#C1B2FA',

@@ -46,7 +46,7 @@ defineExpose({
 <template>
 
     <div class="step-container" :style="cssStyle">
-        <ul class="steps">
+        <ul class="steps mb-5 sm:mb-12">
             <li class="step" v-for="(step, index) in data.steps" :key="index" :class="{
                 'step-active': index === data.currentStep,
                 'step-complete': index < data.currentStep,
@@ -71,6 +71,12 @@ defineExpose({
 .step-container {
     width: 70%;
     margin: 0 auto;
+}
+
+@media(max-width: 576px) {
+    .step-container {
+        width: 90%;
+    }
 }
 
 .steps {
