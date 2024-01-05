@@ -7,13 +7,16 @@ import SocialShare from "@/Components/SocialShare.vue";
 // Image Path
 const banner = "/images/roadmap-banner.png";
 
+defineProps({
+    count: Number,
+});
+
 </script>
 
 <template>
-<div class="border flex gap-11 items-center border-dm-border-color rounded-[48px] p-[40px] bg-dm-bg-color">
+<div class="border flex-col md:flex gap-11  items-center border-dm-border-color rounded-[48px] p-[40px] bg-dm-bg-color">
     <div>
         <Image alt="banner" src="images/banner-element.svg" classes="min-w-[280px]" />
-
     </div>
     <div class="">
         <h1 class="text-4xl mb-3 text-[32px] font-bold leading-[38px]">Roadmap to be a Product Designer</h1>
@@ -35,7 +38,7 @@ const banner = "/images/roadmap-banner.png";
                 </svg>
                 4.7 (5.5k)
             </span>
-            <span class="inline-block text-dm-color-text mx-3 relative before:block before:absolute before:h-[4px] before:w-[4px] before:rounded-3xl before:bg-dm-color-secondary before:top-[6px] before:left-[-12px]">24,738 learners</span>
+            <span class="inline-block text-dm-color-text mx-3 relative before:block before:absolute before:h-[4px] before:w-[4px] before:rounded-3xl before:bg-dm-color-secondary before:top-[6px] before:left-[-12px]">{{ count }} learners</span>
         </div>
 
         <div class="flex items-center justify-between mt-5">

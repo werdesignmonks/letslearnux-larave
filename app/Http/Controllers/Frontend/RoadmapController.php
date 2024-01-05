@@ -9,6 +9,7 @@ use App\Models\Lesson;
 use App\Models\LessonStatus;
 use App\Models\Like;
 use App\Models\Resource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -21,6 +22,8 @@ class RoadmapController extends Controller
         $lessonStatus = LessonStatus::query()->where('user_id', auth()->user()->id)->get();
         $user = auth()->user();
         $lessons = Lesson::query()->with('likes')->get();
+        // All User Conut
+        $allUserCount = User::query()->count();
 
 
         $chapers = Chapter::with(['lesson', 'lessonStatus' ])->orderBy('id', 'asc')
@@ -41,6 +44,7 @@ class RoadmapController extends Controller
             'allChapters' => $allChapters,
             'lessonStatus' => $lessonStatus,
             'user' => $user,
+            'allUserCount' => $allUserCount,
             'lessons' => $lessons
         ]);
 

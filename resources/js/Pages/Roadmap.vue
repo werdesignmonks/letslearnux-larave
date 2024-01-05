@@ -17,9 +17,10 @@ const props = defineProps({
 	user: Object,
 	lessonProgress: Object,
 	lessons: Object,
+    allUserCount: Number,
 });
 
-
+console.log(props.allUserCount)
 
 const isLessonCompleted = (lessonId) => {
 	const completedLesson = props.lessonStatus.find((item) => item.lesson_id === lessonId && item.completed === 1);
@@ -45,7 +46,7 @@ const handleSortChange = (selectedSort) => {
 
 	<AuthenticatedLayout>
 		<div class="max-w-[1100px] px-[15px] mx-auto">
-			<Banner/>
+			<Banner :count="props.allUserCount"/>
 
 			<div class="flex justify-end mt-5">
 				<select class="border rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474]"
