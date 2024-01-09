@@ -20,7 +20,6 @@ const props = defineProps({
     allUserCount: Number,
 });
 
-console.log(props.allUserCount)
 
 const isLessonCompleted = (lessonId) => {
 	const completedLesson = props.lessonStatus.find((item) => item.lesson_id === lessonId && item.completed === 1);
@@ -28,9 +27,9 @@ const isLessonCompleted = (lessonId) => {
 };
 
 // Show the lesson status of the user in lesson card
-const lessonStatus = props.lessonStatus.filter((item) => {
-	return item.user_id === props.user.id;
-});
+// const lessonStatus = props.lessonStatus.filter((item) => {
+// 	return item.user_id === props.user.id;
+// });
 
 const handleSortChange = (selectedSort) => {
 	const sortQuery = selectedSort ? `&sort=${selectedSort}` : '';
@@ -48,15 +47,15 @@ const handleSortChange = (selectedSort) => {
 		<div class="max-w-[1100px] px-[15px] mx-auto">
 			<Banner :count="props.allUserCount"/>
 
-			<div class="flex justify-end mt-5">
-				<select class="border rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474]"
-				        v-model="selectedSort" @change="() => handleSortChange(selectedSort)">
-					<option value="">All Chapter</option>
-					<option :value="item.id" v-for="(item, index) in props.allChapters" :key="item.id"> {{
-							item.title
-						}}
-					</option>
-				</select>
+            <select
+                class="border rounded-xl min-w-[260px] bg-dm-bg-color border-dm-border-color text-[#566474]"
+                v-model="selectedSort" @change="() => handleSortChange(selectedSort)">
+                <option value="">All Chapter</option>
+                <option :value="item.id" v-for="item in props.allChapters" :key="item.id">
+                    {{ item.title }}
+                </option>
+            </select>
+            <div class="flex justify-end mt-5">
 			</div>
 
 			<div class="mt-5 mb-[80px]" v-for="(item, index) in props.chapters.data">

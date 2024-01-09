@@ -2,11 +2,31 @@
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import FilterButton from "@/Pages/Resources/FilterButton.vue";
-import {Head} from "@inertiajs/vue3";
+import {Head, router} from "@inertiajs/vue3";
+import {ref} from "vue";
+
+const type = ref('');
+const selectedSort = ref('');
 
 const props = defineProps({
 	resources: Object
 })
+
+const handleTypeFilter = (selectedType) => {
+    type.value = selectedType;
+
+    const url = `${route('my-contribution')}?type=${type.value}`;
+    router.get(url);
+};
+
+const handleSortChange = (selectedSort) => {
+    const sortQuery = selectedSort ? `&sort=${selectedSort}` : '';
+    const typeQuery = type.value ? `&type=${type.value}` : '';
+
+    const url = `${route('my-contribution')}?${typeQuery}${sortQuery}`;
+    router.get(url);
+};
+
 
 </script>
 
@@ -19,24 +39,55 @@ const props = defineProps({
                 <div class="self-stretch justify-start items-end gap-4 inline-flex">
                     <div class="grow shrink basis-0 flex-col justify-end items-start gap-1 inline-flex">
                         <div class="justify-start items-end gap-2 inline-flex">
-                            <FilterButton label="All" :isActive=true class="rounded-xl border border-neutral-200 leading-relaxed" />
-                            <FilterButton label="Books"  class="bg-stone-50 rounded-xl border border-neutral-200 leading-relaxed" />
-                            <FilterButton label="Articles"  class="bg-stone-50 rounded-xl border border-neutral-200 leading-relaxed" />
-                            <FilterButton label="Videos"  class="bg-stone-50 rounded-xl border border-neutral-200 leading-relaxed" />
+<!--                            <FilterButton label="All" :isActive=true class="rounded-xl border border-neutral-200 leading-relaxed" />-->
+<!--                            <FilterButton label="Books"  class="bg-stone-50 rounded-xl border border-neutral-200 leading-relaxed" />-->
+<!--                            <FilterButton label="Articles"  class="bg-stone-50 rounded-xl border border-neutral-200 leading-relaxed" />-->
+<!--                            <FilterButton label="Videos"  class="bg-stone-50 rounded-xl border border-neutral-200 leading-relaxed" />-->
+
+                            <FilterButton label="All" :url="`${route('my-contribution')}`" :isActive=true class="rounded-xl border border-neutral-200 leading-relaxed" />
+
+                            <FilterButton
+                                :url="`${route('my-contribution')}/?type=book`"
+                                label="Book"
+                                @click="() => handleTypeFilter('book')"
+                            />
+
+                            <FilterButton
+                                :url="`${route('my-contribution')}/?type=article`"
+                                label="Article"
+                                @click="() => handleTypeFilter('article')"
+                            />
+
+                            <FilterButton
+                                :url="`${route('my-contribution')}/?type=video`"
+                                label="Video"
+                                @click="() => handleTypeFilter('video')"
+                            />
                         </div>
                     </div>
                     <div class="">
-                        <select class="w-[200px] h-12 px-4 py-3 bg-stone-50 rounded-xl border border-neutral-200 justify-start items-center flex">
-                            <option value="1">All Resources</option>
-                            <option value="2">A Two Z</option>
-                            <option value="3">Recent</option>
-                            <option value="4">Most Viewed</option>
+<!--                        <select class="w-[200px] h-12 px-4 py-3 bg-stone-50 rounded-xl border border-neutral-200 justify-start items-center flex">-->
+<!--                            <option value="1">All Resources</option>-->
+<!--                            <option value="2">A Two Z</option>-->
+<!--                            <option value="3">Recent</option>-->
+<!--                            <option value="4">Most Viewed</option>-->
+<!--                        </select>-->
+
+                        <select
+                            v-model="selectedSort"
+                            @change="() => handleSortChange(selectedSort)"
+                            class="w-[200px] h-12 px-4 py-3 bg-stone-50 rounded-xl border border-neutral-200 justify-start items-center flex"
+                        >
+                            <option value="">Sort By</option>
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
                         </select>
                     </div>
                 </div>
 
-                <table class="w-full text-left rounded-lg border border-neutral-200">
-                    <thead class="bg-neutral-200 py-3 rounded-lg overflow-hidden">
+                <div class="overflow-hidden w-full rounded-lg border border-[#E5E6E7]">
+                <table class="min-w-full text-sm font-light overflow-hidden">
+                    <thead class="text-left bg-dm-color-primary-light">
                         <tr class="">
                             <th class="px-5 py-4 w-[82px]"><span class="text-zinc-700 text-sm font-medium leading-tight">SL</span></th>
                             <th class="px-5 py-4"><span class="text-zinc-700 text-sm font-medium leading-tight">Resources Info</span></th>
@@ -44,7 +95,7 @@ const props = defineProps({
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in resources.data" :key="index">
+                        <tr v-for="(item, index) in resources.data" :key="index" class="border-t border-dm-border-color">
                             <td class="px-5 py-[17px]">{{ index+1 }}</td>
                             <td class="px-5 py-[17px]">
                                 <p class="self-stretch text-gray-950 text-sm font-medium leading-tight mb-0">{{ item.title }}</p>
@@ -90,6 +141,7 @@ const props = defineProps({
 
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>

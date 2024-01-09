@@ -43,9 +43,19 @@ class ResourcesController extends Controller
         ]);
     }
 
-    public function myContribution() {
+    public function myContribution(Request $request) {
 
-        $resources = Resource::query()->where('user_id', auth()->user()->id)->paginate(12);
+        $resourceType = $request->get('type');
+        $shot = $request->get('sort') === 'asc';
+
+        $resources = Resource::query()
+            ->where('user_id', auth()->user()->id)
+            ->orderBy('title', $shot ? 'asc' : 'desc')
+            ->when($resourceType, function ($query, $resourceType) {
+                return $query->where('type', $resourceType);
+            })
+
+            ->paginate(12);
 
         return Inertia::render('MyContribution', [
             'resources' => $resources,

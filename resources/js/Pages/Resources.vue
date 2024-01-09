@@ -126,11 +126,9 @@ const handleTypeFilter = (selectedType) => {
                             </select>
                         </div>
 
-
-
                     </div>
                     <p class="font-medium font-base -tracking-[-0.5px] mb-3">{{ props.resources.data.length }} Articles found</p>
-                    <div class="grid grid-cols-3 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         <Card :title="item.title" :src="item.image" :url="item.url" v-for="(item, index) in props.resources.data" :key="index" />
                     </div>
                 </div>
